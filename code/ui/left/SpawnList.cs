@@ -1,11 +1,6 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 using Sandbox.UI.Tests;
-using System;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
 
 [ClassLibrary]
 public partial class SpawnList : Panel
@@ -36,4 +31,3 @@ public partial class SpawnList : Panel
 		}
 	}
 }
-

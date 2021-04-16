@@ -1,37 +1,38 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
-using System;
+using Sandbox.UI.Tests;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
 
 [ClassLibrary]
 public partial class EntityList : Panel
 {
-	Panel Canvas;
+	VirtualScrollPanel Canvas;
 
 	public EntityList()
 	{
 		AddClass( "spawnpage" );
-		Canvas = Add.Panel( "canvas" );
+		AddChild( out Canvas, "canvas" );
 
-		var ents = Library.GetAllAttributes<Entity>().Where( x => x.Spawnable ).OrderBy( x => x.Title ).ToArray();
-
-		foreach ( var entry in ents )
+		Canvas.Layout.AutoColumns = true;
+		Canvas.Layout.ItemSize = new Vector2( 100, 100 );
+		Canvas.OnCreateCell = ( cell, data ) =>
 		{
-			//if ( file.Contains( "_lod0" ) ) continue;
-			//if ( file.Contains( "clothes" ) ) continue;
-
-			var btn = Canvas.Add.Button( entry.Title );
+			var entry = (ClassLibraryAttribute)data;
+			var btn = cell.Add.Button( entry.Title );
 			btn.AddClass( "icon" );
 			btn.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn_entity", entry.Name ) );
 			btn.Style.Background = new PanelBackground
 			{
 				Texture = Texture.Load( $"/entity/{entry.Name}.png", false )
 			};
+		};
+
+		var ents = Library.GetAllAttributes<Entity>().Where( x => x.Spawnable ).OrderBy( x => x.Title ).ToArray();
+
+		foreach ( var entry in ents )
+		{
+			Canvas.AddItem( entry );
 		}
 	}
-
 }
