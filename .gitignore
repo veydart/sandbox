@@ -1,0 +1,7 @@
+
+.codegen/
+obj/
+code/accesslist.txt
+*.csproj
+Properties/launchSettings.json
+content/tools_asset_info.bin
