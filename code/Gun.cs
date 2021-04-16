@@ -60,11 +60,6 @@ partial class Gun : BaseWeapon
 			if ( !IsServer ) continue;
 			if ( !tr.Entity.IsValid() ) continue;
 
-			if ( tr.Entity is CarEntity car)
-			{
-				car.Drive( owner );
-			}
-
 			//
 			// We turn predictiuon off for this, so aany exploding effects
 			//

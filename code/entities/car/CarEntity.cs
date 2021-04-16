@@ -145,26 +145,12 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 		_backRight = new CarSuspension( this );
 	}
 
-	[Net]
-	private Entity chassis_axle_rear { get; set; }
-
-	[Net]
-	private Entity chassis_axle_front { get; set; }
-
-	[Net]
-	private Entity chassis_steering { get; set; }
-
-	[Net]
-	private Entity wheel0 { get; set; }
-
-	[Net]
-	private Entity wheel1 { get; set; }
-
-	[Net]
-	private Entity wheel2 { get; set; }
-
-	[Net]
-	private Entity wheel3 { get; set; }
+	private Entity chassis_axle_rear;
+	private Entity chassis_axle_front;
+	private Entity wheel0;
+	private Entity wheel1;
+	private Entity wheel2;
+	private Entity wheel3;
 
 	public Player Driver { get; set; }
 
@@ -228,8 +214,6 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 				var w2 = new ModelEntity();
 				w2.SetModel( "entities/modular_vehicle/chassis_steering.vmdl" );
 				w2.SetParent( w, "Axle_front_Center", new Transform( Vector3.Zero, Rotation.From( -90, 180, 0 ) ) );
-
-				chassis_steering = w2;
 			}
 		}
 
@@ -442,64 +426,66 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 
 	public void OnFrame()
 	{
-		_wheelAngle = _wheelAngle.LerpTo( CalculateTurnFactor( Math.Abs( _wheelSpeed ) ), 1.0f - MathF.Pow( 0.01f, Time.Delta ) );
-		_wheelRot += (_wheelSpeed / WheelRadius).RadianToDegree() * Time.Delta;
+		// ALL THIS SHIT SHOULD BE HANDLED IN AN ANIM GRAPH
 
-		var wheelRotRight = Rotation.From( -_wheelAngle * 180, 180, -_wheelRot );
-		var wheelRotLeft = Rotation.From( _wheelAngle * 180, 0, _wheelRot );
-		var wheelRotBackRight = Rotation.From( 0, 90, -_wheelRot );
-		var wheelRotBackLeft = Rotation.From( 0, -90, _wheelRot );
+		//_wheelAngle = _wheelAngle.LerpTo( CalculateTurnFactor( Math.Abs( _wheelSpeed ) ), 1.0f - MathF.Pow( 0.01f, Time.Delta ) );
+		//_wheelRot += (_wheelSpeed / WheelRadius).RadianToDegree() * Time.Delta;
 
-		RaycastWheels( Rot, false, out _, out _, Time.Delta );
+		//var wheelRotRight = Rotation.From( -_wheelAngle * 180, 180, -_wheelRot );
+		//var wheelRotLeft = Rotation.From( _wheelAngle * 180, 0, _wheelRot );
+		//var wheelRotBackRight = Rotation.From( 0, 90, -_wheelRot );
+		//var wheelRotBackLeft = Rotation.From( 0, -90, _wheelRot );
 
-		if ( chassis_axle_rear.IsValid() )
-		{
-			var e = chassis_axle_rear as ModelEntity;
-			for ( int i = 0; i < e.BoneCount; ++i )
-			{
-				var boneName = e.GetBoneName( i );
+		//RaycastWheels( Rot, false, out _, out _, Time.Delta );
 
-				if ( boneName == "Axle_Rear_Center" )
-				{
-					float d = 20.0f - Math.Min( _wheelBackLeft.distance, _wheelBackRight.distance );
-					e.SetBoneTransform( i, new Transform( Vector3.Up * d ), false );
-				}
-			}
-		}
+		//if ( chassis_axle_rear.IsValid() )
+		//{
+		//	var e = chassis_axle_rear as ModelEntity;
+		//	for ( int i = 0; i < e.BoneCount; ++i )
+		//	{
+		//		var boneName = e.GetBoneName( i );
 
-		if ( chassis_axle_front.IsValid() )
-		{
-			var e = chassis_axle_front as ModelEntity;
-			for ( int i = 0; i < e.BoneCount; ++i )
-			{
-				var boneName = e.GetBoneName( i );
+		//		if ( boneName == "Axle_Rear_Center" )
+		//		{
+		//			float d = 20.0f - Math.Min( _wheelBackLeft.distance, _wheelBackRight.distance );
+		//			e.SetBoneTransform( i, new Transform( Vector3.Up * d ), false );
+		//		}
+		//	}
+		//}
 
-				if ( boneName == "Axle_front_Center" )
-				{
-					float d = 20.0f - Math.Min( _wheelFrontLeft.distance, _wheelFrontRight.distance );
-					e.SetBoneTransform( i, new Transform( Vector3.Up * d ), false );
-				}
-			}
-		}
+		//if ( chassis_axle_front.IsValid() )
+		//{
+		//	var e = chassis_axle_front as ModelEntity;
+		//	for ( int i = 0; i < e.BoneCount; ++i )
+		//	{
+		//		var boneName = e.GetBoneName( i );
 
-		if ( wheel0.IsValid() )
-		{
-			wheel0.Rot = wheelRotRight;
-		}
+		//		if ( boneName == "Axle_front_Center" )
+		//		{
+		//			float d = 20.0f - Math.Min( _wheelFrontLeft.distance, _wheelFrontRight.distance );
+		//			e.SetBoneTransform( i, new Transform( Vector3.Up * d ), false );
+		//		}
+		//	}
+		//}
 
-		if ( wheel1.IsValid() )
-		{
-			wheel1.Rot = wheelRotLeft;
-		}
+		//if ( wheel0.IsValid() )
+		//{
+		//	wheel0.Rot = wheelRotRight;
+		//}
 
-		if ( wheel2.IsValid() )
-		{
-			wheel2.Rot = wheelRotBackRight;
-		}
+		//if ( wheel1.IsValid() )
+		//{
+		//	wheel1.Rot = wheelRotLeft;
+		//}
 
-		if ( wheel3.IsValid() )
-		{
-			wheel3.Rot = wheelRotBackLeft;
-		}
+		//if ( wheel2.IsValid() )
+		//{
+		//	wheel2.Rot = wheelRotBackRight;
+		//}
+
+		//if ( wheel3.IsValid() )
+		//{
+		//	wheel3.Rot = wheelRotBackLeft;
+		//}
 	}
 }
