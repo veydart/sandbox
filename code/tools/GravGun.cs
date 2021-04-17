@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System;
 
 [ClassLibrary( "gravgun" )]
 public partial class GravGun : BaseCarriable, IPlayerControllable
@@ -11,7 +12,8 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 	protected PhysicsBody heldBody;
 	protected Rotation heldRot;
 
-	protected virtual float MaxTargetDistance => 2000.0f;
+	protected virtual float MaxPullDistance => 2000.0f;
+	protected virtual float MaxPushDistance => 500.0f;
 	protected virtual float LinearFrequency => 20.0f;
 	protected virtual float LinearDampingRatio => 1.0f;
 	protected virtual float AngularFrequency => 20.0f;
@@ -34,9 +36,11 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 
 	public void OnPlayerControlTick( Player owner )
 	{
-		if ( owner == null ) return;
+		if ( owner == null )
+			return;
 
-		if ( !IsServer ) return;
+		if ( !IsServer )
+			return;
 
 		var input = owner.Input;
 		var eyePos = owner.EyePos;
@@ -69,7 +73,7 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		if ( timeSinceDrop < DropCooldown )
 			return;
 
-		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxTargetDistance )
+		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxPullDistance )
 			.UseHitboxes()
 			.Ignore( owner )
 			.Radius( 2.0f )
@@ -84,9 +88,10 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		if ( tr.Entity.IsWorld )
 			return;
 
-		if ( input.Pressed( InputButton.Attack1 ) )
+		if ( input.Pressed( InputButton.Attack1 ) && tr.Distance < MaxPushDistance )
 		{
-			tr.Body.ApplyImpulseAt( tr.EndPos, eyeDir * (tr.Body.Mass * PushForce) );
+			var pushScale = 1.0f - Math.Clamp( tr.Distance / MaxPushDistance, 0.0f, 1.0f );
+			tr.Body.ApplyImpulseAt( tr.EndPos, eyeDir * (tr.Body.Mass * (PushForce * pushScale)) );
 		}
 		else if ( input.Down( InputButton.Attack2 ) )
 		{
