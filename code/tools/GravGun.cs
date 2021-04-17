@@ -16,7 +16,8 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 	protected virtual float LinearDampingRatio => 1.0f;
 	protected virtual float AngularFrequency => 20.0f;
 	protected virtual float AngularDampingRatio => 1.0f;
-	protected virtual float AttractForce => 20.0f;
+	protected virtual float PullForce => 20.0f;
+	protected virtual float PushForce => 1000.0f;
 	protected virtual float ThrowForce => 2500.0f;
 	protected virtual float HoldDistance => 100.0f;
 	protected virtual float AttachDistance => 250.0f;
@@ -83,7 +84,11 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		if ( tr.Entity.IsWorld )
 			return;
 
-		if ( input.Down( InputButton.Attack2 ) )
+		if ( input.Pressed( InputButton.Attack1 ) )
+		{
+			tr.Body.ApplyImpulseAt( tr.EndPos, eyeDir * (tr.Body.Mass * PushForce) );
+		}
+		else if ( input.Down( InputButton.Attack2 ) )
 		{
 			if ( eyePos.Distance( tr.Entity.WorldPos ) <= AttachDistance )
 			{
@@ -91,7 +96,7 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 			}
 			else
 			{
-				tr.Body.ApplyImpulse( eyeDir * (tr.Body.Mass * -AttractForce) );
+				tr.Body.ApplyImpulse( eyeDir * (tr.Body.Mass * -PullForce) );
 			}
 		}
 	}
