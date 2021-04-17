@@ -10,7 +10,7 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 
 		// Only allow one of these to be spawned at a time
 		foreach ( var ent in All.OfType<DirectionalGravity>()
-			.Where( x => x.IsValid() && x != this ))
+			.Where( x => x.IsValid() && x != this ) )
 		{
 			ent.Delete();
 		}
@@ -25,8 +25,7 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 
 		if ( IsServer )
 		{
-			// We probably want a better way to restore previous gravity
-			PhysicsWorld.Gravity = Vector3.Down * 800.0f;
+			PhysicsWorld.UseDefaultGravity();
 		}
 	}
 
