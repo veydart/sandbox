@@ -39,6 +39,7 @@ partial class SandboxPlayer : BasePlayer
 		Inventory.Add( new Gun(), true );
 		Inventory.Add( new Tool() );
 		Inventory.Add( new PhysGun() );
+		Inventory.Add( new GravGun() );
 		//Inventory.Add( new BoxShooter() );
 		//Inventory.Add( new Welder() );
 		//Inventory.Add( new Thruster() );
