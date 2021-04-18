@@ -8,15 +8,20 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 	{
 		base.Spawn();
 
+		DeleteOthers();
+
+		SetModel( "models/arrow.vmdl" );
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+	}
+
+	private void DeleteOthers()
+	{
 		// Only allow one of these to be spawned at a time
 		foreach ( var ent in All.OfType<DirectionalGravity>()
 			.Where( x => x.IsValid() && x != this ) )
 		{
 			ent.Delete();
 		}
-
-		SetModel( "models/arrow.vmdl" );
-		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 	}
 
 	protected override void OnDestroy()
@@ -26,6 +31,7 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 		if ( IsServer )
 		{
 			PhysicsWorld.UseDefaultGravity();
+			PhysicsWorld.WakeAllBodies();
 		}
 	}
 
@@ -37,6 +43,12 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 		if ( !this.IsValid() )
 			return;
 
-		PhysicsWorld.Gravity = WorldRot.Down * 800.0f;
+		var gravity = WorldRot.Down * 800.0f;
+
+		if ( gravity != PhysicsWorld.Gravity )
+		{
+			PhysicsWorld.Gravity = gravity;
+			PhysicsWorld.WakeAllBodies();
+		}
 	}
 }
