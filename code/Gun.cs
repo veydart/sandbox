@@ -20,22 +20,22 @@ partial class Gun : BaseWeapon
 	/// <summary>
 	/// Lets make primary attack semi automatic
 	/// </summary>
-	public override bool CanPrimaryAttack( Player owner )
+	public override bool CanPrimaryAttack()
 	{
-		if ( !owner.Input.Pressed( InputButton.Attack1 ) )  
+		if ( !Owner.Input.Pressed( InputButton.Attack1 ) )  
 			return false;
 
-		return base.CanPrimaryAttack( owner );
+		return base.CanPrimaryAttack();
 	}
 
-	public override void Reload( Player owner )
+	public override void Reload()
 	{
-		base.Reload( owner );
+		base.Reload();
 
 		ViewModelEntity?.SetAnimParam( "reload", true );
 	}
 
-	public override void AttackPrimary( Player owner )
+	public override void AttackPrimary()
 	{
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
@@ -46,14 +46,14 @@ partial class Gun : BaseWeapon
 		ShootEffects();
 
 
-		bool InWater = Physics.TestPointContents( owner.EyePos, CollisionLayer.Water );
-		var forward = owner.EyeRot.Forward * (InWater ? 500 : 4000 );
+		bool InWater = Physics.TestPointContents( Owner.EyePos, CollisionLayer.Water );
+		var forward = Owner.EyeRot.Forward * (InWater ? 500 : 4000 );
 
 		//
 		// ShootBullet is coded in a way where we can have bullets pass through shit
 		// or bounce off shit, in which case it'll return multiple results
 		//
-		foreach ( var tr in TraceBullet( owner.EyePos, owner.EyePos + owner.EyeRot.Forward * 4000 ) )
+		foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + Owner.EyeRot.Forward * 4000 ) )
 		{
 			tr.Surface.DoBulletImpact(tr);
 
@@ -67,7 +67,7 @@ partial class Gun : BaseWeapon
 			{
 				var damage = DamageInfo.FromBullet( tr.EndPos, forward.Normal * 100, 15 )
 					.UsingTraceResult( tr )
-					.WithAttacker( owner )
+					.WithAttacker( Owner )
 					.WithWeapon( this );
 
 				tr.Entity.TakeDamage( damage );
@@ -144,9 +144,9 @@ partial class Gun : BaseWeapon
 		}
 	}
 
-	public override void AttackSecondary( Player owner ) 
+	public override void AttackSecondary() 
 	{
-		AttackPrimary( owner );
+		AttackPrimary();
 	}
 
 }
