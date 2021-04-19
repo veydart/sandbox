@@ -1,6 +1,6 @@
 ﻿namespace Sandbox.Tools
 {
-	[ClassLibrary( "balloon", Title = "Balloon", Group = "fun" )]
+	[ClassLibrary( "tool_balloon", Title = "Balloon", Group = "construction" )]
 	public partial class BalloonTool : BaseTool
 	{
 		[Net]

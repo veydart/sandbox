@@ -8,7 +8,7 @@ using Sandbox.Tools;
 partial class Tool : BaseWeapon, IFrameUpdate
 {
 	[UserVar( "tool_current" )]
-	public static string UserToolCurrent { get; set; } = "boxgun";
+	public static string UserToolCurrent { get; set; } = "tool_boxgun";
 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
@@ -33,7 +33,7 @@ partial class Tool : BaseWeapon, IFrameUpdate
 
 	void UpdateCurrentTool( Player owner )
 	{
-		var toolName = owner.GetUserString( "tool_current", "boxgun" );
+		var toolName = owner.GetUserString( "tool_current", "tool_boxgun" );
 		if ( toolName == null )
 			return;
 
@@ -51,9 +51,13 @@ partial class Tool : BaseWeapon, IFrameUpdate
 		}
 
 		CurrentTool = Library.Create<BaseTool>( toolName, false );
-		CurrentTool.Parent = this;
-		CurrentTool.Owner = owner;
-		CurrentTool.Activate();
+
+		if ( CurrentTool != null )
+		{
+			CurrentTool.Parent = this;
+			CurrentTool.Owner = owner;
+			CurrentTool.Activate();
+		}
 	}
 
 	public override void ActiveStart( Entity ent )

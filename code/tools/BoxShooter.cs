@@ -1,6 +1,6 @@
 ﻿namespace Sandbox.Tools
 {
-	[ClassLibrary( "boxgun", Title = "Box Shooter", Group = "fun" )]
+	[ClassLibrary( "tool_boxgun", Title = "Box Shooter", Group = "fun" )]
 	public class BoxShooter : BaseTool
 	{
 		TimeSince timeSinceShoot;
