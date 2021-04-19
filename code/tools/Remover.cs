@@ -1,9 +1,15 @@
 ﻿namespace Sandbox.Tools
 {
+	public interface IRemovable
+	{
+		void Remove();
+	}
+
 	[ClassLibrary( "tool_remover", Title = "Remover", Group = "construction" )]
 	public partial class RemoverTool : BaseTool
 	{
-		private Prop target;
+		private Prop prop;
+		private IRemovable removable;
 
 		public override void OnPlayerControlTick()
 		{
@@ -12,10 +18,18 @@
 
 			using ( Prediction.Off() )
 			{
-				if ( target.IsValid() )
+				if ( this.prop.IsValid() )
 				{
-					target.Delete();
-					target = null;
+					this.prop.Delete();
+					this.prop = null;
+
+					return;
+				}
+
+				if ( this.removable != null )
+				{
+					this.removable.Remove();
+					this.removable = null;
 
 					return;
 				}
@@ -32,21 +46,23 @@
 					.Ignore( Owner )
 					.Run();
 
-				if ( !tr.Hit )
+				if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.IsWorld )
 					return;
 
-				if ( !tr.Entity.IsValid() )
+				if ( tr.Entity is IRemovable removable )
+				{
+					this.removable = removable;
+
 					return;
+				}
 
-				if ( tr.Entity.IsWorld )
+				if ( tr.Entity is Prop prop )
+				{
+					prop.PhysicsGroup?.Wake();
+					this.prop = prop;
+
 					return;
-
-				if ( tr.Entity is not Prop prop )
-					return;
-
-				prop.PhysicsGroup?.Wake();
-
-				target = prop;
+				}
 			}
 		}
 	}

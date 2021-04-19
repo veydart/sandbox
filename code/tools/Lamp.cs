@@ -5,7 +5,7 @@
 	{
 		PreviewEntity previewModel;
 
-		private string Model { get; set; } = "models/torch/torch.vmdl";
+		private string Model => "models/torch/torch.vmdl";
 
 		public override void CreatePreviews()
 		{
@@ -39,14 +39,14 @@
 				if ( !tr.Hit || !tr.Entity.IsValid() )
 					return;
 
-				if ( tr.Entity is SpotLightEntity )
+				if ( tr.Entity is LampEntity )
 				{
 					// TODO: Set properties
 
 					return;
 				}
 
-				var light = new SpotLightEntity
+				var lamp = new LampEntity
 				{
 					Enabled = true,
 					DynamicShadows = true,
@@ -61,9 +61,9 @@
 					Rot = Rotation.Identity
 				};
 
-				light.SetModel( Model );
-				light.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-				light.Pos = tr.EndPos + -light.CollisionBounds.Center + tr.Normal * light.CollisionBounds.Size * 0.5f;
+				lamp.SetModel( Model );
+				lamp.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+				lamp.Pos = tr.EndPos + -lamp.CollisionBounds.Center + tr.Normal * lamp.CollisionBounds.Size * 0.5f;
 			}
 		}
 	}
