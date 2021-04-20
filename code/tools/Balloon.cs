@@ -98,7 +98,6 @@
 					.From( ent.PhysicsBody )
 					.To( tr.Body )
 					.WithPivot( tr.EndPos )
-					.WithBasis( Rotation.From( new Angles( 0, 90, 0 ) ) )
 					.WithFrequency( 5.0f )
 					.WithDampingRatio( 0.7f )
 					.WithReferenceMass( 0 )

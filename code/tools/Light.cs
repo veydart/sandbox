@@ -68,7 +68,6 @@
 					QuadraticAttenuation = 1.0f,
 					Brightness = 1,
 					Color = Color.Random,
-					Rot = Rotation.Identity
 				};
 
 				light.UseFogNoShadows();
@@ -98,8 +97,8 @@
 					light.AttachJoint = PhysicsJoint.Spring
 						.From( light.PhysicsBody )
 						.To( tr.Body )
-						.WithPivot( tr.EndPos )
-						.WithBasis( Rotation.From( new Angles( 0, 90, 0 ) ) )
+						.WithPivot( light.Pos + Vector3.Down * 6.5f )
+						.WithBasis(Rotation.Identity)
 						.WithFrequency( 5.0f )
 						.WithDampingRatio( 0.7f )
 						.WithReferenceMass( 0 )
