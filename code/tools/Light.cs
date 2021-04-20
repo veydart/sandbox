@@ -73,7 +73,7 @@
 				light.UseFogNoShadows();
 				light.SetModel( Model );
 				light.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-				light.Pos = tr.EndPos + -light.CollisionBounds.Center + tr.Normal * light.CollisionBounds.Size * 0.5f;
+				light.WorldPos = tr.EndPos + -light.CollisionBounds.Center + tr.Normal * light.CollisionBounds.Size * 0.5f;
 
 				if ( useRope )
 				{
@@ -97,7 +97,7 @@
 					light.AttachJoint = PhysicsJoint.Spring
 						.From( light.PhysicsBody )
 						.To( tr.Body )
-						.WithPivot( light.Pos + Vector3.Down * 6.5f )
+						.WithPivot( light.WorldPos + Vector3.Down * 6.5f )
 						.WithBasis(Rotation.Identity)
 						.WithFrequency( 5.0f )
 						.WithDampingRatio( 0.7f )
