@@ -72,6 +72,9 @@ namespace Sandbox.Tools
 
 			foreach ( var preview in Previews )
 			{
+				if ( !preview.IsValid() )
+					continue;
+
 				if ( IsPreviewTraceValid( tr ) && preview.UpdateFromTrace( tr ) )
 				{
 					preview.RenderAlpha = 0.5f;

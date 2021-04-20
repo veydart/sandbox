@@ -98,7 +98,6 @@
 						.From( light.PhysicsBody )
 						.To( tr.Body )
 						.WithPivot( light.WorldPos + Vector3.Down * 6.5f )
-						.WithBasis(Rotation.Identity)
 						.WithFrequency( 5.0f )
 						.WithDampingRatio( 0.7f )
 						.WithReferenceMass( 0 )
