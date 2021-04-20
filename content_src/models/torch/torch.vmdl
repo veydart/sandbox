@@ -10,39 +10,6 @@
 				bone_cull_type = "None"
 			},
 			{
-				_class = "WeightListList"
-				children = 
-				[
-					{
-						_class = "WeightList"
-						name = "bonemask_default"
-						default_weight = 0.0
-						weights = 
-						[
-							{
-								bone = "flashlight"
-								weight = 1.0
-							},
-						]
-						master_morph_weight = -1.0
-						morph_weights = [  ]
-					},
-				]
-			},
-			{
-				_class = "Skeleton"
-				children = 
-				[
-					{
-						_class = "Bone"
-						name = "flashlight"
-						origin = [ 0.0, 0.0, 0.0 ]
-						angles = [ -0.0, 0.0, 0.0 ]
-						do_not_discard = true
-					},
-				]
-			},
-			{
 				_class = "LODGroupList"
 				children = 
 				[
@@ -85,22 +52,6 @@
 				]
 			},
 			{
-				_class = "PhysicsBodyMarkupList"
-				children = 
-				[
-					{
-						_class = "PhysicsBodyMarkup"
-						target_body = ""
-						mass_override = 1.0
-						inertia_scale = 1.0
-						linear_damping = 0.0
-						angular_damping = 0.0
-						use_mass_center_override = false
-						mass_center_override = [ 0.0, 0.0, 0.0 ]
-					},
-				]
-			},
-			{
 				_class = "PhysicsShapeList"
 				children = 
 				[
@@ -111,28 +62,6 @@
 						collision_prop = "default"
 						faceMergeAngle = 20.0
 						maxHullVertices = 32
-					},
-				]
-			},
-			{
-				_class = "HitboxSetList"
-				children = 
-				[
-					{
-						_class = "HitboxSet"
-						name = "default"
-						children = 
-						[
-							{
-								_class = "Hitbox"
-								parent_bone = "flashlight"
-								surface_property = "metal"
-								translation_only = false
-								group_id = 0
-								hitbox_mins = [ -6.023554, -1.496393, -6.311849 ]
-								hitbox_maxs = [ 6.007926, 11.945386, 6.264171 ]
-							},
-						]
 					},
 				]
 			},
@@ -192,53 +121,6 @@
 						}
 					},
 				]
-			},
-			{
-				_class = "AnimationList"
-				children = 
-				[
-					{
-						_class = "AnimFile"
-						name = "idle"
-						activity_name = ""
-						activity_weight = 1
-						weight_list_name = "bonemask_default"
-						fade_in_time = 0.2
-						fade_out_time = 0.2
-						looping = false
-						delta = false
-						worldSpace = false
-						hidden = false
-						anim_markup_ordered = false
-						disable_compression = false
-						source_filename = "models/torch/torch_refs/anim/_idle_0.dmx"
-						start_frame = -1
-						end_frame = -1
-						framerate = 1.0
-						reverse = false
-					},
-					{
-						_class = "AnimFile"
-						name = "@idle_0"
-						activity_name = ""
-						activity_weight = 1
-						weight_list_name = ""
-						fade_in_time = 0.2
-						fade_out_time = 0.2
-						looping = false
-						delta = false
-						worldSpace = false
-						hidden = false
-						anim_markup_ordered = false
-						disable_compression = false
-						source_filename = "models/torch/torch_refs/anim/_idle_0.dmx"
-						start_frame = 0
-						end_frame = 0
-						framerate = 1.0
-						reverse = false
-					},
-				]
-				default_root_bone_name = ""
 			},
 		]
 		model_archetype = ""
