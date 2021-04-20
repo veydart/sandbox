@@ -52,7 +52,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate, IPlayerControllable, IF
 		body.LinearDamping = 4.0f;
 		body.AngularDamping = 4.0f;
 
-		var yawRot = Rotation.From( new Angles( 0, Rot.Angles().yaw, 0 ) );
+		var yawRot = Rotation.From( new Angles( 0, WorldRot.Angles().yaw, 0 ) );
 		var worldMovement = yawRot * currentInput.movement;
 		var velocityDirection = body.Velocity.WithZ( 0 );
 		var velocityMagnitude = velocityDirection.Length;

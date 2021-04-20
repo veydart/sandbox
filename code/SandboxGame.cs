@@ -80,8 +80,8 @@ partial class SandboxGame : Game
 
 		var ent = Library.Create<Entity>( entName );
 
-		ent.Pos = tr.EndPos;
-		ent.Rot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) );
+		ent.WorldPos = tr.EndPos;
+		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) );
 
 		//Log.Info( $"ent: {ent}" );
 	}

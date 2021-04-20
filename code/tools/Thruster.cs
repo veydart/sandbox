@@ -58,8 +58,8 @@
 
 				var ent = new ThrusterEntity
 				{
-					Pos = tr.EndPos,
-					Rot = Rotation.LookAt( tr.Normal, dir ) * Rotation.From( new Angles( 90, 0, 0 ) ),
+					WorldPos = tr.EndPos,
+					WorldRot = Rotation.LookAt( tr.Normal, dir ) * Rotation.From( new Angles( 90, 0, 0 ) ),
 					PhysicsEnabled = !attached,
 					EnableSolidCollisions = !attached,
 					TargetBody = attached ? tr.Body : null,

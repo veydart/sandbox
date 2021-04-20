@@ -35,8 +35,8 @@ class CarSuspension
 
 	public bool Raycast( float length, bool doPhysics, Vector3 offset, ref CarWheel wheel, float dt )
 	{
-		var position = _parent.Pos;
-		var rotation = _parent.Rot;
+		var position = _parent.WorldPos;
+		var rotation = _parent.WorldRot;
 
 		var wheelAttachPos = (position + rotation.Up * 20.0f) + offset;
 		var wheelExtend = wheelAttachPos - rotation.Up * length;
@@ -185,14 +185,14 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 			var w = new ModelEntity();
 			w.SetModel( "entities/modular_vehicle/vehicle_fuel_tank.vmdl" );
 			w.Parent = this;
-			w.Pos = new Vector3( 0.75f, 0, 0 ) * 40.0f;
+			w.WorldPos = new Vector3( 0.75f, 0, 0 ) * 40.0f;
 		}
 
 		{
 			var w = new ModelEntity();
 			w.SetModel( "entities/modular_vehicle/chassis_axle_front.vmdl" );
 			w.Parent = this;
-			w.Pos = new Vector3( 1.05f, 0, 0.35f ) * 40.0f;
+			w.WorldPos = new Vector3( 1.05f, 0, 0.35f ) * 40.0f;
 
 			chassis_axle_front = w;
 
@@ -221,7 +221,7 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 			var w = new ModelEntity();
 			w.SetModel( "entities/modular_vehicle/chassis_axle_rear.vmdl" );
 			w.Parent = this;
-			w.Pos = new Vector3( -1.05f, 0, 0.35f ) * 40.0f;
+			w.WorldPos = new Vector3( -1.05f, 0, 0.35f ) * 40.0f;
 
 			chassis_axle_rear = w;
 
@@ -274,8 +274,8 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 
 			if ( input.Pressed( InputButton.Reload ) )
 			{
-				Pos = new Vector3( 1700, -1000, 100 );
-				Rot = Rotation.Identity;
+				WorldPos = new Vector3( 1700, -1000, 100 );
+				WorldRot = Rotation.Identity;
 				PhysicsBody.Velocity = 0;
 				PhysicsBody.AngularVelocity = 0;
 			}

@@ -192,8 +192,8 @@ partial class SandboxPlayer : BasePlayer
 	void BecomeRagdollOnClient()
 	{
 		var ent = new AnimEntity();
-		ent.Pos = Pos;
-		ent.Rot = Rot;
+		ent.WorldPos = WorldPos;
+		ent.WorldRot = WorldRot;
 		ent.MoveType = MoveType.Physics;
 		ent.UsePhysicsCollision = true;
 		ent.EnableAllCollisions = true;

@@ -80,7 +80,7 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable
 				Beam.SetEntity( 1, GrabbedEntity, GrabbedPos, true );
 			}
 
-			lastBeamPos = GrabbedEntity.Pos + GrabbedEntity.Rot * GrabbedPos;
+			lastBeamPos = GrabbedEntity.WorldPos + GrabbedEntity.WorldRot * GrabbedPos;
 
 			EndNoHit?.Destory( false );
 			EndNoHit = null;

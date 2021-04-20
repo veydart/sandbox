@@ -26,8 +26,8 @@
 		{
 			var ent = new Prop
 			{
-				Pos = Owner.EyePos + Owner.EyeRot.Forward * 50,
-				Rot = Owner.EyeRot
+				WorldPos = Owner.EyePos + Owner.EyeRot.Forward * 50,
+				WorldRot = Owner.EyeRot
 			};
 
 			ent.SetModel( "models/citizen_props/crate01.vmdl" );

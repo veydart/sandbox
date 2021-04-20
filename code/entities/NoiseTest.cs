@@ -14,9 +14,9 @@ public partial class NoiseTest : Prop, IFrameUpdate
 	public void OnFrame()
 	{
 		var pos = WorldPos;
-		var right = Rot.Right * 4;
-		var forward = Rot.Forward * 4;
-		var up = Rot.Up * 50;
+		var right = WorldRot.Right * 4;
+		var forward = WorldRot.Forward * 4;
+		var up = WorldRot.Up * 50;
 		var offset = Time.Now * 2.0f;
 		var offsetz = Time.Now * 0.1f;
 
