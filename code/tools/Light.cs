@@ -1,0 +1,80 @@
+﻿namespace Sandbox.Tools
+{
+	[Library( "tool_light", Title = "Light", Group = "construction" )]
+	public partial class LightTool : BaseTool
+	{
+		PreviewEntity previewModel;
+
+		private string Model => "models/light/light_tubular.vmdl";
+
+		protected override bool IsPreviewTraceValid( TraceResult tr )
+		{
+			if ( !base.IsPreviewTraceValid( tr ) )
+				return false;
+
+			if ( tr.Entity is LightEntity )
+				return false;
+
+			return true;
+		}
+
+		public override void CreatePreviews()
+		{
+			if ( TryCreatePreview( ref previewModel, Model ) )
+			{
+				previewModel.RelativeToNormal = false;
+				previewModel.OffsetBounds = true;
+				previewModel.PositionOffset = -previewModel.CollisionBounds.Center;
+			}
+		}
+
+		public override void OnPlayerControlTick()
+		{
+			if ( !Host.IsServer )
+				return;
+
+			using ( Prediction.Off() )
+			{
+				var input = Owner.Input;
+
+				if ( !input.Pressed( InputButton.Attack1 ) )
+					return;
+
+				var startPos = Owner.EyePos;
+				var dir = Owner.EyeRot.Forward;
+
+				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
+					.Ignore( Owner )
+					.Run();
+
+				if ( !tr.Hit || !tr.Entity.IsValid() )
+					return;
+
+				if ( tr.Entity is LightEntity )
+				{
+					// TODO: Set properties
+
+					return;
+				}
+
+				var light = new LightEntity
+				{
+					Enabled = true,
+					DynamicShadows = false,
+					Range = 128,
+					Falloff = 1.0f,
+					LinearAttenuation = 0.0f,
+					QuadraticAttenuation = 1.0f,
+					Brightness = 1,
+					Color = Color.Random,
+					Rot = Rotation.Identity
+				};
+
+				light.UseFogNoShadows();
+				light.SetModel( Model );
+				light.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+				light.Pos = tr.EndPos + -light.CollisionBounds.Center + tr.Normal * light.CollisionBounds.Size * 0.5f;
+			}
+		}
+	}
+}
