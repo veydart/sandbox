@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System;
 
-[ClassLibrary( "ent_drone" , Title = "Drone", Spawnable = true )]
+[Library( "ent_drone" , Title = "Drone", Spawnable = true )]
 public partial class DroneEntity : Prop, IPhysicsUpdate, IPlayerControllable, IFrameUpdate
 {
 	public virtual float altitudeAcceleration => 2000;

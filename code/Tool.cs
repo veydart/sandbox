@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using Sandbox.Tools;
 
-[ClassLibrary( "weapon_tool" )]
+[Library( "weapon_tool" )]
 partial class Tool : BaseWeapon, IFrameUpdate
 {
 	[UserVar( "tool_current" )]

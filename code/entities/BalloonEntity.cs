@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-[ClassLibrary( "ent_balloon", Title = "Balloon", Spawnable = true )]
+[Library( "ent_balloon", Title = "Balloon", Spawnable = true )]
 public partial class BalloonEntity : Prop
 {
 	static SoundEvent PopSound = new( "sounds/balloon_pop_cute.vsnd" )

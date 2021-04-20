@@ -5,7 +5,7 @@
 		void Remove();
 	}
 
-	[ClassLibrary( "tool_remover", Title = "Remover", Group = "construction" )]
+	[Library( "tool_remover", Title = "Remover", Group = "construction" )]
 	public partial class RemoverTool : BaseTool
 	{
 		private Prop prop;

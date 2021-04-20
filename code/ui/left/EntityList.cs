@@ -4,7 +4,7 @@ using Sandbox.UI.Construct;
 using Sandbox.UI.Tests;
 using System.Linq;
 
-[ClassLibrary]
+[Library]
 public partial class EntityList : Panel
 {
 	VirtualScrollPanel Canvas;
@@ -18,7 +18,7 @@ public partial class EntityList : Panel
 		Canvas.Layout.ItemSize = new Vector2( 100, 100 );
 		Canvas.OnCreateCell = ( cell, data ) =>
 		{
-			var entry = (ClassLibraryAttribute)data;
+			var entry = (LibraryAttribute)data;
 			var btn = cell.Add.Button( entry.Title );
 			btn.AddClass( "icon" );
 			btn.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn_entity", entry.Name ) );

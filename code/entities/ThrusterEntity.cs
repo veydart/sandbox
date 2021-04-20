@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-[ClassLibrary( "ent_thruster" )]
+[Library( "ent_thruster" )]
 public partial class ThrusterEntity : Prop, IPhysicsUpdate, IFrameUpdate
 {
 	public float Force = 1000.0f;

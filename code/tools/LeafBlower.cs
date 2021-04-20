@@ -1,6 +1,6 @@
 ﻿namespace Sandbox.Tools
 {
-	[ClassLibrary( "tool_leafblower", Title = "Leaf Blower", Group = "fun" )]
+	[Library( "tool_leafblower", Title = "Leaf Blower", Group = "fun" )]
 	public partial class LeafBlowerTool : BaseTool
 	{
 		protected virtual float Force => 128;

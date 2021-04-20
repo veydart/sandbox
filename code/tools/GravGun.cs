@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System;
 
-[ClassLibrary( "gravgun" )]
+[Library( "gravgun" )]
 public partial class GravGun : BaseCarriable, IPlayerControllable
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";

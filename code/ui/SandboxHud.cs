@@ -5,7 +5,7 @@ using Sandbox.UI.Construct;
 using System;
 using System.Threading.Tasks;
 
-[ClassLibrary]
+[Library]
 public partial class SandboxHud : Hud
 {
 	public SandboxHud()

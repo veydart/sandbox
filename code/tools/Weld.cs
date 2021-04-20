@@ -1,6 +1,6 @@
 ﻿namespace Sandbox.Tools
 {
-	[ClassLibrary( "tool_weld", Title = "Weld", Group = "construction" )]
+	[Library( "tool_weld", Title = "Weld", Group = "construction" )]
 	public partial class WeldTool : BaseTool
 	{
 		private Prop target;
@@ -59,7 +59,7 @@
 	}
 }
 
-//[ClassLibrary( "tool_welder" )]
+//[Library( "tool_welder" )]
 //public class Welder : BaseCarriable, IPlayerControllable
 //{
 //	static SoundEvent WeldSound = new( "sounds/tools/sfm/beep.vsnd" ) { Volume = 1 };

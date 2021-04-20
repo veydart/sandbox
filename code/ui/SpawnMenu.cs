@@ -6,7 +6,7 @@ using System;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
-[ClassLibrary]
+[Library]
 public partial class SpawnMenu : Panel
 {
 	public static SpawnMenu Instance;

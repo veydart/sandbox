@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-[ClassLibrary( "sandbox", Title = "Sandbox" )]
+[Library( "sandbox", Title = "Sandbox" )]
 partial class SandboxGame : Game
 {
 	public SandboxGame()

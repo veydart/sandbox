@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-[ClassLibrary( "noise_test", Title = "Noise Test", Spawnable = true )]
+[Library( "noise_test", Title = "Noise Test", Spawnable = true )]
 public partial class NoiseTest : Prop, IFrameUpdate
 {
 	public override void Spawn()

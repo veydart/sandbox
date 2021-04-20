@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Tests;
 
-[ClassLibrary]
+[Library]
 public partial class SpawnList : Panel
 {
 	VirtualScrollPanel Canvas;

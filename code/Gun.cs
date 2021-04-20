@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using System;
 
-[ClassLibrary( "weapon_cockfingers" )]
+[Library( "weapon_cockfingers" )]
 partial class Gun : BaseWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";

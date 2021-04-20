@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-[ClassLibrary( "physgun" )]
+[Library( "physgun" )]
 public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate, IPlayerInput
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";

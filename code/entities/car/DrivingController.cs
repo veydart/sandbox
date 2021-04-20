@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-[ClassLibrary]
+[Library]
 public class DrivingController : PlayerController
 {
 	public CarEntity Car { get; set; }

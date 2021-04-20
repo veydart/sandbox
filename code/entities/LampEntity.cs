@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.Tools;
 
-[ClassLibrary( "ent_lamp" )]
+[Library( "ent_lamp" )]
 public partial class LampEntity : SpotLightEntity, IUse, IRemovable
 {
 	public bool IsUsable( Entity user )
