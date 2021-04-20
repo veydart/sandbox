@@ -5,6 +5,17 @@
 	{
 		PreviewEntity previewModel;
 
+		protected override bool IsPreviewTraceValid( TraceResult tr )
+		{
+			if ( !base.IsPreviewTraceValid( tr ) )
+				return false;
+
+			if ( tr.Entity is WheelEntity )
+				return false;
+
+			return true;
+		}
+
 		public override void CreatePreviews()
 		{
 			if ( TryCreatePreview( ref previewModel, "models/citizen_props/wheel01.vmdl" ) )

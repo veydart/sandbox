@@ -7,6 +7,17 @@
 
 		private string Model => "models/torch/torch.vmdl";
 
+		protected override bool IsPreviewTraceValid( TraceResult tr )
+		{
+			if ( !base.IsPreviewTraceValid( tr ) )
+				return false;
+
+			if ( tr.Entity is LampEntity )
+				return false;
+
+			return true;
+		}
+
 		public override void CreatePreviews()
 		{
 			if ( TryCreatePreview( ref previewModel, Model ) )

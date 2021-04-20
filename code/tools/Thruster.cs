@@ -14,6 +14,17 @@
 			}
 		}
 
+		protected override bool IsPreviewTraceValid( TraceResult tr )
+		{
+			if ( !base.IsPreviewTraceValid( tr ) )
+				return false;
+
+			if ( tr.Entity is ThrusterEntity )
+				return false;
+
+			return true;
+		}
+
 		public override void OnPlayerControlTick()
 		{
 			if ( !Host.IsServer )

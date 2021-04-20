@@ -13,6 +13,16 @@
 			color = Color.Random.ToColor32();
 		}
 
+		protected override bool IsPreviewTraceValid( TraceResult tr )
+		{
+			if ( !base.IsPreviewTraceValid( tr ) )
+				return false;
+
+			if ( tr.Entity is BalloonEntity )
+				return false;
+
+			return true;
+		}
 
 		public override void CreatePreviews()
 		{

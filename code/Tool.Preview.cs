@@ -6,6 +6,17 @@ namespace Sandbox.Tools
 	{
 		internal List<PreviewEntity> Previews;
 
+		protected virtual bool IsPreviewTraceValid( TraceResult tr )
+		{
+			if ( !tr.Hit )
+				return false;
+
+			if ( !tr.Entity.IsValid() )
+				return false;
+
+			return true;
+		}
+
 		public virtual void CreatePreviews()
 		{
 			// Nothing
@@ -61,7 +72,14 @@ namespace Sandbox.Tools
 
 			foreach ( var preview in Previews )
 			{
-				preview.UpdateFromTrace( tr );
+				if ( IsPreviewTraceValid( tr ) && preview.UpdateFromTrace( tr ) )
+				{
+					preview.RenderAlpha = 0.5f;
+				}
+				else
+				{
+					preview.RenderAlpha = 0.0f;
+				}
 			}
 		}
 	}
