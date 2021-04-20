@@ -4,6 +4,9 @@ using Sandbox.Tools;
 [Library( "ent_light" )]
 public partial class LightEntity : PointLightEntity, IUse, IRemovable
 {
+	public PhysicsJoint AttachJoint;
+	public Particles AttachRope;
+
 	public bool IsUsable( Entity user )
 	{
 		return true;
@@ -20,5 +23,20 @@ public partial class LightEntity : PointLightEntity, IUse, IRemovable
 	{
 		PhysicsGroup?.Wake();
 		Delete();
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+		if ( AttachJoint.IsValid() )
+		{
+			AttachJoint.Remove();
+		}
+
+		if ( AttachRope != null )
+		{
+			AttachRope.Destory( true );
+		}
 	}
 }
