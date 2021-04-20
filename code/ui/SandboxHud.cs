@@ -1,9 +1,5 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
-using System;
-using System.Threading.Tasks;
 
 [Library]
 public partial class SandboxHud : Hud
@@ -21,12 +17,7 @@ public partial class SandboxHud : Hud
 		RootPanel.AddChild<VoiceList>();
 		RootPanel.AddChild<KillFeed>();
 		RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
-
-		var healthPanel = RootPanel.Add.Panel( "health" ); 
-		var icon = healthPanel.Add.Label( "🩸", "icon" );
-		var health = healthPanel.Add.Label( "", "value" );
-		health.Text = "100";
-
+		RootPanel.AddChild<Health>();
 		RootPanel.AddChild<InventoryBar>();
 		RootPanel.AddChild<SpawnMenu>();
 	}
