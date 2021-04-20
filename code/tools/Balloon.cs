@@ -13,6 +13,16 @@
 			color = Color.Random.ToColor32();
 		}
 
+		protected override bool IsPreviewTraceValid( TraceResult tr )
+		{
+			if ( !base.IsPreviewTraceValid( tr ) )
+				return false;
+
+			if ( tr.Entity is BalloonEntity )
+				return false;
+
+			return true;
+		}
 
 		public override void CreatePreviews()
 		{
@@ -88,7 +98,6 @@
 					.From( ent.PhysicsBody )
 					.To( tr.Body )
 					.WithPivot( tr.EndPos )
-					.WithBasis( Rotation.From( new Angles( 0, 90, 0 ) ) )
 					.WithFrequency( 5.0f )
 					.WithDampingRatio( 0.7f )
 					.WithReferenceMass( 0 )

@@ -15,9 +15,6 @@ partial class SandboxPlayer : BasePlayer
 	[Net]
 	public PlayerAnimator VehicleAnimator { get; set; }
 
-	[UserVar( "inventory_current" )]
-	public static string InventoryCurrent { get; set; } = null;
-
 	public SandboxPlayer()
 	{
 		Inventory = new BaseInventory( this );
@@ -40,13 +37,6 @@ partial class SandboxPlayer : BasePlayer
 		Inventory.Add( new Tool() );
 		Inventory.Add( new PhysGun() );
 		Inventory.Add( new GravGun() );
-		//Inventory.Add( new BoxShooter() );
-		//Inventory.Add( new Welder() );
-		//Inventory.Add( new Thruster() );
-		//Inventory.Add( new Wheel() );
-		//Inventory.Add( new Balloon() );
-		//Inventory.Add( new Remover() );
-		//Inventory.Add( new Drone() );
 
 		base.Respawn();
 	}
@@ -102,10 +92,6 @@ partial class SandboxPlayer : BasePlayer
 	{
 		base.Tick();
 
-		//EnableHitboxes = true;
-		//CollisionGroup = CollisionGroup.Player;
-		//EnableAllCollisions = true;
-
 		if ( Input.Pressed( InputButton.Slot1 ) ) Inventory.SetActiveSlot( 0, true );
 		if ( Input.Pressed( InputButton.Slot2 ) ) Inventory.SetActiveSlot( 1, true );
 		if ( Input.Pressed( InputButton.Slot3 ) ) Inventory.SetActiveSlot( 2, true );
@@ -114,12 +100,6 @@ partial class SandboxPlayer : BasePlayer
 		if ( Input.Pressed( InputButton.Slot6 ) ) Inventory.SetActiveSlot( 5, true );
 
 		if ( Input.MouseWheel != 0 ) Inventory.SwitchActiveSlot( Input.MouseWheel, true );
-
-		if ( !string.IsNullOrEmpty( InventoryCurrent ) )
-		{
-			SetInventoryCurrent( InventoryCurrent );
-			InventoryCurrent = null;
-		}
 
 		if ( LifeState != LifeState.Alive )
 			return;
@@ -232,9 +212,13 @@ partial class SandboxPlayer : BasePlayer
 		base.StartTouch( other );
 	}
 
-	public void SetInventoryCurrent( string entName )
+	[ServerCmd( "inventory_current" )]
+	public static void SetInventoryCurrent( string entName )
 	{
-		var inventory = Inventory;
+		var target = ConsoleSystem.Caller;
+		if ( target == null ) return;
+
+		var inventory = target.Inventory;
 		if ( inventory == null )
 			return;
 

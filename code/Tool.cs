@@ -1,7 +1,4 @@
 ﻿using Sandbox;
-using Steamworks.Data;
-using System.Numerics;
-using System.Collections.Generic;
 using Sandbox.Tools;
 
 [Library( "weapon_tool" )]

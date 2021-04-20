@@ -8,12 +8,11 @@ namespace Sandbox.Tools
 		public Rotation RotationOffset { get; set; } = Rotation.Identity;
 		public Vector3 PositionOffset { get; set; } = Vector3.Zero;
 
-		internal void UpdateFromTrace( TraceResult tr )
+		internal bool UpdateFromTrace( TraceResult tr )
 		{
 			if ( !IsTraceValid( tr ) )
 			{
-				RenderAlpha = 0.0f;
-				return;
+				return false;
 			}
 
 			if ( RelativeToNormal )
@@ -32,10 +31,9 @@ namespace Sandbox.Tools
 				WorldPos += tr.Normal * CollisionBounds.Size * 0.5f;
 			}
 
-			RenderAlpha = 0.5f;
+			return true;
 		}
 
 		protected virtual bool IsTraceValid( TraceResult tr ) => tr.Hit;
-
 	}
 }
