@@ -92,20 +92,15 @@ partial class SandboxPlayer : BasePlayer
 	{
 		base.Tick();
 
-		if ( Input.Pressed( InputButton.Slot1 ) ) Inventory.SetActiveSlot( 0, true );
-		if ( Input.Pressed( InputButton.Slot2 ) ) Inventory.SetActiveSlot( 1, true );
-		if ( Input.Pressed( InputButton.Slot3 ) ) Inventory.SetActiveSlot( 2, true );
-		if ( Input.Pressed( InputButton.Slot4 ) ) Inventory.SetActiveSlot( 3, true );
-		if ( Input.Pressed( InputButton.Slot5 ) ) Inventory.SetActiveSlot( 4, true );
-		if ( Input.Pressed( InputButton.Slot6 ) ) Inventory.SetActiveSlot( 5, true );
-
-		if ( Input.MouseWheel != 0 ) Inventory.SwitchActiveSlot( Input.MouseWheel, true );
+		if ( Input.ActiveChild != null )
+		{
+			ActiveChild = Input.ActiveChild;
+		}
 
 		if ( LifeState != LifeState.Alive )
 			return;
 
 		TickPlayerUse();
-
 
 		if ( Input.Pressed( InputButton.View ) )
 		{
