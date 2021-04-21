@@ -81,8 +81,6 @@ partial class Gun : BaseWeapon
 
 	}
 
-	RealTimeSince timeSinceLast = 0;
-
 	public override void OnPlayerControlTick( Player owner )
 	{
 		base.OnPlayerControlTick( owner );
@@ -90,26 +88,24 @@ partial class Gun : BaseWeapon
 		//DebugTrace( owner );
 		return;
 
-		if ( !NavMesh.IsLoaded )
-			return;
+		//if ( !NavMesh.IsLoaded )
+		//	return;
 
-		timeSinceLast = 0;
-
-		var forward = owner.EyeRot.Forward * 2000;
+		//var forward = owner.EyeRot.Forward * 2000;
 
 
-		var tr = Trace.Ray( owner.EyePos, owner.EyePos + forward )
-						.Ignore( owner )
-						.Run();
+		//var tr = Trace.Ray( owner.EyePos, owner.EyePos + forward )
+		//				.Ignore( owner )
+		//				.Run();
 
-		var closestPoint = NavMesh.GetClosestPoint( tr.EndPos );
+		//var closestPoint = NavMesh.GetClosestPoint( tr.EndPos );
 
-		DebugOverlay.Line( tr.EndPos, closestPoint, 0.1f );
+		//DebugOverlay.Line( tr.EndPos, closestPoint, 0.1f );
 
-		DebugOverlay.Axis( closestPoint, Rotation.LookAt( tr.Normal ), 2.0f, Time.Delta * 2 );
-		DebugOverlay.Text( closestPoint, $"CLOSEST Walkable POINT", Time.Delta * 2 );
+		//DebugOverlay.Axis( closestPoint, Rotation.LookAt( tr.Normal ), 2.0f, Time.Delta * 2 );
+		//DebugOverlay.Text( closestPoint, $"CLOSEST Walkable POINT", Time.Delta * 2 );
 
-		NavMesh.BuildPath( Owner.WorldPos, closestPoint );
+		//NavMesh.BuildPath( Owner.WorldPos, closestPoint );
 	}
 
 	public void DebugTrace( Player player )

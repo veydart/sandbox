@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using Sandbox.Joints;
+using System.Linq;
 
 [Library( "physgun" )]
 public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate, IPlayerInput
@@ -29,6 +30,8 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 	[Net] public Entity GrabbedEntity { get; set; }
 	[Net] public int GrabbedBone { get; set; }
 	[Net] public Vector3 GrabbedPos { get; set; }
+
+	public PhysicsBody HeldBody => heldBody;
 
 	public override void Spawn()
 	{
@@ -90,6 +93,15 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 		}
 	}
 
+	private static bool IsBodyGrabbed( PhysicsBody body )
+	{
+		// There for sure is a better way to deal with this
+		if ( All.OfType<PhysGun>().Any( x => x?.HeldBody == body ) ) return true;
+		if ( All.OfType<GravGun>().Any( x => x?.HeldBody == body ) ) return true;
+
+		return false;
+	}
+
 	private void TryStartGrab( Player owner, Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir )
 	{
 		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxTargetDistance )
@@ -97,16 +109,13 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 			.Ignore( owner ) 
 			.Run();  
 
-		if ( !tr.Hit ) return;
-		if ( !tr.Body.IsValid() ) return;
-		if ( tr.Entity.IsWorld ) return;
+		if ( !tr.Hit || !tr.Body.IsValid() || tr.Entity.IsWorld ) return;
 
+		var rootEnt = tr.Entity.Root;
 		var body = tr.Body;
 
 		if ( tr.Entity.Parent.IsValid() )
 		{
-			var rootEnt = tr.Entity.Root;
-
 			if ( rootEnt.IsValid() && rootEnt.PhysicsGroup != null )
 			{
 				body = rootEnt.PhysicsGroup.GetBody(0);
@@ -128,9 +137,12 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 			body.BodyType = PhysicsBodyType.Dynamic;
 		}
 
+		if ( IsBodyGrabbed( body ) )
+			return;
+
 		GrabInit( body, eyePos, tr.EndPos, eyeRot );
 
-		GrabbedEntity = tr.Entity.Root;
+		GrabbedEntity = rootEnt;
 		GrabbedPos = body.Transform.PointToLocal( tr.EndPos );
 		GrabbedBone = tr.Entity.PhysicsGroup.GetBodyIndex( body );
 	}

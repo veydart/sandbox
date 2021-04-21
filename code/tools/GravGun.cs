@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.Joints;
 using System;
+using System.Linq;
 
 [Library( "gravgun" )]
 public partial class GravGun : BaseCarriable, IPlayerControllable
@@ -27,6 +28,8 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 	protected virtual float DropCooldown => 0.5f;
 
 	private TimeSince timeSinceDrop;
+
+	public PhysicsBody HeldBody => heldBody;
 
 	public override void Spawn()
 	{
@@ -80,29 +83,28 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 			.Radius( 2.0f )
 			.Run();
 
-		if ( !tr.Hit )
+		if ( !tr.Hit || !tr.Body.IsValid() || tr.Entity.IsWorld )
 			return;
 
-		if ( !tr.Body.IsValid() )
-			return;
+		var body = tr.Body;
 
-		if ( tr.Entity.IsWorld )
-			return;
-
-		if ( input.Pressed( InputButton.Attack1 ) && tr.Distance < MaxPushDistance )
+		if ( input.Pressed( InputButton.Attack1 ) )
 		{
-			var pushScale = 1.0f - Math.Clamp( tr.Distance / MaxPushDistance, 0.0f, 1.0f );
-			tr.Body.ApplyImpulseAt( tr.EndPos, eyeDir * (tr.Body.Mass * (PushForce * pushScale)) );
+			if ( tr.Distance < MaxPushDistance && !IsBodyGrabbed( body ) )
+			{
+				var pushScale = 1.0f - Math.Clamp( tr.Distance / MaxPushDistance, 0.0f, 1.0f );
+				body.ApplyImpulseAt( tr.EndPos, eyeDir * (body.Mass * (PushForce * pushScale)) );
+			}
 		}
 		else if ( input.Down( InputButton.Attack2 ) )
 		{
-			if ( eyePos.Distance( tr.Entity.WorldPos ) <= AttachDistance )
+			if ( eyePos.Distance( body.Pos ) <= AttachDistance )
 			{
-				GrabStart( tr.Body, eyePos + eyeDir * HoldDistance, eyeRot );
+				GrabStart( body, eyePos + eyeDir * HoldDistance, eyeRot );
 			}
-			else
+			else if ( !IsBodyGrabbed( body ) )
 			{
-				tr.Body.ApplyImpulse( eyeDir * (tr.Body.Mass * -PullForce) );
+				body.ApplyImpulse( eyeDir * (body.Mass * -PullForce) );
 			}
 		}
 	}
@@ -154,9 +156,21 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		}
 	}
 
+	private static bool IsBodyGrabbed( PhysicsBody body )
+	{
+		// There for sure is a better way to deal with this
+		if ( All.OfType<PhysGun>().Any( x => x?.HeldBody == body ) ) return true;
+		if ( All.OfType<GravGun>().Any( x => x?.HeldBody == body ) ) return true;
+
+		return false;
+	}
+
 	private void GrabStart( PhysicsBody body, Vector3 grabPos, Rotation grabRot )
 	{
 		if ( !body.IsValid() )
+			return;
+
+		if ( IsBodyGrabbed( body ) )
 			return;
 
 		GrabEnd();
