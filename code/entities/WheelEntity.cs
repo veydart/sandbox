@@ -15,4 +15,11 @@ public partial class WheelEntity : Prop
 			Joint.Remove();
 		}
 	}
+
+	protected override void UpdatePropData( Model model )
+	{
+		base.UpdatePropData( model );
+
+		Health = -1;
+	}
 }
