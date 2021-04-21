@@ -33,10 +33,10 @@ partial class SandboxPlayer : BasePlayer
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
 
-		Inventory.Add( new Gun(), true );
-		Inventory.Add( new Tool() );
-		Inventory.Add( new PhysGun() );
+		Inventory.Add( new PhysGun(), true );
 		Inventory.Add( new GravGun() );
+		Inventory.Add( new Tool() );
+		Inventory.Add( new Gun() );
 
 		base.Respawn();
 	}

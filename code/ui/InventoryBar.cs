@@ -44,9 +44,18 @@ public class InventoryBar : Panel, IClientInput
 
 	public void ProcessClientInput( ClientInput input )
 	{
+		var player = Player.Local;
+		if ( player == null )
+			return;
+
 		var inventory = Player.Local.Inventory;
 		if ( inventory == null )
 			return;
+
+		if ( player.ActiveChild is PhysGun physgun && physgun.BeamActive )
+		{
+			return;
+		}
 
 		if ( input.Pressed( InputButton.Slot1 ) ) SetActiveSlot( input, inventory, 0 );
 		if ( input.Pressed( InputButton.Slot2 ) ) SetActiveSlot( input, inventory, 1 );

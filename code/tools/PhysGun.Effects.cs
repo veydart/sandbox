@@ -35,12 +35,11 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable
 			lastGrabbedEntity.GlowState = GlowStates.GlowStateOff;
 			lastGrabbedEntity = null;
 		}
-
 	}
 
 	protected virtual void UpdateEffects()
 	{
-		var owner = Owner as Player;
+		var owner = Owner;
 
 		if ( owner == null || !BeamActive || !IsActiveChild() )
 		{
