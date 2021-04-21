@@ -50,7 +50,7 @@ public partial class SpawnMenu : Panel
 							continue;
 
 						var button = list.Add.Button( entry.Title );
-						button.SetClass( "active", entry.Name == ConsoleSystem.FindValue( "tool_current" ) );
+						button.SetClass( "active", entry.Name == ConsoleSystem.GetValue( "tool_current" ) );
 						
 						button.AddEvent( "onclick", () =>
 						{
