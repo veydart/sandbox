@@ -75,37 +75,37 @@
 				light.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 				light.WorldPos = tr.EndPos + -light.CollisionBounds.Center + tr.Normal * light.CollisionBounds.Size * 0.5f;
 
-				if ( useRope )
+				if ( !useRope )
+					return;
+
+				var rope = Particles.Create( "particles/rope.vpcf" );
+				rope.SetEntity( 0, light, Vector3.Down * 6.5f ); // Should be an attachment point
+
+				var attachEnt = tr.Body.IsValid() ? tr.Body.Entity : tr.Entity;
+				var attachLocalPos = tr.Body.Transform.PointToLocal( tr.EndPos );
+
+				if ( attachEnt.IsWorld )
 				{
-					var rope = Particles.Create( "particles/rope.vpcf" );
-					rope.SetEntity( 0, light, Vector3.Down * 6.5f ); // Should be an attachment point
-
-					var attachEnt = tr.Body.IsValid() ? tr.Body.Entity : tr.Entity;
-					var attachLocalPos = tr.Body.Transform.PointToLocal( tr.EndPos );
-
-					if ( attachEnt.IsWorld )
-					{
-						rope.SetPos( 1, attachLocalPos );
-					}
-					else
-					{
-						rope.SetEntityBone( 1, attachEnt, tr.Bone, new Transform( attachLocalPos ) );
-					}
-
-					light.AttachRope = rope;
-
-					light.AttachJoint = PhysicsJoint.Spring
-						.From( light.PhysicsBody )
-						.To( tr.Body )
-						.WithPivot( light.WorldPos + Vector3.Down * 6.5f )
-						.WithFrequency( 5.0f )
-						.WithDampingRatio( 0.7f )
-						.WithReferenceMass( 0 )
-						.WithMinRestLength( 0 )
-						.WithMaxRestLength( 100 )
-						.WithCollisionsEnabled()
-						.Create();
+					rope.SetPos( 1, attachLocalPos );
 				}
+				else
+				{
+					rope.SetEntityBone( 1, attachEnt, tr.Bone, new Transform( attachLocalPos ) );
+				}
+
+				light.AttachRope = rope;
+
+				light.AttachJoint = PhysicsJoint.Spring
+					.From( light.PhysicsBody )
+					.To( tr.Body )
+					.WithPivot( light.WorldPos + Vector3.Down * 6.5f )
+					.WithFrequency( 5.0f )
+					.WithDampingRatio( 0.7f )
+					.WithReferenceMass( 0 )
+					.WithMinRestLength( 0 )
+					.WithMaxRestLength( 100 )
+					.WithCollisionsEnabled()
+					.Create();
 			}
 		}
 	}

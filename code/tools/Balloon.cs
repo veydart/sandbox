@@ -46,9 +46,10 @@
 			{
 				var input = Owner.Input;
 
-				if ( !input.Pressed( InputButton.Attack1 ) )
+				bool useRope = input.Pressed( InputButton.Attack1 );
+				if ( !useRope && !input.Pressed( InputButton.Attack2 ) )
 					return;
-				
+
 				var startPos = Owner.EyePos;
 				var dir = Owner.EyeRot.Forward;
 
@@ -75,6 +76,9 @@
 				ent.RenderColor = color;
 
 				color = Color.Random.ToColor32();
+
+				if ( !useRope )
+					return;
 
 				var rope = Particles.Create( "particles/rope.vpcf" );
 				rope.SetEntity( 0, ent );
