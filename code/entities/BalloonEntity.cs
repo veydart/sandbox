@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 
 [Library( "ent_balloon", Title = "Balloon", Spawnable = true )]
-public partial class BalloonEntity : Prop
+public partial class BalloonEntity : Prop, IPhysicsUpdate
 {
 	static SoundEvent PopSound = new( "sounds/balloon_pop_cute.vsnd" )
 	{ 
@@ -12,13 +12,15 @@ public partial class BalloonEntity : Prop
 	public PhysicsJoint AttachJoint;
 	public Particles AttachRope;
 
+	private static float GravityScale => -0.2f;
+
 	public override void Spawn()
 	{
 		base.Spawn();
 
 		SetModel( "models/citizen_props/balloonregular01.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-		PhysicsBody.GravityScale = -0.2f;
+		PhysicsBody.GravityScale = GravityScale;
 		RenderColor = Color.Random.ToColor32();
 	}
 
@@ -42,5 +44,17 @@ public partial class BalloonEntity : Prop
 		base.OnKilled();
 
 		PlaySound( PopSound.Name );
+	}
+
+	public void OnPostPhysicsStep( float dt )
+	{
+		if ( !this.IsValid() )
+			return;
+
+		var body = PhysicsBody;
+		if ( !body.IsValid() )
+			return;
+
+		body.GravityScale = GravityScale;
 	}
 }
