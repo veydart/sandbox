@@ -24,13 +24,7 @@
 					.Ignore( Owner )
 					.Run();
 
-				if ( !tr.Hit )
-					return;
-
-				if ( !tr.Entity.IsValid() )
-					return;
-
-				if ( tr.Entity.IsWorld )
+				if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.IsWorld )
 					return;
 
 				if ( tr.Entity == target )
@@ -55,6 +49,25 @@
 					target = null;
 				}
 			}
+		}
+
+		private void Reset()
+		{
+			target = null;
+		}
+
+		public override void Activate()
+		{
+			base.Activate();
+
+			Reset();
+		}
+
+		public override void Deactivate()
+		{
+			base.Deactivate();
+
+			Reset();
 		}
 	}
 }

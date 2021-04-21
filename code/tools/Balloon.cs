@@ -34,7 +34,6 @@
 
 		public override void OnPlayerControlTick()
 		{
-
 			if ( previewModel.IsValid() )
 			{
 				previewModel.RenderColor = color;
