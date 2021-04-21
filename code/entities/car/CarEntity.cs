@@ -97,7 +97,6 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 	private bool _turnWheelsOnGround;
 	private bool _driveWheelsOnGround;
 	private float _accelerateDirection;
-	private float _wheelAngle;
 
 	private CarSuspension _frontLeft, _frontRight, _backLeft, _backRight;
 	private CarWheel _wheelFrontLeft, _wheelFrontRight, _wheelBackLeft, _wheelBackRight;
@@ -421,8 +420,6 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 
 		return _turnDirection * turnFactor * yawSpeedFactor;
 	}
-
-	private float _wheelRot;
 
 	public void OnFrame()
 	{

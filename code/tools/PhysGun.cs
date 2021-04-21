@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Sandbox.Joints;
 
 [Library( "physgun" )]
 public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate, IPlayerInput
