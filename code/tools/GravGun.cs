@@ -83,7 +83,11 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 			.Radius( 2.0f )
 			.Run();
 
-		if ( !tr.Hit || !tr.Body.IsValid() || tr.Entity.IsWorld )
+		if ( !tr.Hit || !tr.Body.IsValid() || !tr.Entity.IsValid() || tr.Entity.IsWorld )
+			return;
+
+		var modelEnt = tr.Entity as ModelEntity;
+		if ( !modelEnt.IsValid() )
 			return;
 
 		var body = tr.Body;
@@ -98,6 +102,13 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		}
 		else if ( input.Down( InputButton.Attack2 ) )
 		{
+			if ( tr.Entity.PhysicsGroup.BodyCount > 1 )
+			{
+				body = modelEnt.PhysicsBody;
+				if ( !body.IsValid() )
+					return;
+			}
+
 			if ( eyePos.Distance( body.Pos ) <= AttachDistance )
 			{
 				GrabStart( body, eyePos + eyeDir * HoldDistance, eyeRot );
