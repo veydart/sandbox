@@ -16,13 +16,13 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 
 	protected virtual float MaxPullDistance => 2000.0f;
 	protected virtual float MaxPushDistance => 500.0f;
-	protected virtual float LinearFrequency => 20.0f;
+	protected virtual float LinearFrequency => 10.0f;
 	protected virtual float LinearDampingRatio => 1.0f;
-	protected virtual float AngularFrequency => 20.0f;
+	protected virtual float AngularFrequency => 10.0f;
 	protected virtual float AngularDampingRatio => 1.0f;
-	protected virtual float PullForce => 20.0f;
+	protected virtual float PullForce => 10.0f;
 	protected virtual float PushForce => 1000.0f;
-	protected virtual float ThrowForce => 2500.0f;
+	protected virtual float ThrowForce => 2000.0f;
 	protected virtual float HoldDistance => 100.0f;
 	protected virtual float AttachDistance => 250.0f;
 	protected virtual float DropCooldown => 0.5f;
@@ -51,12 +51,21 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		var eyeRot = owner.EyeRot;
 		var eyeDir = owner.EyeRot.Forward;
 
-		if ( heldBody.IsValid() )
+		if ( heldBody.IsValid() && heldBody.PhysicsGroup != null )
 		{
 			if ( input.Pressed( InputButton.Attack1 ) )
 			{
-				heldBody.ApplyImpulse( eyeDir * (heldBody.Mass * ThrowForce) );
-				heldBody.ApplyAngularImpulse( Vector3.Random * (heldBody.Mass * ThrowForce) );
+				if ( heldBody.PhysicsGroup.BodyCount > 1 )
+				{
+					// Don't throw ragdolls as hard
+					heldBody.PhysicsGroup.ApplyImpulse( eyeDir * (ThrowForce * 0.5f), true );
+					heldBody.PhysicsGroup.ApplyAngularImpulse( Vector3.Random * ThrowForce, true );
+				}
+				else
+				{
+					heldBody.ApplyImpulse( eyeDir * (heldBody.Mass * ThrowForce) );
+					heldBody.ApplyAngularImpulse( Vector3.Random * (heldBody.Mass * ThrowForce) );
+				}
 
 				GrabEnd();
 			}
@@ -105,7 +114,9 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		}
 		else if ( input.Down( InputButton.Attack2 ) )
 		{
-			if ( tr.Entity.PhysicsGroup.BodyCount > 1 )
+			var physicsGroup = tr.Entity.PhysicsGroup;
+
+			if ( physicsGroup.BodyCount > 1 )
 			{
 				body = modelEnt.PhysicsBody;
 				if ( !body.IsValid() )
@@ -118,7 +129,7 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 			}
 			else if ( !IsBodyGrabbed( body ) )
 			{
-				body.ApplyImpulse( eyeDir * (body.Mass * -PullForce) );
+				physicsGroup.ApplyImpulse( eyeDir * -PullForce, true );
 			}
 		}
 	}
