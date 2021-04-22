@@ -34,16 +34,7 @@ namespace Sandbox.Tools
 				var scale = Math.Clamp( tr.Entity.WorldScale + (0.1f * resizeDir), 0.4f, 4.0f );
 
 				tr.Entity.WorldScale = scale;
-
-				for ( int i = 0; i < tr.Entity.PhysicsGroup.BodyCount; ++i )
-				{
-					var body = tr.Entity.PhysicsGroup.GetBody( i );
-					if ( !body.IsValid() )
-						continue;
-
-					body.BuildMass();
-				}
-
+				tr.Entity.PhysicsGroup.RebuildMass();
 				tr.Entity.PhysicsGroup.Wake();
 			}
 		}

@@ -181,7 +181,7 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		holdBody.Pos = grabPos;
 		holdBody.Rot = heldBody.Rot;
 
-		heldBody.WakeUp();
+		heldBody.Wake();
 		heldBody.EnableAutoSleeping = false;
 
 		holdJoint = PhysicsJoint.Weld

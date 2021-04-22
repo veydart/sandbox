@@ -253,7 +253,7 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 		holdBody.Pos = grabPos;
 		holdBody.Rot = heldBody.Rot;
 
-		heldBody.WakeUp();
+		heldBody.Wake();
 		heldBody.EnableAutoSleeping = false;
 
 		holdJoint = PhysicsJoint.Weld
