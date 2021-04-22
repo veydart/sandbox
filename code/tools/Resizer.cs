@@ -21,9 +21,9 @@ namespace Sandbox.Tools
 				else if ( input.Pressed( InputButton.Attack2 ) ) resizeDir = -1;
 				else return;
 
-				 var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
-					.Ignore( Owner )
-					.Run();
+				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
+				   .Ignore( Owner )
+				   .Run();
 
 				if ( !tr.Hit || !tr.Entity.IsValid() || !tr.Body.IsValid() )
 					return;
@@ -34,9 +34,18 @@ namespace Sandbox.Tools
 				var scale = Math.Clamp( tr.Entity.WorldScale + (0.1f * resizeDir), 0.4f, 4.0f );
 
 				tr.Entity.WorldScale = scale;
-				tr.Body.BuildMass();
-				tr.Body.WakeUp();
-			}	
+
+				for ( int i = 0; i < tr.Entity.PhysicsGroup.BodyCount; ++i )
+				{
+					var body = tr.Entity.PhysicsGroup.GetBody( i );
+					if ( !body.IsValid() )
+						continue;
+
+					body.BuildMass();
+				}
+
+				tr.Entity.PhysicsGroup.Wake();
+			}
 		}
 	}
 }

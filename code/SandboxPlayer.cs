@@ -161,7 +161,7 @@ partial class SandboxPlayer : BasePlayer
 		}
 	}
 
-	static EntityLimit RagdollLimit = new EntityLimit { MaxTotal = 20 };
+	static EntityLimit RagdollLimit = new EntityLimit { MaxTotal = 10 };
 
 	[ClientRpc]
 	void BecomeRagdollOnClient()
