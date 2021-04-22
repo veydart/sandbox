@@ -169,6 +169,7 @@ partial class SandboxPlayer : BasePlayer
 		var ent = new AnimEntity();
 		ent.WorldPos = WorldPos;
 		ent.WorldRot = WorldRot;
+		ent.WorldScale = WorldScale;
 		ent.MoveType = MoveType.Physics;
 		ent.UsePhysicsCollision = true;
 		ent.EnableAllCollisions = true;

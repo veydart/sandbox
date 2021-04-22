@@ -28,7 +28,7 @@ namespace Sandbox.Tools
 				if ( !tr.Hit || !tr.Entity.IsValid() || !tr.Body.IsValid() )
 					return;
 
-				if ( tr.Entity.PhysicsGroup == null || tr.Entity.PhysicsGroup.BodyCount > 1 )
+				if ( tr.Entity.PhysicsGroup == null )
 					return;
 
 				var scale = Math.Clamp( tr.Entity.WorldScale + (0.1f * resizeDir), 0.4f, 4.0f );
