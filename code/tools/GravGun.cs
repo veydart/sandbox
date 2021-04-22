@@ -184,8 +184,8 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 	private static bool IsBodyGrabbed( PhysicsBody body )
 	{
 		// There for sure is a better way to deal with this
-		if ( All.OfType<PhysGun>().Any( x => x?.HeldBody == body ) ) return true;
-		if ( All.OfType<GravGun>().Any( x => x?.HeldBody == body ) ) return true;
+		if ( All.OfType<PhysGun>().Any( x => x?.HeldBody?.PhysicsGroup == body?.PhysicsGroup ) ) return true;
+		if ( All.OfType<GravGun>().Any( x => x?.HeldBody?.PhysicsGroup == body?.PhysicsGroup ) ) return true;
 
 		return false;
 	}
