@@ -86,6 +86,9 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		if ( !tr.Hit || !tr.Body.IsValid() || !tr.Entity.IsValid() || tr.Entity.IsWorld )
 			return;
 
+		if ( tr.Entity.PhysicsGroup == null )
+			return;
+
 		var modelEnt = tr.Entity as ModelEntity;
 		if ( !modelEnt.IsValid() )
 			return;
