@@ -8,11 +8,11 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
-	protected PhysicsBody holdBody;
-	protected WeldJoint holdJoint;
+	private PhysicsBody holdBody;
+	private WeldJoint holdJoint;
 
-	protected PhysicsBody heldBody;
-	protected Rotation heldRot;
+	public PhysicsBody HeldBody { get; private set; }
+	public Rotation HeldRot { get; private set; }
 
 	protected virtual float MaxPullDistance => 2000.0f;
 	protected virtual float MaxPushDistance => 500.0f;
@@ -28,8 +28,6 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 	protected virtual float DropCooldown => 0.5f;
 
 	private TimeSince timeSinceDrop;
-
-	public PhysicsBody HeldBody => heldBody;
 
 	public override void Spawn()
 	{
@@ -51,20 +49,20 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		var eyeRot = owner.EyeRot;
 		var eyeDir = owner.EyeRot.Forward;
 
-		if ( heldBody.IsValid() && heldBody.PhysicsGroup != null )
+		if ( HeldBody.IsValid() && HeldBody.PhysicsGroup != null )
 		{
 			if ( input.Pressed( InputButton.Attack1 ) )
 			{
-				if ( heldBody.PhysicsGroup.BodyCount > 1 )
+				if ( HeldBody.PhysicsGroup.BodyCount > 1 )
 				{
 					// Don't throw ragdolls as hard
-					heldBody.PhysicsGroup.ApplyImpulse( eyeDir * (ThrowForce * 0.5f), true );
-					heldBody.PhysicsGroup.ApplyAngularImpulse( Vector3.Random * ThrowForce, true );
+					HeldBody.PhysicsGroup.ApplyImpulse( eyeDir * (ThrowForce * 0.5f), true );
+					HeldBody.PhysicsGroup.ApplyAngularImpulse( Vector3.Random * ThrowForce, true );
 				}
 				else
 				{
-					heldBody.ApplyImpulse( eyeDir * (heldBody.Mass * ThrowForce) );
-					heldBody.ApplyAngularImpulse( Vector3.Random * (heldBody.Mass * ThrowForce) );
+					HeldBody.ApplyImpulse( eyeDir * (HeldBody.Mass * ThrowForce) );
+					HeldBody.ApplyAngularImpulse( Vector3.Random * (HeldBody.Mass * ThrowForce) );
 				}
 
 				GrabEnd();
@@ -200,18 +198,18 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 
 		GrabEnd();
 
-		heldBody = body;
-		heldRot = grabRot.Inverse * heldBody.Rot;
+		HeldBody = body;
+		HeldRot = grabRot.Inverse * HeldBody.Rot;
 
 		holdBody.Pos = grabPos;
-		holdBody.Rot = heldBody.Rot;
+		holdBody.Rot = HeldBody.Rot;
 
-		heldBody.Wake();
-		heldBody.EnableAutoSleeping = false;
+		HeldBody.Wake();
+		HeldBody.EnableAutoSleeping = false;
 
 		holdJoint = PhysicsJoint.Weld
 			.From( holdBody )
-			.To( heldBody, heldBody.LocalMassCenter )
+			.To( HeldBody, HeldBody.LocalMassCenter )
 			.WithLinearSpring( LinearFrequency, LinearDampingRatio, 0.0f )
 			.WithAngularSpring( AngularFrequency, AngularDampingRatio, 0.0f )
 			.Create();
@@ -224,20 +222,20 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 			holdJoint.Remove();
 		}
 
-		if ( heldBody.IsValid() )
+		if ( HeldBody.IsValid() )
 		{
-			heldBody.EnableAutoSleeping = true;
+			HeldBody.EnableAutoSleeping = true;
 		}
 
-		heldBody = null;
+		HeldBody = null;
 	}
 
 	private void GrabMove( Vector3 startPos, Vector3 dir, Rotation rot )
 	{
-		if ( !heldBody.IsValid() )
+		if ( !HeldBody.IsValid() )
 			return;
 
 		holdBody.Pos = startPos + dir * HoldDistance;
-		holdBody.Rot = rot * heldRot;
+		holdBody.Rot = rot * HeldRot;
 	}
 }

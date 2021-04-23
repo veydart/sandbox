@@ -9,19 +9,36 @@ public partial class ThrusterEntity
 		UpdateEffects();
 	}
 
+	protected void CreateEffects()
+	{
+		if ( effects != null )
+			return;
+
+		effects = Particles.Create( "particles/physgun_end_nohit.vpcf" );
+	}
+
 	protected virtual void KillEffects()
 	{
-		effects?.Destory(false);
+		if ( effects == null )
+			return;
+
+		effects.Destory( false );
 		effects = null;
 	}
 
 	protected virtual void UpdateEffects()
 	{
-		if ( effects == null )
+		if ( Enabled )
 		{
-			effects = Particles.Create( "particles/physgun_end_nohit.vpcf" );
-			//effects.SetEntity( 0, this, Vector3.Up * 20, true );
+			CreateEffects();
 		}
+		else
+		{
+			KillEffects();
+		}
+
+		if ( effects == null )
+			return;
 
 		effects.SetPos( 0, WorldPos + WorldRot.Up * 20 );
 	}
