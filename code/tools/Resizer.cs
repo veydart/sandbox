@@ -23,12 +23,10 @@ namespace Sandbox.Tools
 
 				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
 				   .Ignore( Owner )
+				   .UseHitboxes()
 				   .Run();
 
-				if ( !tr.Hit || !tr.Entity.IsValid() || !tr.Body.IsValid() )
-					return;
-
-				if ( tr.Entity.PhysicsGroup == null )
+				if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.PhysicsGroup == null )
 					return;
 
 				var scale = Math.Clamp( tr.Entity.WorldScale + (0.1f * resizeDir), 0.4f, 4.0f );
