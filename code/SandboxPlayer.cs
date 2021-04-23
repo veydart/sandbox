@@ -241,4 +241,31 @@ partial class SandboxPlayer : BasePlayer
 
 		return base.HasPermission( mode );
 	}
+
+	protected bool IsUseDisabled()
+	{
+		if ( ActiveChild is PhysGun physgun && physgun.HeldBody.IsValid() )
+			return true;
+
+		if ( ActiveChild is GravGun gravgun && gravgun.HeldBody.IsValid() )
+			return true;
+
+		return false;
+	}
+
+	protected override Entity FindUsable()
+	{
+		if ( IsUseDisabled() )
+			return null;
+
+		return base.FindUsable();
+	}
+
+	protected override void UseFail()
+	{
+		if ( IsUseDisabled() )
+			return;
+
+		base.UseFail();
+	}
 }
