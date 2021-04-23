@@ -24,8 +24,9 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 	protected virtual float PushForce => 1000.0f;
 	protected virtual float ThrowForce => 2000.0f;
 	protected virtual float HoldDistance => 100.0f;
-	protected virtual float AttachDistance => 250.0f;
+	protected virtual float AttachDistance => 150.0f;
 	protected virtual float DropCooldown => 0.5f;
+	protected virtual float BreakLinearForce => 2000.0f;
 
 	private TimeSince timeSinceDrop;
 
@@ -51,7 +52,11 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 
 		if ( HeldBody.IsValid() && HeldBody.PhysicsGroup != null )
 		{
-			if ( input.Pressed( InputButton.Attack1 ) )
+			if ( holdJoint.IsValid() && !holdJoint.IsActive )
+			{
+				GrabEnd();
+			}
+			else if ( input.Pressed( InputButton.Attack1 ) )
 			{
 				if ( HeldBody.PhysicsGroup.BodyCount > 1 )
 				{
@@ -193,6 +198,9 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		if ( !body.IsValid() )
 			return;
 
+		if ( body.PhysicsGroup == null )
+			return;
+
 		if ( IsBodyGrabbed( body ) )
 			return;
 
@@ -212,6 +220,7 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 			.To( HeldBody, HeldBody.LocalMassCenter )
 			.WithLinearSpring( LinearFrequency, LinearDampingRatio, 0.0f )
 			.WithAngularSpring( AngularFrequency, AngularDampingRatio, 0.0f )
+			.Breakable( HeldBody.Mass * BreakLinearForce, 0 )
 			.Create();
 	}
 
