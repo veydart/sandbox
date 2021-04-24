@@ -33,6 +33,8 @@ partial class SandboxPlayer : BasePlayer
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
 
+		Dress();
+
 		Inventory.Add( new PhysGun(), true );
 		Inventory.Add( new GravGun() );
 		Inventory.Add( new Tool() );
@@ -161,7 +163,7 @@ partial class SandboxPlayer : BasePlayer
 		}
 	}
 
-	static EntityLimit RagdollLimit = new EntityLimit { MaxTotal = 10 };
+	static EntityLimit RagdollLimit = new() { MaxTotal = 10 };
 
 	[ClientRpc]
 	void BecomeRagdollOnClient()
@@ -180,6 +182,7 @@ partial class SandboxPlayer : BasePlayer
 		ent.EnableHitboxes = true;
 		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
+		ent.BodyGroupMask = BodyGroupMask;
 
 		foreach ( var child in Children )
 		{
