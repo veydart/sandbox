@@ -70,23 +70,26 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 
 		if ( IsServer )
 		{
-			if ( !holdBody.IsValid() )
-				return;
+			using ( Prediction.Off() )
+			{
+				if ( !holdBody.IsValid() )
+					return;
 
-			if ( grabEnabled )
-			{
-				if ( heldBody.IsValid() )
+				if ( grabEnabled )
 				{
-					UpdateGrab( input, eyePos, eyeRot, eyeDir, wantsToFreeze );
+					if ( heldBody.IsValid() )
+					{
+						UpdateGrab( input, eyePos, eyeRot, eyeDir, wantsToFreeze );
+					}
+					else
+					{
+						TryStartGrab( owner, eyePos, eyeRot, eyeDir );
+					}
 				}
-				else
+				else if ( grabbing )
 				{
-					TryStartGrab( owner, eyePos, eyeRot, eyeDir );
+					GrabEnd();
 				}
-			}
-			else if ( grabbing )
-			{
-				GrabEnd();
 			}
 		}
 
@@ -111,7 +114,7 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 			.UseHitboxes()
 			.Ignore( owner )
 			.HitLayer( CollisionLayer.Debris )
-			.Run();  
+			.Run();
 
 		if ( !tr.Hit || !tr.Body.IsValid() || tr.Entity.IsWorld ) return;
 
@@ -122,7 +125,7 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 		{
 			if ( rootEnt.IsValid() && rootEnt.PhysicsGroup != null )
 			{
-				body = rootEnt.PhysicsGroup.GetBody(0);
+				body = rootEnt.PhysicsGroup.GetBody( 0 );
 			}
 		}
 

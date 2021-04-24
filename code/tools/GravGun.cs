@@ -48,95 +48,98 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		if ( !IsServer )
 			return;
 
-		var input = owner.Input;
-		var eyePos = owner.EyePos;
-		var eyeRot = owner.EyeRot;
-		var eyeDir = owner.EyeRot.Forward;
-
-		if ( HeldBody.IsValid() && HeldBody.PhysicsGroup != null )
+		using ( Prediction.Off() )
 		{
-			if ( holdJoint.IsValid() && !holdJoint.IsActive )
+			var input = owner.Input;
+			var eyePos = owner.EyePos;
+			var eyeRot = owner.EyeRot;
+			var eyeDir = owner.EyeRot.Forward;
+
+			if ( HeldBody.IsValid() && HeldBody.PhysicsGroup != null )
 			{
-				GrabEnd();
-			}
-			else if ( input.Pressed( InputButton.Attack1 ) )
-			{
-				if ( HeldBody.PhysicsGroup.BodyCount > 1 )
+				if ( holdJoint.IsValid() && !holdJoint.IsActive )
 				{
-					// Don't throw ragdolls as hard
-					HeldBody.PhysicsGroup.ApplyImpulse( eyeDir * (ThrowForce * 0.5f), true );
-					HeldBody.PhysicsGroup.ApplyAngularImpulse( Vector3.Random * ThrowForce, true );
+					GrabEnd();
+				}
+				else if ( input.Pressed( InputButton.Attack1 ) )
+				{
+					if ( HeldBody.PhysicsGroup.BodyCount > 1 )
+					{
+						// Don't throw ragdolls as hard
+						HeldBody.PhysicsGroup.ApplyImpulse( eyeDir * (ThrowForce * 0.5f), true );
+						HeldBody.PhysicsGroup.ApplyAngularImpulse( Vector3.Random * ThrowForce, true );
+					}
+					else
+					{
+						HeldBody.ApplyImpulse( eyeDir * (HeldBody.Mass * ThrowForce) );
+						HeldBody.ApplyAngularImpulse( Vector3.Random * (HeldBody.Mass * ThrowForce) );
+					}
+
+					GrabEnd();
+				}
+				else if ( input.Pressed( InputButton.Attack2 ) )
+				{
+					timeSinceDrop = 0;
+
+					GrabEnd();
 				}
 				else
 				{
-					HeldBody.ApplyImpulse( eyeDir * (HeldBody.Mass * ThrowForce) );
-					HeldBody.ApplyAngularImpulse( Vector3.Random * (HeldBody.Mass * ThrowForce) );
+					GrabMove( eyePos, eyeDir, eyeRot );
 				}
 
-				GrabEnd();
-			}
-			else if ( input.Pressed( InputButton.Attack2 ) )
-			{
-				timeSinceDrop = 0;
-
-				GrabEnd();
-			}
-			else
-			{
-				GrabMove( eyePos, eyeDir, eyeRot );
+				return;
 			}
 
-			return;
-		}
+			if ( timeSinceDrop < DropCooldown )
+				return;
 
-		if ( timeSinceDrop < DropCooldown )
-			return;
+			var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxPullDistance )
+				.UseHitboxes()
+				.Ignore( owner )
+				.Radius( 2.0f )
+				.HitLayer( CollisionLayer.Debris )
+				.Run();
 
-		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxPullDistance )
-			.UseHitboxes()
-			.Ignore( owner )
-			.Radius( 2.0f )
-			.HitLayer( CollisionLayer.Debris )
-			.Run();
+			if ( !tr.Hit || !tr.Body.IsValid() || !tr.Entity.IsValid() || tr.Entity.IsWorld )
+				return;
 
-		if ( !tr.Hit || !tr.Body.IsValid() || !tr.Entity.IsValid() || tr.Entity.IsWorld )
-			return;
+			if ( tr.Entity.PhysicsGroup == null )
+				return;
 
-		if ( tr.Entity.PhysicsGroup == null )
-			return;
+			var modelEnt = tr.Entity as ModelEntity;
+			if ( !modelEnt.IsValid() )
+				return;
 
-		var modelEnt = tr.Entity as ModelEntity;
-		if ( !modelEnt.IsValid() )
-			return;
+			var body = tr.Body;
 
-		var body = tr.Body;
-
-		if ( input.Pressed( InputButton.Attack1 ) )
-		{
-			if ( tr.Distance < MaxPushDistance && !IsBodyGrabbed( body ) )
+			if ( input.Pressed( InputButton.Attack1 ) )
 			{
-				var pushScale = 1.0f - Math.Clamp( tr.Distance / MaxPushDistance, 0.0f, 1.0f );
-				body.ApplyImpulseAt( tr.EndPos, eyeDir * (body.Mass * (PushForce * pushScale)) );
+				if ( tr.Distance < MaxPushDistance && !IsBodyGrabbed( body ) )
+				{
+					var pushScale = 1.0f - Math.Clamp( tr.Distance / MaxPushDistance, 0.0f, 1.0f );
+					body.ApplyImpulseAt( tr.EndPos, eyeDir * (body.Mass * (PushForce * pushScale)) );
+				}
 			}
-		}
-		else if ( input.Down( InputButton.Attack2 ) )
-		{
-			var physicsGroup = tr.Entity.PhysicsGroup;
+			else if ( input.Down( InputButton.Attack2 ) )
+			{
+				var physicsGroup = tr.Entity.PhysicsGroup;
 
-			if ( physicsGroup.BodyCount > 1 )
-			{
-				body = modelEnt.PhysicsBody;
-				if ( !body.IsValid() )
-					return;
-			}
+				if ( physicsGroup.BodyCount > 1 )
+				{
+					body = modelEnt.PhysicsBody;
+					if ( !body.IsValid() )
+						return;
+				}
 
-			if ( eyePos.Distance( body.Pos ) <= AttachDistance )
-			{
-				GrabStart( body, eyePos + eyeDir * HoldDistance, eyeRot );
-			}
-			else if ( !IsBodyGrabbed( body ) )
-			{
-				physicsGroup.ApplyImpulse( eyeDir * -PullForce, true );
+				if ( eyePos.Distance( body.Pos ) <= AttachDistance )
+				{
+					GrabStart( body, eyePos + eyeDir * HoldDistance, eyeRot );
+				}
+				else if ( !IsBodyGrabbed( body ) )
+				{
+					physicsGroup.ApplyImpulse( eyeDir * -PullForce, true );
+				}
 			}
 		}
 	}
