@@ -17,7 +17,7 @@ partial class SandboxPlayer : BasePlayer
 
 	public SandboxPlayer()
 	{
-		Inventory = new BaseInventory( this );
+		Inventory = new Inventory( this );
 	}
 
 	public override void Respawn()
