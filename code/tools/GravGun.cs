@@ -35,6 +35,9 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		base.Spawn();
 
 		SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
+
+		CollisionGroup = CollisionGroup.Weapon;
+		SetInteractsAs( CollisionLayer.Debris );
 	}
 
 	public void OnPlayerControlTick( Player owner )
@@ -183,6 +186,10 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 		{
 			Deactivate();
 		}
+	}
+
+	public override void OnCarryDrop( Entity dropper )
+	{
 	}
 
 	private static bool IsBodyGrabbed( PhysicsBody body )

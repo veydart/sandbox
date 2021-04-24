@@ -34,8 +34,11 @@ partial class Tool : BaseWeapon, IFrameUpdate
 		if ( toolName == null )
 			return;
 
-		DebugOverlay.ScreenText( 0, $"tool_current: {toolName}" );
-		DebugOverlay.ScreenText( 1, $" CurrentTool: {CurrentTool}" );
+		if ( IsClient )
+		{
+			DebugOverlay.ScreenText( 0, $"tool_current: {toolName}" );
+			DebugOverlay.ScreenText( 1, $" CurrentTool: {CurrentTool}" );
+		}
 
 		// Already the right tool
 		if ( CurrentTool != null && CurrentTool.Parent == this && CurrentTool.Owner == owner && CurrentTool.ClassInfo.IsNamed( toolName ) )
@@ -77,6 +80,10 @@ partial class Tool : BaseWeapon, IFrameUpdate
 
 		CurrentTool?.Deactivate();
 		CurrentTool = null;
+	}
+
+	public override void OnCarryDrop( Entity dropper )
+	{
 	}
 
 	public virtual void OnFrame()

@@ -34,5 +34,20 @@ partial class Inventory : BaseInventory
 	{
 		return List.Any( x => x?.GetType() == t );
 	}
-}
 
+	public override bool Drop( Entity ent )
+	{
+		if ( !Host.IsServer )
+			return false;
+
+		if ( !Contains( ent ) )
+			return false;
+
+		if ( ent is ICarriable carry )
+		{
+			carry.OnCarryDrop( Owner );
+		}
+
+		return ent.Parent == null;
+	}
+}

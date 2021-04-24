@@ -38,6 +38,9 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 		base.Spawn();
 
 		SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
+
+		CollisionGroup = CollisionGroup.Weapon;
+		SetInteractsAs( CollisionLayer.Debris );
 	}
 
 	public void OnPlayerControlTick( Player owner )
@@ -235,6 +238,10 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 		{
 			Deactivate();
 		}
+	}
+
+	public override void OnCarryDrop( Entity dropper )
+	{
 	}
 
 	private void GrabInit( PhysicsBody body, Vector3 startPos, Vector3 grabPos, Rotation rot )
