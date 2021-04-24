@@ -143,6 +143,9 @@ partial class SandboxPlayer : BasePlayer
 			var dropped = Inventory.DropActive();
 			if ( dropped != null )
 			{
+				dropped.PhysicsGroup.ApplyImpulse( Velocity + EyeRot.Forward * 500.0f + Vector3.Up * 100.0f, true );
+				dropped.PhysicsGroup.ApplyAngularImpulse( Vector3.Random * 100.0f, true );
+
 				timeSinceDropped = 0;
 			}
 		}
