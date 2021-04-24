@@ -1,14 +1,12 @@
 ﻿using Sandbox;
-using Steamworks.Data;
-using System.Numerics;
-using System.Collections.Generic;
-using System;
 
-[Library( "weapon_cockfingers" )]
-partial class Gun : BaseWeapon
-{ 
+[Library( "gun" )]
+partial class Gun : BaseWeapon, IUse
+{
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
-	public override float PrimaryRate => 10; 
+	public override float PrimaryRate => 10;
+
+	public TimeSince TimeSinceDischarge { get; set; }
 
 	public override void Spawn()
 	{
@@ -22,7 +20,7 @@ partial class Gun : BaseWeapon
 	/// </summary>
 	public override bool CanPrimaryAttack()
 	{
-		if ( !Owner.Input.Pressed( InputButton.Attack1 ) )  
+		if ( !Owner.Input.Pressed( InputButton.Attack1 ) )
 			return false;
 
 		return base.CanPrimaryAttack();
@@ -40,22 +38,27 @@ partial class Gun : BaseWeapon
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 
+		Shoot( Owner.EyePos, Owner.EyeRot.Forward );
+	}
+
+	private void Shoot( Vector3 pos, Vector3 dir )
+	{
 		//
 		// Tell the clients to play the shoot effects
 		//
 		ShootEffects();
 
 
-		bool InWater = Physics.TestPointContents( Owner.EyePos, CollisionLayer.Water );
-		var forward = Owner.EyeRot.Forward * (InWater ? 500 : 4000 );
+		bool InWater = Physics.TestPointContents( pos, CollisionLayer.Water );
+		var forward = dir * (InWater ? 500 : 4000);
 
 		//
 		// ShootBullet is coded in a way where we can have bullets pass through shit
 		// or bounce off shit, in which case it'll return multiple results
 		//
-		foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + Owner.EyeRot.Forward * 4000 ) )
+		foreach ( var tr in TraceBullet( pos, pos + dir * 4000 ) )
 		{
-			tr.Surface.DoBulletImpact(tr);
+			tr.Surface.DoBulletImpact( tr );
 
 			if ( !IsServer ) continue;
 			if ( !tr.Entity.IsValid() ) continue;
@@ -73,12 +76,29 @@ partial class Gun : BaseWeapon
 				tr.Entity.TakeDamage( damage );
 			}
 		}
-
 	}
 
-	public void OnBulletHitEntity( Entity ent, Transform position )
+	private void Discharge()
 	{
+		if ( TimeSinceDischarge < 0.5f )
+			return;
 
+		TimeSinceDischarge = 0;
+
+		var muzzle = GetAttachment( "muzzle" );
+		var pos = muzzle.Pos;
+		var rot = muzzle.Rot;
+		Shoot( pos, rot.Forward );
+
+		ApplyAbsoluteImpulse( rot.Backward * 200.0f );
+	}
+
+	protected override void OnPhysicsCollision( Entity hitEntity, float speed, float timeDelta )
+	{
+		if ( speed > 500.0f )
+		{
+			Discharge();
+		}
 	}
 
 	public override void OnPlayerControlTick( Player owner )
@@ -86,7 +106,6 @@ partial class Gun : BaseWeapon
 		base.OnPlayerControlTick( owner );
 
 		//DebugTrace( owner );
-		return;
 
 		//if ( !NavMesh.IsLoaded )
 		//	return;
@@ -108,17 +127,17 @@ partial class Gun : BaseWeapon
 		//NavMesh.BuildPath( Owner.WorldPos, closestPoint );
 	}
 
-	public void DebugTrace( Player player )
-	{
-		for ( float x = -10; x < 10; x += 1.0f )
-		for ( float y = -10; y < 10; y += 1.0f )
-		{
-			var tr = Trace.Ray( player.EyePos, player.EyePos + player.EyeRot.Forward * 4096 + player.EyeRot.Left * (x + Rand.Float( -1.6f, 1.6f )) * 100 + player.EyeRot.Up * (y + Rand.Float( -1.6f, 1.6f )) * 100 ).Ignore( player ).Run();
+	//public void DebugTrace( Player player )
+	//{
+	//	for ( float x = -10; x < 10; x += 1.0f )
+	//		for ( float y = -10; y < 10; y += 1.0f )
+	//		{
+	//			var tr = Trace.Ray( player.EyePos, player.EyePos + player.EyeRot.Forward * 4096 + player.EyeRot.Left * (x + Rand.Float( -1.6f, 1.6f )) * 100 + player.EyeRot.Up * (y + Rand.Float( -1.6f, 1.6f )) * 100 ).Ignore( player ).Run();
 
-			if ( IsServer ) DebugOverlay.Line( tr.EndPos, tr.EndPos + tr.Normal, Color.Cyan, duration: 20 );
-			else DebugOverlay.Line( tr.EndPos, tr.EndPos + tr.Normal, Color.Yellow, duration: 20 );
-		}
-	}
+	//			if ( IsServer ) DebugOverlay.Line( tr.EndPos, tr.EndPos + tr.Normal, Color.Cyan, duration: 20 );
+	//			else DebugOverlay.Line( tr.EndPos, tr.EndPos + tr.Normal, Color.Yellow, duration: 20 );
+	//		}
+	//}
 
 	[ClientRpc]
 	public virtual void ShootEffects()
@@ -126,7 +145,7 @@ partial class Gun : BaseWeapon
 		Host.AssertClient();
 
 		var muzzle = EffectEntity.GetAttachment( "muzzle" );
-		bool InWater = Physics.TestPointContents( muzzle.Pos, CollisionLayer.Water );
+		//bool InWater = Physics.TestPointContents( muzzle.Pos, CollisionLayer.Water );
 
 		Sound.FromEntity( "rust_pistol.shoot", this );
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
@@ -134,16 +153,22 @@ partial class Gun : BaseWeapon
 		ViewModelEntity?.SetAnimParam( "fire", true );
 		CrosshairPanel?.OnEvent( "onattack" );
 
-		if (Owner == Player.Local)
+		if ( Owner == Player.Local )
 		{
-			new Sandbox.ScreenShake.Perlin(0.5f, 2.0f, 0.5f);
+			new Sandbox.ScreenShake.Perlin( 0.5f, 2.0f, 0.5f );
 		}
 	}
 
-	public override void AttackSecondary() 
+	public bool OnUse( Entity user )
 	{
-		AttackPrimary();
+		Discharge();
+
+		return false;
 	}
 
+	public bool IsUsable( Entity user )
+	{
+		return Owner == null;
+	}
 }
 
