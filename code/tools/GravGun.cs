@@ -93,6 +93,7 @@ public partial class GravGun : BaseCarriable, IPlayerControllable
 			.UseHitboxes()
 			.Ignore( owner )
 			.Radius( 2.0f )
+			.HitLayer( CollisionLayer.Debris )
 			.Run();
 
 		if ( !tr.Hit || !tr.Body.IsValid() || !tr.Entity.IsValid() || tr.Entity.IsWorld )

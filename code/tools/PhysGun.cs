@@ -106,7 +106,8 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 	{
 		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxTargetDistance )
 			.UseHitboxes()
-			.Ignore( owner ) 
+			.Ignore( owner )
+			.HitLayer( CollisionLayer.Debris )
 			.Run();  
 
 		if ( !tr.Hit || !tr.Body.IsValid() || tr.Entity.IsWorld ) return;
