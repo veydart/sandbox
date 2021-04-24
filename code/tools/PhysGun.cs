@@ -196,6 +196,9 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 
 	private void Activate()
 	{
+		if ( !IsServer )
+			return;
+
 		if ( !holdBody.IsValid() )
 		{
 			holdBody = PhysicsWorld.AddBody();
@@ -205,10 +208,13 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 
 	private void Deactivate()
 	{
-		GrabEnd();
+		if ( IsServer )
+		{
+			GrabEnd();
 
-		holdBody?.Remove();
-		holdBody = null;
+			holdBody?.Remove();
+			holdBody = null;
+		}
 
 		KillEffects();
 	}
@@ -217,30 +223,21 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable, IFrameUpdate,
 	{
 		base.ActiveStart( ent );
 
-		if ( IsServer )
-		{
-			Activate();
-		}
+		Activate();
 	}
 
 	public override void ActiveEnd( Entity ent, bool dropped )
 	{
 		base.ActiveEnd( ent, dropped );
 
-		if ( IsServer )
-		{
-			Deactivate();
-		}
+		Deactivate();
 	}
 
 	protected override void OnDestroy()
 	{
 		base.OnDestroy();
 
-		if ( IsServer )
-		{
-			Deactivate();
-		}
+		Deactivate();
 	}
 
 	public override void OnCarryDrop( Entity dropper )
