@@ -36,7 +36,7 @@ public partial class LightEntity : PointLightEntity, IUse, IRemovable
 
 		if ( AttachRope != null )
 		{
-			AttachRope.Destory( true );
+			AttachRope.Destroy( true );
 		}
 	}
 }

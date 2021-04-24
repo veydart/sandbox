@@ -35,7 +35,7 @@ public partial class BalloonEntity : Prop, IPhysicsUpdate
 
 		if ( AttachRope != null )
 		{
-			AttachRope.Destory( true );
+			AttachRope.Destroy( true );
 		}
 	}
 

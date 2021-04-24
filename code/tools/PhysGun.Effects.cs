@@ -16,11 +16,11 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable
 
 	protected virtual void KillEffects()
 	{
-		Beam?.Destory( true );
+		Beam?.Destroy( true );
 		Beam = null;
 		BeamActive = false;
 
-		EndNoHit?.Destory( false );
+		EndNoHit?.Destroy( false );
 		EndNoHit = null;
 
 		if ( lastGrabbedEntity.IsValid() )
@@ -81,7 +81,7 @@ public partial class PhysGun : BaseCarriable, IPlayerControllable
 
 			lastBeamPos = GrabbedEntity.WorldPos + GrabbedEntity.WorldRot * GrabbedPos;
 
-			EndNoHit?.Destory( false );
+			EndNoHit?.Destroy( false );
 			EndNoHit = null;
 
 			if ( GrabbedEntity is ModelEntity modelEnt )

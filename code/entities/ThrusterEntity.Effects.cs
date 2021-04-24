@@ -22,7 +22,7 @@ public partial class ThrusterEntity
 		if ( effects == null )
 			return;
 
-		effects.Destory( false );
+		effects.Destroy( false );
 		effects = null;
 	}
 
