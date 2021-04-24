@@ -50,14 +50,16 @@
 				if ( !tr.Hit || !tr.Entity.IsValid() )
 					return;
 
-				if ( tr.Entity is LampEntity )
+				if ( tr.Entity is LampEntity lamp )
 				{
 					// TODO: Set properties
+
+					lamp.Flicker = !lamp.Flicker;
 
 					return;
 				}
 
-				var lamp = new LampEntity
+				lamp = new LampEntity
 				{
 					Enabled = true,
 					DynamicShadows = true,
