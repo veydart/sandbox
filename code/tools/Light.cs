@@ -51,6 +51,8 @@
 				if ( !tr.Hit || !tr.Entity.IsValid() )
 					return;
 
+				CreateHitEffects( tr.EndPos );
+
 				if ( tr.Entity is LightEntity )
 				{
 					// TODO: Set properties

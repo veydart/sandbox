@@ -66,6 +66,12 @@
 
 					Reset();
 				}
+				else
+				{
+					return;
+				}
+
+				CreateHitEffects( tr.EndPos );
 			}
 		}
 

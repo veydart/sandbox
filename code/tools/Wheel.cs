@@ -54,6 +54,8 @@
 				if ( attached && tr.Entity is not Prop )
 					return;
 
+				CreateHitEffects( tr.EndPos );
+
 				if ( tr.Entity is WheelEntity )
 				{
 					// TODO: Set properties

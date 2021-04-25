@@ -47,7 +47,12 @@
 					.HitLayer( CollisionLayer.Debris )
 					.Run();
 
-				if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.IsWorld )
+				if ( !tr.Hit || !tr.Entity.IsValid() )
+					return;
+
+				CreateHitEffects( tr.EndPos );
+
+				if ( tr.Entity.IsWorld )
 					return;
 
 				if ( tr.Entity is IRemovable removable )

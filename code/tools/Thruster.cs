@@ -60,6 +60,8 @@
 				if ( attached && tr.Entity is not Prop )
 					return;
 
+				CreateHitEffects( tr.EndPos );
+
 				if ( tr.Entity is ThrusterEntity )
 				{
 					// TODO: Set properties
