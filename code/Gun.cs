@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 
 [Library( "gun" )]
-partial class Gun : BaseWeapon, IUse
+partial class Gun : Weapon, IUse
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 	public override float PrimaryRate => 10;
@@ -171,4 +171,3 @@ partial class Gun : BaseWeapon, IUse
 		return Owner == null;
 	}
 }
-

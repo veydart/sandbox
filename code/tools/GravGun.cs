@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 
 [Library( "gravgun" )]
-public partial class GravGun : BaseCarriable, IPlayerControllable
+public partial class GravGun : Carriable, IPlayerControllable
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 

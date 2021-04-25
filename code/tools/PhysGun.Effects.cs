@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System.Linq;
 
-public partial class PhysGun : BaseCarriable, IPlayerControllable
+public partial class PhysGun
 {
 	Particles Beam;
 	Particles EndNoHit;

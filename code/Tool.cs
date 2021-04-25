@@ -2,7 +2,7 @@
 using Sandbox.Tools;
 
 [Library( "weapon_tool" )]
-partial class Tool : BaseWeapon, IFrameUpdate
+partial class Tool : Carriable, IPlayerControllable, IFrameUpdate
 {
 	[UserVar( "tool_current" )]
 	public static string UserToolCurrent { get; set; } = "tool_boxgun";
@@ -19,10 +19,8 @@ partial class Tool : BaseWeapon, IFrameUpdate
 		SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
 	}
 
-	public override void OnPlayerControlTick( Player owner )
+	public virtual void OnPlayerControlTick( Player owner )
 	{
-		base.OnPlayerControlTick( owner );
-
 		UpdateCurrentTool( owner );
 
 		CurrentTool?.OnPlayerControlTick();
