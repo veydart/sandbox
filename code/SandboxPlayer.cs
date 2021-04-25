@@ -269,7 +269,17 @@ partial class SandboxPlayer : BasePlayer
 		if ( IsUseDisabled() )
 			return null;
 
-		return base.FindUsable();
+		var tr = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 85 )
+			.Radius( 2 )
+			.HitLayer( CollisionLayer.Debris )
+			.Ignore( this )
+			.Run();
+
+		if ( tr.Entity == null ) return null;
+		if ( tr.Entity is not IUse use ) return null;
+		if ( !use.IsUsable( this ) ) return null;
+
+		return tr.Entity;
 	}
 
 	protected override void UseFail()

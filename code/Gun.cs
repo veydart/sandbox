@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 
 [Library( "gun" )]
-partial class Gun : Weapon, IUse
+partial class Gun : Weapon
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 	public override float PrimaryRate => 10;
@@ -157,17 +157,5 @@ partial class Gun : Weapon, IUse
 		{
 			new Sandbox.ScreenShake.Perlin( 0.5f, 2.0f, 0.5f );
 		}
-	}
-
-	public bool OnUse( Entity user )
-	{
-		Discharge();
-
-		return false;
-	}
-
-	public bool IsUsable( Entity user )
-	{
-		return Owner == null;
 	}
 }

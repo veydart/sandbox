@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public partial class Weapon : BaseWeapon
+public partial class Weapon : BaseWeapon, IUse
 {
 	public PickupTrigger PickupTrigger { get; protected set; }
 
@@ -27,5 +27,23 @@ public partial class Weapon : BaseWeapon
 		ViewModelEntity.Owner = Owner;
 		ViewModelEntity.EnableViewmodelRendering = true;
 		ViewModelEntity.SetModel( ViewModelPath );
+	}
+
+	public bool OnUse( Entity user )
+	{
+		if ( Owner != null )
+			return false;
+
+		if ( !user.IsValid() )
+			return false;
+
+		user.StartTouch( this );
+
+		return false;
+	}
+
+	public bool IsUsable( Entity user )
+	{
+		return Owner == null;
 	}
 }
