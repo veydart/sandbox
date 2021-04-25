@@ -294,6 +294,9 @@ public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 
 		var body = PhysicsBody;
 
+		if ( !body.IsValid() )
+			return;
+
 		body.LinearDrag = 0.0f;
 		body.AngularDrag = 0.0f;
 		body.LinearDamping = 0;
