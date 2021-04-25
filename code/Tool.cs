@@ -26,17 +26,14 @@ partial class Tool : Carriable, IPlayerControllable, IFrameUpdate
 		CurrentTool?.OnPlayerControlTick();
 	}
 
-	void UpdateCurrentTool( Player owner )
+	private void UpdateCurrentTool( Player owner )
 	{
 		var toolName = owner.GetUserString( "tool_current", "tool_boxgun" );
 		if ( toolName == null )
 			return;
 
-		if ( IsClient )
-		{
-			DebugOverlay.ScreenText( 0, $"tool_current: {toolName}" );
-			DebugOverlay.ScreenText( 1, $" CurrentTool: {CurrentTool}" );
-		}
+		DebugOverlay.ScreenText( 0, $"tool_current: {toolName}" );
+		DebugOverlay.ScreenText( 1, $" CurrentTool: {CurrentTool}" );
 
 		// Already the right tool
 		if ( CurrentTool != null && CurrentTool.Parent == this && CurrentTool.Owner == owner && CurrentTool.ClassInfo.IsNamed( toolName ) )

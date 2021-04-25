@@ -615,6 +615,9 @@
 			}
 			m_nOutputField = "7"
 		},
+		{
+			_class = "C_OP_Decay"
+		},
 	]
 	m_ForceGenerators = 
 	[
