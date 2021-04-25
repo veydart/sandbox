@@ -1,6 +1,6 @@
 ﻿namespace Sandbox.Tools
 {
-	[Library( "tool_light", Title = "Light", Group = "construction" )]
+	[Library( "tool_light", Title = "Lights", Description = "A dynamic point light", Group = "construction" )]
 	public partial class LightTool : BaseTool
 	{
 		PreviewEntity previewModel;

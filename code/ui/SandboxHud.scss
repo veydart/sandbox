@@ -1,99 +1,122 @@
-Health
-{
-	position: absolute;
-	background-color: rgba( black, 0.5 );
-	border-radius: 3px;
-	right: 100px;
-	bottom: 48px;
-	font-size: 40px;
-	font-weight: bold;
-	color: white;
-	height: 80px;
-	padding: 0 20px;
-	align-items: center;
+Health {
+    position: absolute;
+    background-color: rgba( black, 0.5 );
+    border-radius: 3px;
+    right: 100px;
+    bottom: 48px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    height: 80px;
+    padding: 0 20px;
+    align-items: center;
 
-	.icon
-	{
-		font-size: 30px;
-		padding-right: 10px;
-	}
+    .icon {
+        font-size: 30px;
+        padding-right: 10px;
+    }
 }
 
-rootpanel
-{
-	background-color: rgba( #333, 0 );
-	transition: background-color 0.2s ease-in;
+CurrentTool {
+    position: absolute;
+    //background: linear-gradient(black, transparent);
+    transform:rotateZ(-2.5);
+    top: 20px;
+    left: 0px;
+    padding: 20px;
+    padding-left: 30px;
+    flex-direction: column;
+    min-width: 500px;
+    opacity: 0.0;
 
-	&.spawnmenuopen
-	{
-		transition: background-color 0.3s ease-out;
-		background-color: rgba( #333, 0.9 );
-	}
+    &.active {
+        opacity: 1.0;
+    }
+
+    .title {
+        font-size: 60px;
+        font-weight: bold;
+        text-shadow: 5px 5px 10px black;
+        color: white;
+    }
+
+    .description {
+        padding-top: 5px;
+        padding-left: 10px;
+        font-size: 18px;
+        font-weight: normal;
+        text-shadow: 2px 2px 10px black;
+        color: white;
+        opacity: 0.8;
+    }
+}
+
+rootpanel {
+    background-color: rgba( #333, 0 );
+    transition: background-color 0.2s ease-in;
+
+    &.spawnmenuopen {
+        transition: background-color 0.3s ease-out;
+        background-color: rgba( #333, 0.9 );
+    }
 
 
-	&.devcamera
-	{
-		display: none;
-	}
+    &.devcamera {
+        display: none;
+    }
 }
 
 
-InventoryBar
-{
-	position: absolute;
-	width: 100%;
-	bottom: 48px;
-	justify-content: center;
-	align-items: flex-end;
+InventoryBar {
+    position: absolute;
+    width: 100%;
+    bottom: 48px;
+    justify-content: center;
+    align-items: flex-end;
 }
 
-InventoryIcon
-{
-	width: 80px;
-	height: 80px;
-	border: 1px solid rgba( white, 0.4 );
-	background-color: rgba( #4d98ce, 0.0 );
-	margin: 0px 2px;
-	position: relative;
-	transition: all 0.2s ease-in-out;
-	margin-top: 10px;
-	font-family: poppins;
+InventoryIcon {
+    width: 80px;
+    height: 80px;
+    border: 1px solid rgba( white, 0.4 );
+    background-color: rgba( #4d98ce, 0.0 );
+    margin: 0px 2px;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    margin-top: 10px;
+    font-family: poppins;
 
-	.item-name
-	{
-		padding: 5px;
-		color: white;
-		text-align: center;
-		left: 0;
-		right: 0;
-		font-size: 11px;
-		position: absolute;
-		bottom: 0;
-		opacity: 0.5;
-		transition: all 0.5s ease-in-out;
-	}
+    .item-name {
+        padding: 5px;
+        color: white;
+        text-align: center;
+        left: 0;
+        right: 0;
+        font-size: 11px;
+        position: absolute;
+        bottom: 0;
+        opacity: 0.5;
+        transition: all 0.5s ease-in-out;
+    }
 
-	.slot-number
-	{
-		font-size: 15px;
-		color: white;
-		font-weight: 500;
-		opacity: 0.1;
-		position: absolute;
-		top: 1px;
-		right: 5px;
-	}
+    .slot-number {
+        font-size: 15px;
+        color: white;
+        font-weight: 500;
+        opacity: 0.1;
+        position: absolute;
+        top: 1px;
+        right: 5px;
+    }
 
-	&.active
-	{
-		background-color: rgba( #4d98ce, 0.5 );
-		border: 1px solid rgba( white, 0.8 );
-		transition: all 0.1s ease-out;
+    &.active {
+        background-color: rgba( #4d98ce, 0.5 );
+        border: 1px solid rgba( white, 0.8 );
+        transition: all 0.1s ease-out;
 
-		.item-name
-		{
-			opacity: 1;
-			transition: all 0.1s ease-out;
-		}
-	}
+        .item-name {
+            opacity: 1;
+            transition: all 0.1s ease-out;
+        }
+    }
 }

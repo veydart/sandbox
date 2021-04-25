@@ -5,7 +5,7 @@
 		void Remove();
 	}
 
-	[Library( "tool_remover", Title = "Remover", Group = "construction" )]
+	[Library( "tool_remover", Title = "Remover", Description = "Remove entities", Group = "construction" )]
 	public partial class RemoverTool : BaseTool
 	{
 		private Prop prop;

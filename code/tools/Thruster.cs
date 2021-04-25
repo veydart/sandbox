@@ -1,6 +1,6 @@
 ﻿namespace Sandbox.Tools
 {
-	[Library( "tool_thruster", Title = "Thruster", Group = "construction" )]
+	[Library( "tool_thruster", Title = "Thruster", Description = "A rocket type thing that can push forwards and backward", Group = "construction" )]
 	public partial class ThrusterTool : BaseTool
 	{
 		PreviewEntity previewModel;
