@@ -10,9 +10,12 @@ public partial class Weapon : BaseWeapon, IUse
 
 		SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
 
-		PickupTrigger = new PickupTrigger();
-		PickupTrigger.Parent = this;
-		PickupTrigger.WorldPos = WorldPos;
+		PickupTrigger = new PickupTrigger
+		{
+			Parent = this,
+			WorldPos = WorldPos,
+			EnableTouch = true
+		};
 	}
 
 	public override void CreateViewModel()

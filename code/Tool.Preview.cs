@@ -63,6 +63,9 @@ namespace Sandbox.Tools
 			if ( Previews == null || Previews.Count == 0 )
 				return;
 
+			if ( !Owner.IsValid() )
+				return;
+
 			var startPos = Owner.EyePos;
 			var dir = Owner.EyeRot.Forward;
 
