@@ -152,7 +152,7 @@ partial class SandboxPlayer : BasePlayer
 		{
 			if ( timeSinceJumpReleased < 0.3f )
 			{
-				(Game.Current as Game)?.DoPlayerNoclip( this );
+				(GameBase.Current as Game)?.DoPlayerNoclip( this );
 			}
 
 			timeSinceJumpReleased = 0;

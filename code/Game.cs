@@ -64,7 +64,7 @@ partial class SandboxGame : Game
 	{
 		var owner = ConsoleSystem.Caller;
 
-		if ( ConsoleSystem.Caller == null )
+		if ( owner == null )
 			return;
 
 		var attribute = Library.GetAttribute( entName );
@@ -79,6 +79,11 @@ partial class SandboxGame : Game
 			.Run();
 
 		var ent = Library.Create<Entity>( entName );
+		if ( ent is BaseCarriable && owner.Inventory != null )
+		{
+			if ( owner.Inventory.Add( ent, true ) )
+				return;
+		}
 
 		ent.WorldPos = tr.EndPos;
 		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) );
