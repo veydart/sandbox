@@ -58,17 +58,19 @@
 				if ( tr.Entity is IRemovable removable )
 				{
 					this.removable = removable;
-
-					return;
 				}
-
-				if ( tr.Entity is Prop prop )
+				else if ( tr.Entity is Prop prop )
 				{
 					prop.PhysicsGroup?.Wake();
 					this.prop = prop;
-
+				}
+				else
+				{
 					return;
 				}
+
+				var particle = Particles.Create( "particles/physgun_freeze.vpcf" );
+				particle.SetPos( 0, tr.Entity.WorldPos );
 			}
 		}
 	}
