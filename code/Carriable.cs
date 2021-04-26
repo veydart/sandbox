@@ -9,10 +9,13 @@ public partial class Carriable : BaseCarriable
 		if ( string.IsNullOrEmpty( ViewModelPath ) )
 			return;
 
-		ViewModelEntity = new ViewModel();
-		ViewModelEntity.WorldPos = WorldPos;
-		ViewModelEntity.Owner = Owner;
-		ViewModelEntity.EnableViewmodelRendering = true;
+		ViewModelEntity = new ViewModel
+		{
+			WorldPos = WorldPos,
+			Owner = Owner,
+			EnableViewmodelRendering = true
+		};
+
 		ViewModelEntity.SetModel( ViewModelPath );
 	}
 }

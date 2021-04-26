@@ -1,6 +1,7 @@
 ﻿using Sandbox;
+using Sandbox.Tools;
 
-public partial class Weapon : BaseWeapon, IUse
+public partial class Weapon : BaseWeapon, IUse, IRemovable
 {
 	public PickupTrigger PickupTrigger { get; protected set; }
 
@@ -25,10 +26,13 @@ public partial class Weapon : BaseWeapon, IUse
 		if ( string.IsNullOrEmpty( ViewModelPath ) )
 			return;
 
-		ViewModelEntity = new ViewModel();
-		ViewModelEntity.WorldPos = WorldPos;
-		ViewModelEntity.Owner = Owner;
-		ViewModelEntity.EnableViewmodelRendering = true;
+		ViewModelEntity = new ViewModel
+		{
+			WorldPos = WorldPos,
+			Owner = Owner,
+			EnableViewmodelRendering = true
+		};
+
 		ViewModelEntity.SetModel( ViewModelPath );
 	}
 
@@ -48,5 +52,11 @@ public partial class Weapon : BaseWeapon, IUse
 	public bool IsUsable( Entity user )
 	{
 		return Owner == null;
+	}
+
+	public void Remove()
+	{
+		PhysicsGroup?.Wake();
+		Delete();
 	}
 }
