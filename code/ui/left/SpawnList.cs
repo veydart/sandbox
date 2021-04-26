@@ -25,9 +25,10 @@ public partial class SpawnList : Panel
 
 		foreach ( var file in FileSystem.Mounted.FindFile( "models", "*.vmdl_c", true ) )
 		{
+			if ( string.IsNullOrWhiteSpace( file ) ) continue;
 			if ( file.Contains( "_lod0" ) ) continue;
 
-			Canvas.AddItem( file );
+			Canvas.AddItem( file.Remove( file.Length - 2 ) );
 		}
 	}
 }
