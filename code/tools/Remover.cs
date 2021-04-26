@@ -18,10 +18,10 @@
 
 			using ( Prediction.Off() )
 			{
-				if ( this.prop.IsValid() )
+				if ( prop.IsValid() )
 				{
-					this.prop.Delete();
-					this.prop = null;
+					prop.Delete();
+					prop = null;
 
 					return;
 				}

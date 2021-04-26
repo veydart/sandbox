@@ -16,7 +16,8 @@
 			{
 				var input = Owner.Input;
 
-				if ( !input.Down( InputButton.Attack1 ) )
+				bool push = input.Down( InputButton.Attack1 );
+				if ( !push && !input.Down( InputButton.Attack2 ) )
 					return;
 
 				var startPos = Owner.EyePos;
@@ -43,8 +44,8 @@
 
 				var direction = tr.EndPos - tr.StartPos;
 				var distance = direction.Length;
-				var ratio = ( 1.0f - ( distance / MaxDistance ) ).Clamp( 0, 1 );
-				var force = direction * ( Force * ratio );
+				var ratio = (1.0f - (distance / MaxDistance)).Clamp( 0, 1 ) * (push ? 1.0f : -1.0f);
+				var force = direction * (Force * ratio);
 
 				if ( Massless )
 				{
