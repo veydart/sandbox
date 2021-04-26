@@ -185,6 +185,7 @@ partial class SandboxPlayer : BasePlayer
 		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
 		ent.BodyGroupMask = BodyGroupMask;
+		ent.RenderColorAndAlpha = RenderColorAndAlpha;
 
 		ent.SetInteractsAs( CollisionLayer.Debris );
 		ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
@@ -201,6 +202,7 @@ partial class SandboxPlayer : BasePlayer
 				var clothing = new ModelEntity();
 				clothing.SetModel( model );
 				clothing.SetParent( ent, true );
+				clothing.RenderColorAndAlpha = e.RenderColorAndAlpha;
 			}
 		}
 
