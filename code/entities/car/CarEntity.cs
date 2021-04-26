@@ -91,7 +91,7 @@ class CarSuspension
 	}
 }
 
-[Library( "ent_car", Title = "Car", Spawnable = true )]
+[Library( "ent_car", Title = "Car", Spawnable = false )]
 public partial class CarEntity : Prop, IPhysicsUpdate, IFrameUpdate
 {
 	private bool _turnWheelsOnGround;
