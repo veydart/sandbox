@@ -18,17 +18,17 @@ public partial class SpawnList : Panel
 		{
 			var file = (string)data;
 			var panel = cell.Add.Panel( "icon" );
-			panel.Style.Set( "background-image", $"url( /models/{file}.png )" );
+			panel.Style.Set( "background-image", $"url( /models/{file}_c.png )" );
 			panel.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn", "models/" + file ) );
 		};
 
-
-		foreach ( var file in FileSystem.Mounted.FindFile( "models", "*.vmdl_c", true ) )
+		foreach ( var file in FileSystem.Mounted.FindFile( "models", "*.vmdl_c.png", true ) )
 		{
 			if ( string.IsNullOrWhiteSpace( file ) ) continue;
 			if ( file.Contains( "_lod0" ) ) continue;
+			if ( file.Contains( "clothes" ) ) continue;
 
-			Canvas.AddItem( file.Remove( file.Length - 2 ) );
+			Canvas.AddItem( file.Remove( file.Length - 6 ) );
 		}
 	}
 }
