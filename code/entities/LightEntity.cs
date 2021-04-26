@@ -1,11 +1,19 @@
 ﻿using Sandbox;
 using Sandbox.Tools;
 
-[Library( "ent_light" )]
+[Library( "ent_light", Title = "Light", Spawnable = true )]
 public partial class LightEntity : PointLightEntity, IUse, IRemovable
 {
 	public PhysicsJoint AttachJoint;
 	public Particles AttachRope;
+
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		SetModel( "models/light/light_tubular.vmdl" );
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+	}
 
 	public bool IsUsable( Entity user )
 	{

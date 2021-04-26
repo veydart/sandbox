@@ -1,9 +1,17 @@
 ﻿using Sandbox;
 using Sandbox.Tools;
 
-[Library( "ent_lamp" )]
+[Library( "ent_lamp", Title = "Lamp", Spawnable = true )]
 public partial class LampEntity : SpotLightEntity, IUse, IRemovable
 {
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		SetModel( "models/torch/torch.vmdl" );
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+	}
+
 	public bool IsUsable( Entity user )
 	{
 		return true;
