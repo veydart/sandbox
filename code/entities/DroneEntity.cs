@@ -138,7 +138,9 @@ public partial class DroneEntity : Prop, IPhysicsUpdate, IPlayerControllable, IF
 
 		for ( int i = 0; i < turbinePositions.Length; ++i )
 		{
-			SetBoneTransform( i, Transform.ToWorld( new Transform( turbinePositions[i], Rotation.From( new Angles( 0, spinAngle, 0) ) ) ) );
+			var transform = Transform.ToWorld( new Transform( turbinePositions[i] * WorldScale, Rotation.From( new Angles( 0, spinAngle, 0 ) ) ) );
+			transform.Scale = WorldScale;
+			SetBoneTransform( i, transform );
 		}
 	}
 }

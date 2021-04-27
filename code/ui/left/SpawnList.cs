@@ -18,8 +18,11 @@ public partial class SpawnList : Panel
 		{
 			var file = (string)data;
 			var panel = cell.Add.Panel( "icon" );
-			panel.Style.Set( "background-image", $"url( /models/{file}_c.png )" );
 			panel.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn", "models/" + file ) );
+			panel.Style.Background = new PanelBackground
+			{
+				Texture = Texture.Load( $"/models/{file}_c.png", false )
+			};
 		};
 
 		foreach ( var file in FileSystem.Mounted.FindFile( "models", "*.vmdl_c.png", true ) )
