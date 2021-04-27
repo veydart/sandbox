@@ -13,6 +13,8 @@ partial class Flashlight : Weapon
 	[NetLocalPredicted]
 	private bool LightEnabled { get; set; } = true;
 
+	TimeSince timeSinceLightToggled;
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -64,8 +66,9 @@ partial class Flashlight : Weapon
 			return;
 
 		var input = owner.Input;
+		bool toggle = input.Pressed( InputButton.Flashlight ) || input.Pressed( InputButton.Attack1 );
 
-		if ( input.Pressed( InputButton.Flashlight ) || input.Pressed( InputButton.Attack1 ) )
+		if ( timeSinceLightToggled > 0.1f && toggle )
 		{
 			LightEnabled = !LightEnabled;
 
@@ -80,6 +83,8 @@ partial class Flashlight : Weapon
 			{
 				viewLight.Enabled = LightEnabled;
 			}
+
+			timeSinceLightToggled = 0;
 		}
 	}
 
