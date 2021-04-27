@@ -5,7 +5,7 @@ partial class SandboxPlayer
 	static readonly EntityLimit RagdollLimit = new() { MaxTotal = 10 };
 
 	[ClientRpc]
-	private void BecomeRagdollOnClient()
+	private void BecomeRagdollOnClient( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
 	{
 		var ent = new AnimEntity();
 		ent.WorldPos = WorldPos;
@@ -41,6 +41,16 @@ partial class SandboxPlayer
 				clothing.SetModel( model );
 				clothing.SetParent( ent, true );
 				clothing.RenderColorAndAlpha = e.RenderColorAndAlpha;
+			}
+		}
+
+		if ( damageFlags.HasFlag( DamageFlags.Blast ) )
+		{
+			if ( ent.PhysicsGroup != null )
+			{
+				ent.PhysicsGroup.AddVelocity( (WorldPos - (forcePos + Vector3.Down * 100.0f)).Normal * (force.Length * 0.2f) );
+				var angularDir = (Rotation.FromYaw( 90 ) * force.WithZ( 0 ).Normal).Normal;
+				ent.PhysicsGroup.AddAngularVelocity( angularDir * (force.Length * 0.02f) );
 			}
 		}
 

@@ -2,8 +2,10 @@
 
 partial class SandboxPlayer : BasePlayer
 {
-	TimeSince timeSinceDropped;
-	TimeSince timeSinceJumpReleased;
+	private TimeSince timeSinceDropped;
+	private TimeSince timeSinceJumpReleased;
+
+	private DamageInfo lastDamage;
 
 	[Net]
 	public PlayerController VehicleController { get; set; }
@@ -49,13 +51,31 @@ partial class SandboxPlayer : BasePlayer
 		Inventory.DropActive();
 		Inventory.DeleteContents();
 
-		BecomeRagdollOnClient();
+		BecomeRagdollOnClient( lastDamage.Flags, lastDamage.Position, lastDamage.Force );
 
 		Controller = null;
 		Camera = new SpectateRagdollCamera();
 
 		EnableAllCollisions = false;
 		EnableDrawing = false;
+	}
+
+	public override void TakeDamage( DamageInfo info )
+	{
+		lastDamage = info;
+
+		TookDamage( lastDamage.Flags, lastDamage.Position, lastDamage.Force );
+
+		base.TakeDamage( info );
+	}
+
+	[ClientRpc]
+	public void TookDamage( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
+	{
+		if ( this == Local )
+		{
+			_ = new Sandbox.ScreenShake.Random( 1.5f, 1.0f, 2.5f );
+		}
 	}
 
 	public override PlayerController GetActiveController()
