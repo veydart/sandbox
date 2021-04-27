@@ -45,12 +45,7 @@ partial class SandboxPlayer : BasePlayer
 	{
 		base.OnKilled();
 
-		//
 		Inventory.DropActive();
-
-		//
-		// Delete any items we didn't drop
-		//
 		Inventory.DeleteContents();
 
 		BecomeRagdollOnClient();
@@ -104,35 +99,13 @@ partial class SandboxPlayer : BasePlayer
 
 		if ( Input.Pressed( InputButton.View ) )
 		{
-			if ( !(Camera is FirstPersonCamera) )
+			if ( Camera is not FirstPersonCamera )
 			{
 				Camera = new FirstPersonCamera();
 			}
 			else
 			{
-				// This is here for now so I can use it for recording clips etc
-				if ( Input.Down( InputButton.Use ) )
-				{
-					var startPos = EyePos;
-					var dir = EyeRot.Forward;
-
-					var tr = Trace.Ray( startPos, startPos + dir * 10000.0f )
-						.Ignore( this )
-						.Run();
-
-					if ( tr.Hit && tr.Entity.IsValid() && !tr.Entity.IsWorld )
-					{
-						Camera = new LookAtCamera
-						{
-							Origin = startPos,
-							TargetEntity = tr.Entity
-						};
-					}
-				}
-				else
-				{
-					Camera = new ThirdPersonCamera();
-				}
+				Camera = new ThirdPersonCamera();
 			}
 		}
 
