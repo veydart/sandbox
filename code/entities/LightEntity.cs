@@ -24,6 +24,8 @@ public partial class LightEntity : PointLightEntity, IUse, IRemovable
 	{
 		Enabled = !Enabled;
 
+		PlaySound( Enabled ? "flashlight-on" : "flashlight-off" );
+
 		return false;
 	}
 
