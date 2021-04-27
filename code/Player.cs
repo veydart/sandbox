@@ -3,6 +3,7 @@
 partial class SandboxPlayer : BasePlayer
 {
 	TimeSince timeSinceDropped;
+	TimeSince timeSinceJumpReleased;
 
 	[Net]
 	public PlayerController VehicleController { get; set; }
@@ -80,9 +81,6 @@ partial class SandboxPlayer : BasePlayer
 		return base.GetActiveAnimator();
 	}
 
-
-	TimeSince timeSinceJumpReleased;
-
 	protected override void Tick()
 	{
 		base.Tick();
@@ -137,54 +135,6 @@ partial class SandboxPlayer : BasePlayer
 		}
 	}
 
-	static EntityLimit RagdollLimit = new() { MaxTotal = 10 };
-
-	[ClientRpc]
-	void BecomeRagdollOnClient()
-	{
-		var ent = new AnimEntity();
-		ent.WorldPos = WorldPos;
-		ent.WorldRot = WorldRot;
-		ent.WorldScale = WorldScale;
-		ent.MoveType = MoveType.Physics;
-		ent.UsePhysicsCollision = true;
-		ent.EnableAllCollisions = true;
-		ent.CollisionGroup = CollisionGroup.Debris;
-		ent.SetModel( GetModelName() );
-		ent.CopyBonesFrom( this );
-		ent.TakeDecalsFrom( this );
-		ent.SetRagdollVelocityFrom( this, 0.1f, 1, 1 );
-		ent.EnableHitboxes = true;
-		ent.EnableAllCollisions = true;
-		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
-		ent.BodyGroupMask = BodyGroupMask;
-		ent.RenderColorAndAlpha = RenderColorAndAlpha;
-
-		ent.SetInteractsAs( CollisionLayer.Debris );
-		ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
-		ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
-
-		foreach ( var child in Children )
-		{
-			if ( child is ModelEntity e )
-			{
-				var model = e.GetModelName();
-				if ( model != null && !model.Contains( "clothes" ) )
-					continue;
-
-				var clothing = new ModelEntity();
-				clothing.SetModel( model );
-				clothing.SetParent( ent, true );
-				clothing.RenderColorAndAlpha = e.RenderColorAndAlpha;
-			}
-		}
-
-		Corpse = ent;
-
-		RagdollLimit.Watch( ent );
-	}
-
-
 	public override void StartTouch( Entity other )
 	{
 		if ( timeSinceDropped < 1 ) return;
@@ -224,42 +174,5 @@ partial class SandboxPlayer : BasePlayer
 		if ( mode == "suicide" ) return true;
 
 		return base.HasPermission( mode );
-	}
-
-	protected bool IsUseDisabled()
-	{
-		if ( ActiveChild is PhysGun physgun && physgun.HeldBody.IsValid() )
-			return true;
-
-		if ( ActiveChild is GravGun gravgun && gravgun.HeldBody.IsValid() )
-			return true;
-
-		return false;
-	}
-
-	protected override Entity FindUsable()
-	{
-		if ( IsUseDisabled() )
-			return null;
-
-		var tr = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 85 )
-			.Radius( 2 )
-			.HitLayer( CollisionLayer.Debris )
-			.Ignore( this )
-			.Run();
-
-		if ( tr.Entity == null ) return null;
-		if ( tr.Entity is not IUse use ) return null;
-		if ( !use.IsUsable( this ) ) return null;
-
-		return tr.Entity;
-	}
-
-	protected override void UseFail()
-	{
-		if ( IsUseDisabled() )
-			return;
-
-		base.UseFail();
 	}
 }

@@ -49,7 +49,7 @@ public partial class Weapon : BaseWeapon, IUse, IRemovable
 		return false;
 	}
 
-	public bool IsUsable( Entity user )
+	public virtual bool IsUsable( Entity user )
 	{
 		return Owner == null;
 	}
