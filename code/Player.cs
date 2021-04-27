@@ -52,9 +52,9 @@ partial class SandboxPlayer : BasePlayer
 		Inventory.DeleteContents();
 
 		BecomeRagdollOnClient( lastDamage.Flags, lastDamage.Position, lastDamage.Force );
+		Camera = new RagdollCamera();
 
 		Controller = null;
-		Camera = new SpectateRagdollCamera();
 
 		EnableAllCollisions = false;
 		EnableDrawing = false;
@@ -72,10 +72,6 @@ partial class SandboxPlayer : BasePlayer
 	[ClientRpc]
 	public void TookDamage( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
 	{
-		if ( this == Local )
-		{
-			_ = new Sandbox.ScreenShake.Random( 1.5f, 1.0f, 2.5f );
-		}
 	}
 
 	public override PlayerController GetActiveController()

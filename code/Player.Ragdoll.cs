@@ -7,7 +7,7 @@ partial class SandboxPlayer
 	[ClientRpc]
 	private void BecomeRagdollOnClient( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
 	{
-		var ent = new AnimEntity();
+		var ent = new ModelEntity();
 		ent.WorldPos = WorldPos;
 		ent.WorldRot = WorldRot;
 		ent.WorldScale = WorldScale;
