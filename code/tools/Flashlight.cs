@@ -3,7 +3,7 @@
 [Library( "flashlight", Title = "Flashlight", Spawnable = true )]
 partial class Flashlight : Weapon
 {
-	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+	public override string ViewModelPath => "weapons/rust_flashlight/v_rust_flashlight.vmdl";
 
 	protected virtual Vector3 LightOffset => Vector3.Forward * 10;
 
@@ -30,7 +30,7 @@ partial class Flashlight : Weapon
 		base.CreateViewModel();
 
 		viewLight = CreateLight();
-		viewLight.SetParent( ViewModelEntity, "slide", new Transform( LightOffset ) );
+		viewLight.SetParent( ViewModelEntity, "light", new Transform( LightOffset ) );
 		viewLight.EnableViewmodelRendering = true;
 		viewLight.Enabled = LightEnabled;
 	}
@@ -65,7 +65,7 @@ partial class Flashlight : Weapon
 
 		var input = owner.Input;
 
-		if ( input.Pressed( InputButton.Flashlight ) )
+		if ( input.Pressed( InputButton.Flashlight ) || input.Pressed( InputButton.Attack1 ) )
 		{
 			LightEnabled = !LightEnabled;
 

@@ -13,10 +13,20 @@ public class ViewModel : BaseViewModel
 	private float lastYaw;
 	private float bobAnim;
 
+	private bool activated = false;
+
 	public override void UpdateCamera( Camera camera )
 	{
 		if ( !Player.Local.IsValid() )
 			return;
+
+		if ( !activated )
+		{
+			lastPitch = camera.Rot.Pitch();
+			lastYaw = camera.Rot.Yaw();
+
+			activated = true;
+		}
 
 		WorldPos = camera.Pos;
 		WorldRot = camera.Rot;
