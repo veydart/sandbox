@@ -86,6 +86,11 @@ partial class Flashlight : Weapon
 
 			timeSinceLightToggled = 0;
 		}
+
+		if ( input.Pressed( InputButton.Attack2 ) )
+		{
+			ViewModelEntity?.SetAnimParam( "admire", true );
+		}
 	}
 
 	private void Activate()
