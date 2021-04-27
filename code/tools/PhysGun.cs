@@ -176,23 +176,32 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 
 		if ( input.Down( InputButton.Use ) )
 		{
-			EnableAngularSpring( true );
+			EnableAngularSpring( input.Down( InputButton.Run ) ? 100.0f : 0.0f );
 			DoRotate( eyeRot, input.MouseDelta * RotateSpeed );
 		}
 		else
 		{
-			EnableAngularSpring( false );
+			DisableAngularSpring();
 		}
 
 		GrabMove( eyePos, eyeDir, eyeRot, input.Down( InputButton.Run ) );
 	}
 
-	private void EnableAngularSpring( bool enabled )
+	private void EnableAngularSpring( float scale )
 	{
 		if ( holdJoint.IsValid() )
 		{
-			holdJoint.AngularDampingRatio = enabled ? AngularDampingRatio : 0.0f;
-			holdJoint.AngularFrequency = enabled ? AngularFrequency : 0.0f;
+			holdJoint.AngularDampingRatio = AngularDampingRatio * scale;
+			holdJoint.AngularFrequency = AngularFrequency * scale;
+		}
+	}
+
+	private void DisableAngularSpring()
+	{
+		if ( holdJoint.IsValid() )
+		{
+			holdJoint.AngularDampingRatio = 0.0f;
+			holdJoint.AngularFrequency = 0.0f;
 		}
 	}
 
