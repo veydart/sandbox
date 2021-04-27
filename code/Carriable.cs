@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public partial class Carriable : BaseCarriable
+public partial class Carriable : BaseCarriable, IUse
 {
 	public override void CreateViewModel()
 	{
@@ -17,5 +17,15 @@ public partial class Carriable : BaseCarriable
 		};
 
 		ViewModelEntity.SetModel( ViewModelPath );
+	}
+
+	public bool OnUse( Entity user )
+	{
+		return false;
+	}
+
+	public virtual bool IsUsable( Entity user )
+	{
+		return Owner == null;
 	}
 }

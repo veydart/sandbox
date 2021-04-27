@@ -258,4 +258,9 @@ public partial class GravGun : Carriable, IPlayerControllable
 		holdBody.Pos = startPos + dir * HoldDistance;
 		holdBody.Rot = rot * HeldRot;
 	}
+
+	public override bool IsUsable( Entity user )
+	{
+		return Owner == null || HeldBody.IsValid();
+	}
 }

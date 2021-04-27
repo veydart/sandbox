@@ -3,7 +3,7 @@ using Sandbox.Joints;
 using System.Linq;
 
 [Library( "physgun" )]
-public partial class PhysGun : Carriable, IPlayerControllable, IFrameUpdate, IPlayerInput
+public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
@@ -326,5 +326,10 @@ public partial class PhysGun : Carriable, IPlayerControllable, IFrameUpdate, IPl
 		{
 			owner.ViewAngles = owner.LastViewAngles;
 		}
+	}
+
+	public override bool IsUsable( Entity user )
+	{
+		return Owner == null || HeldBody.IsValid();
 	}
 }

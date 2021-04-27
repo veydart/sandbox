@@ -4,13 +4,7 @@ partial class SandboxPlayer
 {
 	protected bool IsUseDisabled()
 	{
-		if ( ActiveChild is PhysGun physgun && physgun.HeldBody.IsValid() )
-			return true;
-
-		if ( ActiveChild is GravGun gravgun && gravgun.HeldBody.IsValid() )
-			return true;
-
-		return false;
+		return ActiveChild is IUse use && use.IsUsable( this );
 	}
 
 	protected override Entity FindUsable()
