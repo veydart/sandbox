@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System.Linq;
 
-public partial class PhysGun
+public partial class PhysGun : IFrameUpdate
 {
 	Particles Beam;
 	Particles EndNoHit;
