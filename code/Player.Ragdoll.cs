@@ -2,8 +2,6 @@
 
 partial class SandboxPlayer
 {
-	static readonly EntityLimit RagdollLimit = new() { MaxTotal = 10 };
-
 	[ClientRpc]
 	private void BecomeRagdollOnClient( Vector3 velocity, DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
 	{
@@ -17,12 +15,12 @@ partial class SandboxPlayer
 		ent.CollisionGroup = CollisionGroup.Debris;
 		ent.SetModel( GetModelName() );
 		ent.CopyBonesFrom( this );
+		ent.CopyBodyGroups( this );
+		ent.CopyMaterialGroup( this );
 		ent.TakeDecalsFrom( this );
 		ent.EnableHitboxes = true;
 		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
-		ent.CopyBodyGroups( this );
-		ent.CopyMaterialGroup( this );
 		ent.RenderColorAndAlpha = RenderColorAndAlpha;
 		ent.PhysicsGroup.Velocity = velocity;
 		ent.EnableDrawing = false;
@@ -59,6 +57,6 @@ partial class SandboxPlayer
 
 		Corpse = ent;
 
-		RagdollLimit.Watch( ent );
+		ent.DeleteAsync( 10.0f );
 	}
 }
