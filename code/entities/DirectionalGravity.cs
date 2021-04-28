@@ -4,6 +4,8 @@ using System.Linq;
 [Library( "directional_gravity", Title = "Directional Gravity", Spawnable = true )]
 public partial class DirectionalGravity : Prop, IPhysicsUpdate
 {
+	bool enabled = false;
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -12,6 +14,8 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 
 		SetModel( "models/arrow.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+
+		enabled = true;
 	}
 
 	private void DeleteOthers()
@@ -33,11 +37,16 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 			PhysicsWorld.UseDefaultGravity();
 			PhysicsWorld.WakeAllBodies();
 		}
+
+		enabled = false;
 	}
 
 	public void OnPostPhysicsStep( float dt )
 	{
 		if ( !IsServer )
+			return;
+
+		if ( !enabled )
 			return;
 
 		if ( !this.IsValid() )
