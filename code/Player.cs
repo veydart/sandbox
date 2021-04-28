@@ -51,7 +51,7 @@ partial class SandboxPlayer : BasePlayer
 		Inventory.DropActive();
 		Inventory.DeleteContents();
 
-		BecomeRagdollOnClient( lastDamage.Flags, lastDamage.Position, lastDamage.Force );
+		BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force );
 		Camera = new RagdollCamera();
 
 		Controller = null;

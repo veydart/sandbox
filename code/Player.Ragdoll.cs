@@ -5,7 +5,7 @@ partial class SandboxPlayer
 	static readonly EntityLimit RagdollLimit = new() { MaxTotal = 10 };
 
 	[ClientRpc]
-	private void BecomeRagdollOnClient( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
+	private void BecomeRagdollOnClient( Vector3 velocity, DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
 	{
 		var ent = new ModelEntity();
 		ent.WorldPos = WorldPos;
@@ -18,12 +18,13 @@ partial class SandboxPlayer
 		ent.SetModel( GetModelName() );
 		ent.CopyBonesFrom( this );
 		ent.TakeDecalsFrom( this );
-		ent.SetRagdollVelocityFrom( this, 0.1f, 1, 1 );
 		ent.EnableHitboxes = true;
 		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
 		ent.CopyBodyGroups( this );
+		ent.CopyMaterialGroup( this );
 		ent.RenderColorAndAlpha = RenderColorAndAlpha;
+		ent.PhysicsGroup.Velocity = velocity;
 
 		ent.SetInteractsAs( CollisionLayer.Debris );
 		ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
