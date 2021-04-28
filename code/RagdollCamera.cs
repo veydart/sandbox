@@ -40,6 +40,27 @@ public class RagdollCamera : BaseCamera
 		Rot = player.EyeRot;
 
 		Viewer = null;
+
+		ShowCorpse();
+	}
+
+	private void ShowCorpse()
+	{
+		if ( Player.Local is not BasePlayer player )
+			return;
+
+		if ( !player.Corpse.IsValid() || player.Corpse is not ModelEntity corpse )
+			return;
+
+		corpse.EnableDrawing = true;
+
+		foreach ( var child in corpse.Children )
+		{
+			if ( child is ModelEntity e )
+			{
+				e.EnableDrawing = true;
+			}
+		}
 	}
 
 	public virtual Vector3 GetSpectatePoint()

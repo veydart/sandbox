@@ -25,6 +25,7 @@ partial class SandboxPlayer
 		ent.CopyMaterialGroup( this );
 		ent.RenderColorAndAlpha = RenderColorAndAlpha;
 		ent.PhysicsGroup.Velocity = velocity;
+		ent.EnableDrawing = false;
 
 		ent.SetInteractsAs( CollisionLayer.Debris );
 		ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
@@ -42,6 +43,7 @@ partial class SandboxPlayer
 				clothing.SetModel( model );
 				clothing.SetParent( ent, true );
 				clothing.RenderColorAndAlpha = e.RenderColorAndAlpha;
+				clothing.EnableDrawing = false;
 			}
 		}
 
