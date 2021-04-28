@@ -22,7 +22,7 @@ partial class SandboxPlayer
 		ent.EnableHitboxes = true;
 		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
-		ent.BodyGroupMask = BodyGroupMask;
+		ent.CopyBodyGroups( this );
 		ent.RenderColorAndAlpha = RenderColorAndAlpha;
 
 		ent.SetInteractsAs( CollisionLayer.Debris );

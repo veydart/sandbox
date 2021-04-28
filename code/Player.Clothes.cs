@@ -35,7 +35,7 @@ partial class SandboxPlayer
 			pants.EnableShadowInFirstPerson = true;
 			pants.EnableHideInFirstPerson = true;
 
-			SetBodygroup( "Legs", 1 );
+			SetBodyGroup( "Legs", 1 );
 		}
 
 		if ( true )
@@ -57,11 +57,11 @@ partial class SandboxPlayer
 			var propInfo = jacket.GetModel().GetPropData();
 			if ( propInfo.ParentBodyGroupName != null )
 			{
-				SetBodygroup( propInfo.ParentBodyGroupName, propInfo.ParentBodyGroupValue );
+				SetBodyGroup( propInfo.ParentBodyGroupName, propInfo.ParentBodyGroupValue );
 			}
 			else
 			{
-				SetBodygroup( "Chest", 0 );
+				SetBodyGroup( "Chest", 0 );
 			}
 		}
 
@@ -79,7 +79,7 @@ partial class SandboxPlayer
 			shoes.EnableShadowInFirstPerson = true;
 			shoes.EnableHideInFirstPerson = true;
 
-			SetBodygroup( "Feet", 1 );
+			SetBodyGroup( "Feet", 1 );
 		}
 
 		if ( true )
