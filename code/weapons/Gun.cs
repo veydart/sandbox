@@ -93,9 +93,9 @@ partial class Gun : Weapon
 		ApplyAbsoluteImpulse( rot.Backward * 200.0f );
 	}
 
-	protected override void OnPhysicsCollision( Entity hitEntity, float speed, float timeDelta )
+	protected override void OnPhysicsCollision( CollisionEventData eventData )
 	{
-		if ( speed > 500.0f )
+		if ( eventData.Speed > 500.0f )
 		{
 			Discharge();
 		}
