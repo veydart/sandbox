@@ -3,7 +3,7 @@
 partial class SandboxPlayer
 {
 	[ClientRpc]
-	private void BecomeRagdollOnClient( Vector3 velocity, DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
+	private void BecomeRagdollOnClient( Vector3 velocity, DamageFlags damageFlags, Vector3 forcePos, Vector3 force, int bone )
 	{
 		var ent = new ModelEntity();
 		ent.WorldPos = WorldPos;
@@ -49,6 +49,22 @@ partial class SandboxPlayer
 				if ( Local == this )
 				{
 					clothing.EnableDrawing = false;
+				}
+			}
+		}
+
+		if ( damageFlags.HasFlag( DamageFlags.Bullet ) )
+		{
+			if ( bone >= 0 )
+			{
+				var body = ent.GetBonePhysicsBody( bone );
+				if ( body != null )
+				{
+					body.ApplyImpulseAt( forcePos, force * body.Mass );
+				}
+				else
+				{
+					ent.PhysicsGroup.ApplyImpulse( force );
 				}
 			}
 		}
