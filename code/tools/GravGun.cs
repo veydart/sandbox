@@ -13,6 +13,7 @@ public partial class GravGun : Carriable, IPlayerControllable
 
 	public PhysicsBody HeldBody { get; private set; }
 	public Rotation HeldRot { get; private set; }
+	public ModelEntity HeldEntity { get; private set; }
 
 	protected virtual float MaxPullDistance => 2000.0f;
 	protected virtual float MaxPushDistance => 500.0f;
@@ -134,7 +135,7 @@ public partial class GravGun : Carriable, IPlayerControllable
 
 				if ( eyePos.Distance( body.Pos ) <= AttachDistance )
 				{
-					GrabStart( body, eyePos + eyeDir * HoldDistance, eyeRot );
+					GrabStart( modelEnt, body, eyePos + eyeDir * HoldDistance, eyeRot );
 				}
 				else if ( !IsBodyGrabbed( body ) )
 				{
@@ -204,7 +205,7 @@ public partial class GravGun : Carriable, IPlayerControllable
 		return false;
 	}
 
-	private void GrabStart( PhysicsBody body, Vector3 grabPos, Rotation grabRot )
+	private void GrabStart( ModelEntity entity, PhysicsBody body, Vector3 grabPos, Rotation grabRot )
 	{
 		if ( !body.IsValid() )
 			return;
@@ -233,6 +234,13 @@ public partial class GravGun : Carriable, IPlayerControllable
 			.WithAngularSpring( AngularFrequency, AngularDampingRatio, 0.0f )
 			.Breakable( HeldBody.Mass * BreakLinearForce, 0 )
 			.Create();
+
+		HeldEntity = entity;
+
+		if ( Owner.IsValid() )
+		{
+			Owner.Pvs.Add( HeldEntity );
+		}
 	}
 
 	private void GrabEnd()
@@ -247,7 +255,14 @@ public partial class GravGun : Carriable, IPlayerControllable
 			HeldBody.EnableAutoSleeping = true;
 		}
 
+		if ( Owner.IsValid() && HeldEntity.IsValid() )
+		{
+			Owner.Pvs.Remove( HeldEntity );
+		}
+
 		HeldBody = null;
+		HeldRot = Rotation.Identity;
+		HeldEntity = null;
 	}
 
 	private void GrabMove( Vector3 startPos, Vector3 dir, Rotation rot )

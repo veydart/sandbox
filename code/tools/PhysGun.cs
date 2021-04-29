@@ -154,6 +154,8 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		GrabbedEntity = rootEnt;
 		GrabbedPos = body.Transform.PointToLocal( tr.EndPos );
 		GrabbedBone = tr.Entity.PhysicsGroup.GetBodyIndex( body );
+
+		owner.Pvs.Add( GrabbedEntity );
 	}
 
 	private void UpdateGrab( UserInput input, Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir, bool wantsToFreeze )
@@ -293,6 +295,11 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		if ( heldBody.IsValid() )
 		{
 			heldBody.EnableAutoSleeping = true;
+		}
+
+		if ( Owner.IsValid() && GrabbedEntity.IsValid() )
+		{
+			Owner.Pvs.Remove( GrabbedEntity );
 		}
 
 		heldBody = null;

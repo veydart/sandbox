@@ -11,7 +11,7 @@ public partial class BouncyBallEntity : Prop, IUse
 	{
 		base.Spawn();
 
-		SetModel( "models/citizen_props/beachball.vmdl" );
+		SetModel( "models/ball.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 	}
 
