@@ -44,14 +44,14 @@
 						_class = "RenderPrimitiveSphere"
 						name = "ball"
 						parent_bone = ""
-						material_name = "dev/helper/testgrid.vmat"
+						material_name = "materials/shiny_white.vmat"
 						origin = [ 0.0, 0.0, 0.0 ]
 						angles = [ 0.0, 0.0, 0.0 ]
 						max_u = 1.0
 						max_v = 1.0
 						radius = 10.0
-						segments_u = 16
-						segments_v = 16
+						segments_u = 32
+						segments_v = 32
 					},
 				]
 			},

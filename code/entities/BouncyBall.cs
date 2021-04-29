@@ -11,8 +11,10 @@ public partial class BouncyBallEntity : Prop, IUse
 	{
 		base.Spawn();
 
-		SetModel( "models/ball.vmdl" );
+		SetModel( "models/ball/ball.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+		WorldScale = Rand.Float( 0.5f, 2.0f );
+		RenderColor = Color.Random.ToColor32();
 	}
 
 	protected override void OnPhysicsCollision( CollisionEventData eventData )
