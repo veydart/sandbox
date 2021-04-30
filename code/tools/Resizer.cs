@@ -17,8 +17,8 @@ namespace Sandbox.Tools
 				var dir = Owner.EyeRot.Forward;
 
 				int resizeDir;
-				if ( input.Pressed( InputButton.Attack1 ) ) resizeDir = 1;
-				else if ( input.Pressed( InputButton.Attack2 ) ) resizeDir = -1;
+				if ( input.Down( InputButton.Attack1 ) ) resizeDir = 1;
+				else if ( input.Down( InputButton.Attack2 ) ) resizeDir = -1;
 				else return;
 
 				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
@@ -34,13 +34,20 @@ namespace Sandbox.Tools
 				if ( tr.Entity is LightEntity || tr.Entity is LampEntity )
 					return;
 
-				var scale = Math.Clamp( tr.Entity.WorldScale + (0.1f * resizeDir), 0.4f, 4.0f );
+				var scale = Math.Clamp( tr.Entity.WorldScale + ((0.5f * Time.Delta) * resizeDir), 0.4f, 4.0f );
 
-				tr.Entity.WorldScale = scale;
-				tr.Entity.PhysicsGroup.RebuildMass();
-				tr.Entity.PhysicsGroup.Wake();
+				if ( tr.Entity.WorldScale != scale )
+				{
+					tr.Entity.WorldScale = scale;
+					tr.Entity.PhysicsGroup.RebuildMass();
+					tr.Entity.PhysicsGroup.Wake();
+				}
 
-				CreateHitEffects( tr.EndPos );
+				if ( input.Pressed( InputButton.Attack1 ) || 
+					 input.Pressed( InputButton.Attack2 ) )
+				{
+					CreateHitEffects( tr.EndPos );
+				}
 			}
 		}
 	}
