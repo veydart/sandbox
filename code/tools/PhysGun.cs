@@ -176,17 +176,22 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 
 		MoveTargetDistance( input.MouseWheel * TargetDistanceSpeed );
 
-		if ( input.Down( InputButton.Use ) )
+		bool rotating = input.Down( InputButton.Use );
+		bool snapping = false;
+
+		if ( rotating )
 		{
 			EnableAngularSpring( input.Down( InputButton.Run ) ? 100.0f : 0.0f );
 			DoRotate( eyeRot, input.MouseDelta * RotateSpeed );
+
+			snapping = input.Down( InputButton.Run );
 		}
 		else
 		{
 			DisableAngularSpring();
 		}
 
-		GrabMove( eyePos, eyeDir, eyeRot, input.Down( InputButton.Run ) );
+		GrabMove( eyePos, eyeDir, eyeRot, snapping );
 	}
 
 	private void EnableAngularSpring( float scale )
