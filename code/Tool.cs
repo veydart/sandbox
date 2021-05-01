@@ -2,7 +2,7 @@
 using Sandbox.Tools;
 
 [Library( "weapon_tool" )]
-partial class Tool : Carriable, IPlayerControllable, IFrameUpdate
+partial class Tool : Carriable, IPlayerControllable
 {
 	[UserVar( "tool_current" )]
 	public static string UserToolCurrent { get; set; } = "tool_boxgun";
@@ -78,7 +78,8 @@ partial class Tool : Carriable, IPlayerControllable, IFrameUpdate
 	{
 	}
 
-	public virtual void OnFrame()
+	[Event( "frame" )]
+	public void OnFrame()
 	{
 		if ( !IsActiveChild() ) return;
 

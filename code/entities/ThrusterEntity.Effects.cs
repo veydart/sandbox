@@ -4,7 +4,8 @@ public partial class ThrusterEntity
 {
 	private Particles effects;
 
-	public virtual void OnFrame()
+	[Event( "frame" )]
+	public void OnFrame()
 	{
 		UpdateEffects();
 	}

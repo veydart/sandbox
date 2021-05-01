@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System.Linq;
 
-public partial class PhysGun : IFrameUpdate
+public partial class PhysGun
 {
 	Particles Beam;
 	Particles EndNoHit;
@@ -9,7 +9,8 @@ public partial class PhysGun : IFrameUpdate
 	Vector3 lastBeamPos;
 	ModelEntity lastGrabbedEntity;
 
-	public virtual void OnFrame()
+	[Event( "frame" )]
+	public void OnFrame()
 	{
 		UpdateEffects();
 	}
