@@ -20,6 +20,7 @@ partial class SandboxGame : Game
 
 	public override void ClientJoined( Client cl )
 	{
+		base.ClientJoined( cl );
 		var player = new SandboxPlayer();
 		player.Respawn();
 
