@@ -93,13 +93,4 @@ partial class SandboxGame : Game
 
 		//Log.Info( $"ent: {ent}" );
 	}
-
-	[Event( "tick" )]
-	public void Tick()
-	{
-		Global.PhysicsTimeScale = 1.0f;
-		Global.PhysicsSubSteps = 5;
-	}
-
-
 }
