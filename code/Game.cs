@@ -18,9 +18,12 @@ partial class SandboxGame : Game
 		}
 	}
 
-	public override Player CreatePlayer()
+	public override void ClientJoined( Client cl )
 	{
-		return new SandboxPlayer();
+		var player = new SandboxPlayer();
+		player.Respawn();
+
+		cl.Pawn = player;
 	}
 
 	protected override void OnDestroy()
@@ -31,7 +34,7 @@ partial class SandboxGame : Game
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname )
 	{
-		var owner = ConsoleSystem.Caller;
+		var owner = ConsoleSystem.Caller?.Pawn;
 
 		if ( ConsoleSystem.Caller == null )
 			return;
@@ -44,7 +47,7 @@ partial class SandboxGame : Game
 
 		var ent = new Prop();
 		ent.WorldPos = tr.EndPos;
-		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
+		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
 		ent.SetModel( modelname );
 
 		// Drop to floor
@@ -62,7 +65,7 @@ partial class SandboxGame : Game
 	[ServerCmd( "spawn_entity" )]
 	public static void SpawnEntity( string entName )
 	{
-		var owner = ConsoleSystem.Caller;
+		var owner = ConsoleSystem.Caller.Pawn;
 
 		if ( owner == null )
 			return;
@@ -86,8 +89,17 @@ partial class SandboxGame : Game
 		}
 
 		ent.WorldPos = tr.EndPos;
-		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) );
+		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) );
 
 		//Log.Info( $"ent: {ent}" );
 	}
+
+	[Event( "tick" )]
+	public void Tick()
+	{
+		Global.PhysicsTimeScale = 1.0f;
+		Global.PhysicsSubSteps = 5;
+	}
+
+
 }

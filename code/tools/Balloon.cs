@@ -32,7 +32,7 @@
 			}
 		}
 
-		public override void OnPlayerControlTick()
+		public override void Simulate()
 		{
 			if ( previewModel.IsValid() )
 			{

@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.Tools;
 
-public partial class Weapon : BaseWeapon, IUse, IRemovable
+public partial class Weapon : BaseWeapon, IUse
 {
 	public PickupTrigger PickupTrigger { get; protected set; }
 

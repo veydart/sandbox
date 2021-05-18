@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 
 [Library( "physgun" )]
-public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
+public partial class PhysGun : Carriable
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
@@ -45,14 +45,15 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		SetInteractsAs( CollisionLayer.Debris );
 	}
 
-	public void OnPlayerControlTick( Player owner )
+	public override void Simulate( Client client )
 	{
+		var owner = Owner as Player;
 		if ( owner == null ) return;
 
-		var input = owner.Input;
+		var input = Input;
 		var eyePos = owner.EyePos;
 		var eyeDir = owner.EyeRot.Forward;
-		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeAng.yaw, 0.0f ) );
+		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeRot.Angles().yaw, 0.0f ) );
 
 		if ( !grabbing && input.Pressed( InputButton.Attack1 ) )
 		{
@@ -97,7 +98,7 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 
 		if ( BeamActive )
 		{
-			owner.Input.MouseWheel = 0;
+			Input.MouseWheel = 0;
 		}
 	}
 
@@ -155,7 +156,11 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		GrabbedPos = body.Transform.PointToLocal( tr.EndPos );
 		GrabbedBone = tr.Entity.PhysicsGroup.GetBodyIndex( body );
 
-		owner.Pvs.Add( GrabbedEntity );
+		var client = GetClientOwner();
+		if ( client != null )
+		{
+			client.Pvs.Add( GrabbedEntity );
+		}
 	}
 
 	private void UpdateGrab( UserInput input, Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir, bool wantsToFreeze )
@@ -302,9 +307,10 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 			heldBody.EnableAutoSleeping = true;
 		}
 
-		if ( Owner.IsValid() && GrabbedEntity.IsValid() )
+		var client = GetClientOwner();
+		if ( client != null && GrabbedEntity.IsValid() )
 		{
-			Owner.Pvs.Remove( GrabbedEntity );
+			client.Pvs.Remove( GrabbedEntity );
 		}
 
 		heldBody = null;
@@ -348,7 +354,7 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		heldRot = localRot * heldRot;
 	}
 
-	public void BuildInput( ClientInput owner )
+	public override void BuildInput( InputBuilder owner )
 	{
 		if ( !GrabbedEntity.IsValid() )
 			return;

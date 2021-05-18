@@ -2,7 +2,7 @@
 using Sandbox.UI;
 
 [Library]
-public partial class SandboxHud : Hud
+public partial class SandboxHud : HudEntity<RootPanel>
 {
 	public SandboxHud()
 	{

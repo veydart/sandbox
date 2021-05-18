@@ -15,23 +15,25 @@ public class ViewModel : BaseViewModel
 
 	private bool activated = false;
 
-	public override void UpdateCamera( Camera camera )
+	public override void PostCameraSetup( ref CameraSetup camSetup )
 	{
-		if ( !Player.Local.IsValid() )
+		base.PostCameraSetup( ref camSetup );
+
+		if ( !Local.Pawn.IsValid() )
 			return;
 
 		if ( !activated )
 		{
-			lastPitch = camera.Rot.Pitch();
-			lastYaw = camera.Rot.Yaw();
+			lastPitch = camSetup.Rotation.Pitch();
+			lastYaw = camSetup.Rotation.Yaw();
 
 			activated = true;
 		}
 
-		WorldPos = camera.Pos;
-		WorldRot = camera.Rot;
+		WorldPos = camSetup.Position;
+		WorldRot = camSetup.Rotation;
 
-		camera.ViewModelFieldOfView = FieldOfView;
+		camSetup.ViewModel.FieldOfView = FieldOfView;
 
 		var newPitch = WorldRot.Pitch();
 		var newYaw = WorldRot.Yaw();
@@ -39,7 +41,7 @@ public class ViewModel : BaseViewModel
 		var pitchDelta = Angles.NormalizeAngle( newPitch - lastPitch );
 		var yawDelta = Angles.NormalizeAngle( lastYaw - newYaw );
 
-		var playerVelocity = Player.Local.Velocity;
+		var playerVelocity = Local.Pawn.Velocity;
 		var verticalDelta = playerVelocity.z * Time.Delta;
 		var viewDown = Rotation.FromPitch( newPitch ).Up * -1.0f;
 		verticalDelta *= (1.0f - System.MathF.Abs( viewDown.Cross( Vector3.Down ).y ));

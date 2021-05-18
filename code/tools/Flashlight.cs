@@ -60,12 +60,12 @@ partial class Flashlight : Weapon
 		return light;
 	}
 
-	public override void OnPlayerControlTick( Player owner )
+	public override void Simulate( Client cl )
 	{
-		if ( owner == null )
+		if ( cl == null )
 			return;
 
-		var input = owner.Input;
+		var input = Input;
 		bool toggle = input.Pressed( InputButton.Flashlight ) || input.Pressed( InputButton.Attack1 );
 
 		if ( timeSinceLightToggled > 0.1f && toggle )

@@ -5,7 +5,7 @@ namespace Sandbox.Tools
 	[Library( "tool_resizer", Title = "Resizer", Description = "Change the scale of things", Group = "construction" )]
 	public partial class ResizerTool : BaseTool
 	{
-		public override void OnPlayerControlTick()
+		public override void Simulate()
 		{
 			if ( !Host.IsServer )
 				return;

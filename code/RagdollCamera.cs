@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public class RagdollCamera : BaseCamera
+public class RagdollCamera : Camera
 {
 	private Vector3 focusPoint;
 
@@ -10,12 +10,12 @@ public class RagdollCamera : BaseCamera
 
 		focusPoint = GetSpectatePoint();
 		Pos = focusPoint + GetViewOffset();
-		FieldOfView = LastFieldOfView;
+		FieldOfView = CurrentView.FieldOfView;
 	}
 
 	public override void Update()
 	{
-		if ( Player.Local is not BasePlayer player ) return;
+		if ( Local.Pawn is not Player player ) return;
 
 		focusPoint = GetSpectatePoint();
 		Pos = focusPoint + GetViewOffset();
@@ -46,7 +46,7 @@ public class RagdollCamera : BaseCamera
 
 	private void ShowCorpse()
 	{
-		if ( Player.Local is not BasePlayer player )
+		if ( Local.Pawn is not Player player )
 			return;
 
 		if ( !player.Corpse.IsValid() || player.Corpse is not ModelEntity corpse )
@@ -65,8 +65,8 @@ public class RagdollCamera : BaseCamera
 
 	public virtual Vector3 GetSpectatePoint()
 	{
-		if ( Player.Local is not BasePlayer player )
-			return LastPos;
+		if ( Local.Pawn is not Player player )
+			return CurrentView.Position;
 
 		if ( !player.Corpse.IsValid() || player.Corpse is not ModelEntity corpse )
 			return player.GetBoneTransform( player.GetBoneIndex( "spine2" ) ).Pos;
@@ -76,7 +76,7 @@ public class RagdollCamera : BaseCamera
 
 	public virtual Vector3 GetViewOffset()
 	{
-		if ( Player.Local is not BasePlayer player ) return Vector3.Zero;
+		if ( Local.Pawn is not Player player ) return Vector3.Zero;
 
 		return player.EyeRot.Forward * -100 + Vector3.Up * 20;
 	}

@@ -14,7 +14,7 @@ public class Health : Panel
 
 	public override void Tick()
 	{
-		var player = Player.Local;
+		var player = Local.Pawn;
 		if ( player == null ) return;
 
 		Label.Text = $"{player.Health:n0}";

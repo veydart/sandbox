@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-partial class SandboxPlayer : BasePlayer
+partial class SandboxPlayer : Player
 {
 	private TimeSince timeSinceDropped;
 	private TimeSince timeSinceJumpReleased;
@@ -8,13 +8,13 @@ partial class SandboxPlayer : BasePlayer
 	private DamageInfo lastDamage;
 
 	[Net]
-	public PlayerController VehicleController { get; set; }
+	public PawnController VehicleController { get; set; }
 
 	[Net]
 	public Camera VehicleCamera { get; set; }
 
 	[Net]
-	public PlayerAnimator VehicleAnimator { get; set; }
+	public PawnAnimator VehicleAnimator { get; set; }
 
 	public SandboxPlayer()
 	{
@@ -74,7 +74,7 @@ partial class SandboxPlayer : BasePlayer
 	{
 	}
 
-	public override PlayerController GetActiveController()
+	public override PawnController GetActiveController()
 	{
 		if ( DevController != null ) return DevController;
 		if ( VehicleController != null ) return VehicleController;
@@ -82,27 +82,20 @@ partial class SandboxPlayer : BasePlayer
 		return base.GetActiveController();
 	}
 
-	public override Camera GetActiveCamera()
-	{
-		if ( DevCamera != null ) return DevCamera;
-		if ( VehicleCamera != null ) return VehicleCamera;
-
-		return base.GetActiveCamera();
-	}
-
-	public override PlayerAnimator GetActiveAnimator()
+	public override PawnAnimator GetActiveAnimator()
 	{
 		if ( VehicleAnimator != null ) return VehicleAnimator;
 
 		return base.GetActiveAnimator();
 	}
 
-	protected override void Tick()
+	public override void Simulate( Client cl  )
 	{
-		base.Tick();
+		base.Simulate( cl );
 
 		if ( Input.ActiveChild != null )
 		{
+			Log.Info( $"Input.ActiveChild: {Input.ActiveChild}" );
 			ActiveChild = Input.ActiveChild;
 		}
 
@@ -110,6 +103,7 @@ partial class SandboxPlayer : BasePlayer
 			return;
 
 		TickPlayerUse();
+		SimulateActiveChild( cl, ActiveChild );
 
 		if ( Input.Pressed( InputButton.View ) )
 		{
@@ -139,7 +133,7 @@ partial class SandboxPlayer : BasePlayer
 		{
 			if ( timeSinceJumpReleased < 0.3f )
 			{
-				(GameBase.Current as Game)?.DoPlayerNoclip( this );
+				Game.Current?.DoPlayerNoclip( cl );
 			}
 
 			timeSinceJumpReleased = 0;
@@ -161,7 +155,7 @@ partial class SandboxPlayer : BasePlayer
 	[ServerCmd( "inventory_current" )]
 	public static void SetInventoryCurrent( string entName )
 	{
-		var target = ConsoleSystem.Caller;
+		var target = ConsoleSystem.Caller.Pawn;
 		if ( target == null ) return;
 
 		var inventory = target.Inventory;
@@ -183,12 +177,14 @@ partial class SandboxPlayer : BasePlayer
 		}
 	}
 
-	public override bool HasPermission( string mode )
-	{
-		if ( mode == "noclip" ) return true;
-		if ( mode == "devcam" ) return true;
-		if ( mode == "suicide" ) return true;
+	// TODO
 
-		return base.HasPermission( mode );
-	}
+	//public override bool HasPermission( string mode )
+	//{
+	//	if ( mode == "noclip" ) return true;
+	//	if ( mode == "devcam" ) return true;
+	//	if ( mode == "suicide" ) return true;
+	//
+	//	return base.HasPermission( mode );
+//	}
 }

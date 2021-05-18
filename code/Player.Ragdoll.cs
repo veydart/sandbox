@@ -24,7 +24,7 @@ partial class SandboxPlayer
 		ent.RenderColorAndAlpha = RenderColorAndAlpha;
 		ent.PhysicsGroup.Velocity = velocity;
 
-		if ( Local == this )
+		if ( Local.Pawn == this )
 		{
 			ent.EnableDrawing = false;
 		}
@@ -46,7 +46,7 @@ partial class SandboxPlayer
 				clothing.SetParent( ent, true );
 				clothing.RenderColorAndAlpha = e.RenderColorAndAlpha;
 
-				if ( Local == this )
+				if ( Local.Pawn == this )
 				{
 					clothing.EnableDrawing = false;
 				}

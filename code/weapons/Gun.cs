@@ -101,9 +101,9 @@ partial class Gun : Weapon
 		}
 	}
 
-	public override void OnPlayerControlTick( Player owner )
+	public override void Simulate( Client owner )
 	{
-		base.OnPlayerControlTick( owner );
+		base.Simulate( owner );
 
 		//DebugTrace( owner );
 
@@ -153,7 +153,7 @@ partial class Gun : Weapon
 		ViewModelEntity?.SetAnimParam( "fire", true );
 		CrosshairPanel?.OnEvent( "onattack" );
 
-		if ( Owner == Player.Local )
+		if ( IsLocalPawn )
 		{
 			new Sandbox.ScreenShake.Perlin( 0.5f, 2.0f, 0.5f );
 		}

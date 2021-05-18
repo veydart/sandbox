@@ -24,7 +24,7 @@
 			}
 		}
 
-		public override void OnPlayerControlTick()
+		public override void Simulate()
 		{
 			if ( !Host.IsServer )
 				return;
