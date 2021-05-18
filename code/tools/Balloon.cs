@@ -70,7 +70,7 @@
 
 				var ent = new BalloonEntity
 				{
-					WorldPos = tr.EndPos,
+					Position = tr.EndPos,
 				};
 
 				ent.SetModel( "models/citizen_props/balloonregular01.vmdl" );

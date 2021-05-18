@@ -86,8 +86,8 @@ partial class Gun : Weapon
 		TimeSinceDischarge = 0;
 
 		var muzzle = GetAttachment( "muzzle" );
-		var pos = muzzle.Pos;
-		var rot = muzzle.Rot;
+		var pos = muzzle.Position;
+		var rot = muzzle.Rotation;
 		Shoot( pos, rot.Forward );
 
 		ApplyAbsoluteImpulse( rot.Backward * 200.0f );
@@ -124,7 +124,7 @@ partial class Gun : Weapon
 		//DebugOverlay.Axis( closestPoint, Rotation.LookAt( tr.Normal ), 2.0f, Time.Delta * 2 );
 		//DebugOverlay.Text( closestPoint, $"CLOSEST Walkable POINT", Time.Delta * 2 );
 
-		//NavMesh.BuildPath( Owner.WorldPos, closestPoint );
+		//NavMesh.BuildPath( Owner.Position, closestPoint );
 	}
 
 	//public void DebugTrace( Player player )
@@ -145,7 +145,7 @@ partial class Gun : Weapon
 		Host.AssertClient();
 
 		var muzzle = EffectEntity.GetAttachment( "muzzle" );
-		//bool InWater = Physics.TestPointContents( muzzle.Pos, CollisionLayer.Water );
+		//bool InWater = Physics.TestPointContents( muzzle.Position, CollisionLayer.Water );
 
 		Sound.FromEntity( "rust_pistol.shoot", this );
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );

@@ -134,7 +134,7 @@ public partial class GravGun : Carriable
 						return;
 				}
 
-				if ( eyePos.Distance( body.Pos ) <= AttachDistance )
+				if ( eyePos.Distance( body.Position ) <= AttachDistance )
 				{
 					GrabStart( modelEnt, body, eyePos + eyeDir * HoldDistance, eyeRot );
 				}
@@ -220,10 +220,10 @@ public partial class GravGun : Carriable
 		GrabEnd();
 
 		HeldBody = body;
-		HeldRot = grabRot.Inverse * HeldBody.Rot;
+		HeldRot = grabRot.Inverse * HeldBody.Rotation;
 
-		holdBody.Pos = grabPos;
-		holdBody.Rot = HeldBody.Rot;
+		holdBody.Position = grabPos;
+		holdBody.Rotation = HeldBody.Rotation;
 
 		HeldBody.Wake();
 		HeldBody.EnableAutoSleeping = false;
@@ -270,8 +270,8 @@ public partial class GravGun : Carriable
 		if ( !HeldBody.IsValid() )
 			return;
 
-		holdBody.Pos = startPos + dir * HoldDistance;
-		holdBody.Rot = rot * HeldRot;
+		holdBody.Position = startPos + dir * HoldDistance;
+		holdBody.Rotation = rot * HeldRot;
 	}
 
 	public override bool IsUsable( Entity user )

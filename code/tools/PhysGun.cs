@@ -279,10 +279,10 @@ public partial class PhysGun : Carriable
 		holdDistance = Vector3.DistanceBetween( startPos, grabPos );
 		holdDistance = holdDistance.Clamp( MinTargetDistance, MaxTargetDistance );
 		heldPos = heldBody.Transform.PointToLocal( grabPos );
-		heldRot = rot.Inverse * heldBody.Rot;
+		heldRot = rot.Inverse * heldBody.Rotation;
 
-		holdBody.Pos = grabPos;
-		holdBody.Rot = heldBody.Rot;
+		holdBody.Position = grabPos;
+		holdBody.Rotation = heldBody.Rotation;
 
 		heldBody.Wake();
 		heldBody.EnableAutoSleeping = false;
@@ -323,14 +323,14 @@ public partial class PhysGun : Carriable
 		if ( !heldBody.IsValid() )
 			return;
 
-		holdBody.Pos = startPos + dir * holdDistance;
-		holdBody.Rot = rot * heldRot;
+		holdBody.Position = startPos + dir * holdDistance;
+		holdBody.Rotation = rot * heldRot;
 
 		if ( snapAngles )
 		{
-			var angles = holdBody.Rot.Angles();
+			var angles = holdBody.Rotation.Angles();
 
-			holdBody.Rot = Rotation.From(
+			holdBody.Rotation = Rotation.From(
 				MathF.Round( angles.pitch / RotateSnapAt ) * RotateSnapAt,
 				MathF.Round( angles.yaw / RotateSnapAt ) * RotateSnapAt,
 				MathF.Round( angles.roll / RotateSnapAt ) * RotateSnapAt
@@ -364,7 +364,7 @@ public partial class PhysGun : Carriable
 
 		if ( owner.Down( InputButton.Use ) )
 		{
-			owner.ViewAngles = owner.LastViewAngles;
+			owner.ViewAngles = owner.OriginalViewAngles;
 		}
 	}
 

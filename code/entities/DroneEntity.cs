@@ -52,7 +52,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 		body.LinearDamping = 4.0f;
 		body.AngularDamping = 4.0f;
 
-		var yawRot = Rotation.From( new Angles( 0, WorldRot.Angles().yaw, 0 ) );
+		var yawRot = Rotation.From( new Angles( 0, Rotation.Angles().yaw, 0 ) );
 		var worldMovement = yawRot * currentInput.movement;
 		var velocityDirection = body.Velocity.WithZ( 0 );
 		var velocityMagnitude = velocityDirection.Length;
@@ -139,8 +139,8 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 
 		for ( int i = 0; i < turbinePositions.Length; ++i )
 		{
-			var transform = Transform.ToWorld( new Transform( turbinePositions[i] * WorldScale, Rotation.From( new Angles( 0, spinAngle, 0 ) ) ) );
-			transform.Scale = WorldScale;
+			var transform = Transform.ToWorld( new Transform( turbinePositions[i] * Scale, Rotation.From( new Angles( 0, spinAngle, 0 ) ) ) );
+			transform.Scale = Scale;
 			SetBoneTransform( i, transform );
 		}
 	}

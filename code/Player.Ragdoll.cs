@@ -6,9 +6,9 @@ partial class SandboxPlayer
 	private void BecomeRagdollOnClient( Vector3 velocity, DamageFlags damageFlags, Vector3 forcePos, Vector3 force, int bone )
 	{
 		var ent = new ModelEntity();
-		ent.WorldPos = WorldPos;
-		ent.WorldRot = WorldRot;
-		ent.WorldScale = WorldScale;
+		ent.Position = Position;
+		ent.Rotation = Rotation;
+		ent.Scale = Scale;
 		ent.MoveType = MoveType.Physics;
 		ent.UsePhysicsCollision = true;
 		ent.EnableAllCollisions = true;
@@ -26,7 +26,7 @@ partial class SandboxPlayer
 
 		if ( Local.Pawn == this )
 		{
-			ent.EnableDrawing = false;
+			//ent.EnableDrawing = false; wtf
 		}
 
 		ent.SetInteractsAs( CollisionLayer.Debris );
@@ -48,7 +48,7 @@ partial class SandboxPlayer
 
 				if ( Local.Pawn == this )
 				{
-					clothing.EnableDrawing = false;
+				//	clothing.EnableDrawing = false; wtf
 				}
 			}
 		}
@@ -73,7 +73,7 @@ partial class SandboxPlayer
 		{
 			if ( ent.PhysicsGroup != null )
 			{
-				ent.PhysicsGroup.AddVelocity( (WorldPos - (forcePos + Vector3.Down * 100.0f)).Normal * (force.Length * 0.2f) );
+				ent.PhysicsGroup.AddVelocity( (Position - (forcePos + Vector3.Down * 100.0f)).Normal * (force.Length * 0.2f) );
 				var angularDir = (Rotation.FromYaw( 90 ) * force.WithZ( 0 ).Normal).Normal;
 				ent.PhysicsGroup.AddAngularVelocity( angularDir * (force.Length * 0.02f) );
 			}

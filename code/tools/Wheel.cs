@@ -65,8 +65,8 @@
 
 				var ent = new WheelEntity
 				{
-					WorldPos = tr.EndPos,
-					WorldRot = Rotation.LookAt( tr.Normal ) * Rotation.From( new Angles( 0, 90, 0 ) ),
+					Position = tr.EndPos,
+					Rotation = Rotation.LookAt( tr.Normal ) * Rotation.From( new Angles( 0, 90, 0 ) ),
 				};
 
 				ent.SetModel( "models/citizen_props/wheel01.vmdl" );

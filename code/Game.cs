@@ -46,8 +46,8 @@ partial class SandboxGame : Game
 			.Run();
 
 		var ent = new Prop();
-		ent.WorldPos = tr.EndPos;
-		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
+		ent.Position = tr.EndPos;
+		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
 		ent.SetModel( modelname );
 
 		// Drop to floor
@@ -56,7 +56,7 @@ partial class SandboxGame : Game
 			var p = ent.PhysicsBody.FindClosestPoint( tr.EndPos );
 
 			var delta = p - tr.EndPos;
-			ent.PhysicsBody.Pos -= delta;
+			ent.PhysicsBody.Position -= delta;
 			//DebugOverlay.Line( p, tr.EndPos, 10, false );
 		}
 
@@ -88,8 +88,8 @@ partial class SandboxGame : Game
 				return;
 		}
 
-		ent.WorldPos = tr.EndPos;
-		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) );
+		ent.Position = tr.EndPos;
+		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) );
 
 		//Log.Info( $"ent: {ent}" );
 	}

@@ -37,7 +37,7 @@
 				tr.Entity.Delete();
 
 				var particle = Particles.Create( "particles/physgun_freeze.vpcf" );
-				particle.SetPos( 0, tr.Entity.WorldPos );
+				particle.SetPos( 0, tr.Entity.Position );
 			}
 		}
 	}

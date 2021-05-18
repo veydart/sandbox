@@ -86,8 +86,6 @@ public class InventoryBar : Panel
 
 	private static void SwitchActiveSlot( InputBuilder input, IBaseInventory inventory, int idelta )
 	{
-		Log.Info( $"SwitchActiveSlot {inventory.Count()} {idelta}" );
-
 		var count = inventory.Count();
 		if ( count == 0 ) return;
 

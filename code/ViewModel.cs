@@ -30,13 +30,13 @@ public class ViewModel : BaseViewModel
 			activated = true;
 		}
 
-		WorldPos = camSetup.Position;
-		WorldRot = camSetup.Rotation;
+		Position = camSetup.Position;
+		Rotation = camSetup.Rotation;
 
 		camSetup.ViewModel.FieldOfView = FieldOfView;
 
-		var newPitch = WorldRot.Pitch();
-		var newYaw = WorldRot.Yaw();
+		var newPitch = Rotation.Pitch();
+		var newYaw = Rotation.Yaw();
 
 		var pitchDelta = Angles.NormalizeAngle( newPitch - lastPitch );
 		var yawDelta = Angles.NormalizeAngle( lastYaw - newYaw );
@@ -50,7 +50,7 @@ public class ViewModel : BaseViewModel
 		var offset = CalcSwingOffset( pitchDelta, yawDelta );
 		offset += CalcBobbingOffset( playerVelocity );
 
-		WorldPos += WorldRot * offset;
+		Position += Rotation * offset;
 
 		lastPitch = newPitch;
 		lastYaw = newYaw;

@@ -34,11 +34,11 @@ namespace Sandbox.Tools
 				if ( tr.Entity is LightEntity || tr.Entity is LampEntity )
 					return;
 
-				var scale = Math.Clamp( tr.Entity.WorldScale + ((0.5f * Time.Delta) * resizeDir), 0.4f, 4.0f );
+				var scale = Math.Clamp( tr.Entity.Scale + ((0.5f * Time.Delta) * resizeDir), 0.4f, 4.0f );
 
-				if ( tr.Entity.WorldScale != scale )
+				if ( tr.Entity.Scale != scale )
 				{
-					tr.Entity.WorldScale = scale;
+					tr.Entity.Scale = scale;
 					tr.Entity.PhysicsGroup.RebuildMass();
 					tr.Entity.PhysicsGroup.Wake();
 				}

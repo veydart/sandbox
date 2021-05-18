@@ -48,16 +48,15 @@ partial class SandboxPlayer : Player
 	{
 		base.OnKilled();
 
-		Inventory.DropActive();
-		Inventory.DeleteContents();
-
 		BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
-		Camera = new RagdollCamera();
-
+		Camera = new SpectateRagdollCamera();
 		Controller = null;
 
 		EnableAllCollisions = false;
 		EnableDrawing = false;
+
+		Inventory.DropActive();
+		Inventory.DeleteContents();
 	}
 
 	public override void TakeDamage( DamageInfo info )

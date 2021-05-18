@@ -11,7 +11,7 @@ public partial class Carriable : BaseCarriable, IUse
 
 		ViewModelEntity = new ViewModel
 		{
-			WorldPos = WorldPos,
+			Position = Position,
 			Owner = Owner,
 			EnableViewmodelRendering = true
 		};

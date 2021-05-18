@@ -14,7 +14,7 @@ public partial class Weapon : BaseWeapon, IUse
 		PickupTrigger = new PickupTrigger
 		{
 			Parent = this,
-			WorldPos = WorldPos,
+			Position = Position,
 			EnableTouch = true
 		};
 	}
@@ -28,7 +28,7 @@ public partial class Weapon : BaseWeapon, IUse
 
 		ViewModelEntity = new ViewModel
 		{
-			WorldPos = WorldPos,
+			Position = Position,
 			Owner = Owner,
 			EnableViewmodelRendering = true
 		};
