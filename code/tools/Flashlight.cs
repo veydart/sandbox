@@ -10,7 +10,7 @@ partial class Flashlight : Weapon
 	private SpotLightEntity worldLight;
 	private SpotLightEntity viewLight;
 
-	[NetLocalPredicted]
+	[Net, Local, Predicted]
 	private bool LightEnabled { get; set; } = true;
 
 	TimeSince timeSinceLightToggled;
