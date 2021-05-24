@@ -29,6 +29,11 @@ partial class SandboxPlayer : Player
 		Animator = new StandardPlayerAnimator();
 		Camera = new FirstPersonCamera();
 
+		if ( DevController is NoclipController )
+		{
+			DevController = null;
+		}
+
 		EnableAllCollisions = true;
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
