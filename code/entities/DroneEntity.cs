@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System;
 
-[Library( "ent_drone" , Title = "Drone", Spawnable = true )]
+[Library( "ent_drone", Title = "Drone", Spawnable = true )]
 public partial class DroneEntity : Prop, IPhysicsUpdate
 {
 	public virtual float altitudeAcceleration => 2000;
@@ -85,7 +85,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 			var uprightTorque = Vector3.Cross( currentUp, targetUp ) * uprightSpeed;
 			var uprightAlignment = alignment < uprightDot ? 0 : alignment;
 			var totalTorque = spinTorque * alignment + uprightTorque * uprightAlignment;
-			body.ApplyTorque( ( totalTorque * alignment ) * body.Mass );
+			body.ApplyTorque( (totalTorque * alignment) * body.Mass );
 		}
 	}
 
@@ -122,7 +122,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 
 	public override void OnNewModel( Model model )
 	{
-		base.OnNewModel(model);
+		base.OnNewModel( model );
 
 		if ( IsClient )
 		{

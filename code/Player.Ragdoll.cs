@@ -48,7 +48,7 @@ partial class SandboxPlayer
 
 				if ( Local.Pawn == this )
 				{
-				//	clothing.EnableDrawing = false; wtf
+					//	clothing.EnableDrawing = false; wtf
 				}
 			}
 		}
