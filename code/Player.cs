@@ -16,9 +16,16 @@ partial class SandboxPlayer : Player
 	[Net]
 	public PawnAnimator VehicleAnimator { get; set; }
 
+	public ICamera LastCamera { get; set; }
+
 	public SandboxPlayer()
 	{
 		Inventory = new Inventory( this );
+	}
+	public override void Spawn()
+	{
+		LastCamera = new FirstPersonCamera();
+		base.Spawn();
 	}
 
 	public override void Respawn()
@@ -27,7 +34,7 @@ partial class SandboxPlayer : Player
 
 		Controller = new WalkController();
 		Animator = new StandardPlayerAnimator();
-		Camera = new FirstPersonCamera();
+		Camera = LastCamera;
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
@@ -49,6 +56,7 @@ partial class SandboxPlayer : Player
 		base.OnKilled();
 
 		BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
+		LastCamera = Camera;
 		Camera = new SpectateRagdollCamera();
 		Controller = null;
 
