@@ -4,7 +4,7 @@
 public partial class BalloonEntity : Prop, IPhysicsUpdate
 {
 	static SoundEvent PopSound = new( "sounds/balloon_pop_cute.vsnd" )
-	{ 
+	{
 		Volume = 1,
 		DistanceMax = 500.0f
 	};

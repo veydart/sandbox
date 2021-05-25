@@ -93,7 +93,7 @@ partial class SandboxPlayer : Player
 		return base.GetActiveAnimator();
 	}
 
-	public override void Simulate( Client cl  )
+	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
 
@@ -190,5 +190,5 @@ partial class SandboxPlayer : Player
 	//	if ( mode == "suicide" ) return true;
 	//
 	//	return base.HasPermission( mode );
-//	}
+	//	}
 }

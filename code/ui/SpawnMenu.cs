@@ -22,7 +22,7 @@ public partial class SpawnMenu : Panel
 			var tabs = left.AddChild<ButtonGroup>();
 			tabs.AddClass( "tabs" );
 
-			var body = left.Add.Panel( "body" ); 
+			var body = left.Add.Panel( "body" );
 
 			{
 				var props = body.AddChild<SpawnList>();
@@ -51,7 +51,7 @@ public partial class SpawnMenu : Panel
 
 						var button = list.Add.Button( entry.Title );
 						button.SetClass( "active", entry.Name == ConsoleSystem.GetValue( "tool_current" ) );
-						
+
 						button.AddEvent( "onclick", () =>
 						{
 							ConsoleSystem.Run( "tool_current", entry.Name );
