@@ -78,7 +78,7 @@ partial class Tool : Carriable
 	{
 	}
 
-	[Event( "frame" )]
+	[Event.Frame]
 	public void OnFrame()
 	{
 		if ( !IsActiveChild() ) return;

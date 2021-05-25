@@ -11,7 +11,7 @@ public partial class NoiseTest : Prop
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 	}
 
-	[Event( "frame" )]
+	[Event.Frame]
 	public void OnFrame()
 	{
 		var pos = Position;
