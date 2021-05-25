@@ -107,7 +107,6 @@ partial class SandboxPlayer : Player
 
 		if ( Input.ActiveChild != null )
 		{
-			Log.Info( $"Input.ActiveChild: {Input.ActiveChild}" );
 			ActiveChild = Input.ActiveChild;
 		}
 
