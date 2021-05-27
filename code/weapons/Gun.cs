@@ -68,7 +68,7 @@ partial class Gun : Weapon
 			//
 			using ( Prediction.Off() )
 			{
-				var damage = DamageInfo.FromBullet( tr.EndPos, forward.Normal * 1000, 100 )
+				var damage = DamageInfo.FromBullet( tr.EndPos, forward.Normal * 20, 60 )
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
