@@ -30,7 +30,7 @@ partial class Gun : Weapon
 	{
 		base.Reload();
 
-		ViewModelEntity?.SetAnimParam( "reload", true );
+		ViewModelEntity?.SetAnimBool( "reload", true );
 	}
 
 	public override void AttackPrimary()
@@ -150,7 +150,7 @@ partial class Gun : Weapon
 		Sound.FromEntity( "rust_pistol.shoot", this );
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 
-		ViewModelEntity?.SetAnimParam( "fire", true );
+		ViewModelEntity?.SetAnimBool( "fire", true );
 		CrosshairPanel?.OnEvent( "onattack" );
 
 		if ( IsLocalPawn )

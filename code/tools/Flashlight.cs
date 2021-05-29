@@ -89,7 +89,7 @@ partial class Flashlight : Weapon
 
 		if ( IsClient && input.Pressed( InputButton.Attack2 ) )
 		{
-			ViewModelEntity?.SetAnimParam( "admire", true );
+			ViewModelEntity?.SetAnimBool( "admire", true );
 		}
 	}
 
