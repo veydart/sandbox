@@ -4,7 +4,7 @@ using Sandbox.Tools;
 [Library( "weapon_tool" )]
 partial class Tool : Carriable
 {
-	[UserVar( "tool_current" )]
+	[ConVar.ClientData( "tool_current" )]
 	public static string UserToolCurrent { get; set; } = "tool_boxgun";
 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
