@@ -31,10 +31,7 @@ partial class Shotgun : Weapon
 		//
 		// Shoot the bullets
 		//
-		for ( int i = 0; i < 10; i++ )
-		{
-			ShootBullet( 0.15f, 0.3f, 9.0f, 3.0f );
-		}
+		ShootBullets( 10, 0.15f, 0.3f, 9.0f, 3.0f );
 	}
 
 	public override void AttackSecondary()
@@ -53,10 +50,7 @@ partial class Shotgun : Weapon
 		//
 		// Shoot the bullets
 		//
-		for ( int i = 0; i < 20; i++ )
-		{
-			ShootBullet( 0.4f, 0.3f, 8.0f, 3.0f );
-		}
+		ShootBullets( 20, 0.4f, 0.3f, 8.0f, 3.0f );
 	}
 
 	[ClientRpc]

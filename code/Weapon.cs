@@ -175,4 +175,18 @@ public partial class Weapon : BaseWeapon, IUse
 	{
 		ShootBullet( Owner.EyePos, Owner.EyeRot.Forward, spread, force, damage, bulletSize );
 	}
+
+	/// <summary>
+	/// Shoot a multiple bullets from owners view point
+	/// </summary>
+	public virtual void ShootBullets( int numBullets, float spread, float force, float damage, float bulletSize )
+	{
+		var pos = Owner.EyePos;
+		var dir = Owner.EyeRot.Forward;
+
+		for ( int i = 0; i < numBullets; i++ )
+		{
+			ShootBullet( pos, dir, spread, force, damage, bulletSize );
+		}
+	}
 }
