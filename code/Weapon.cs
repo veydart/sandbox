@@ -108,7 +108,14 @@ public partial class Weapon : BaseWeapon, IUse
 
 	public virtual bool IsUsable( Entity user )
 	{
-		return Owner == null;
+		if ( Owner != null ) return false;
+
+		if ( user.Inventory is Inventory inventory )
+		{
+			return inventory.CanAdd( this );
+		}
+
+		return true;
 	}
 
 	public void Remove()
