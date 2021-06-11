@@ -2,7 +2,7 @@
 
 [Library( "weapon_smg", Title = "SMG", Spawnable = true )]
 partial class SMG : Weapon
-{ 
+{
 	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
 
 	public override float PrimaryRate => 15.0f;
@@ -51,7 +51,7 @@ partial class SMG : Weapon
 
 		if ( Owner == Local.Pawn )
 		{
-			new Sandbox.ScreenShake.Perlin(0.5f, 4.0f, 1.0f, 0.5f);
+			new Sandbox.ScreenShake.Perlin( 0.5f, 4.0f, 1.0f, 0.5f );
 		}
 
 		ViewModelEntity?.SetAnimBool( "fire", true );
