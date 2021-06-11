@@ -195,9 +195,25 @@ metadata
 ]
 
 // 
-// Gun : Weapon 
+// Pistol : Weapon 
 // 
-@SolidClass = gun : ""
+@SolidClass = weapon_pistol : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// Shotgun : Weapon 
+// 
+@SolidClass = weapon_shotgun : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// SMG : Weapon 
+// 
+@SolidClass = weapon_smg : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]
