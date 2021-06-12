@@ -53,19 +53,19 @@ partial class SandboxPlayer
 			}
 		}
 
-		if ( damageFlags.HasFlag( DamageFlags.Bullet ) )
+		if ( damageFlags.HasFlag( DamageFlags.Bullet ) ||
+			 damageFlags.HasFlag( DamageFlags.PhysicsImpact ) )
 		{
-			if ( bone >= 0 )
+			PhysicsBody body = bone > 0 ? ent.GetBonePhysicsBody( bone ) : null;
+
+			Log.Info($"{force}");
+			if ( body != null )
 			{
-				var body = ent.GetBonePhysicsBody( bone );
-				if ( body != null )
-				{
-					body.ApplyImpulseAt( forcePos, force * body.Mass );
-				}
-				else
-				{
-					ent.PhysicsGroup.ApplyImpulse( force );
-				}
+				body.ApplyImpulseAt( forcePos, force * body.Mass );
+			}
+			else
+			{
+				ent.PhysicsGroup.ApplyImpulse( force );
 			}
 		}
 

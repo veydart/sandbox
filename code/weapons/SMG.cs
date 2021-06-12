@@ -33,7 +33,6 @@ partial class SMG : Weapon
 		// Shoot the bullets
 		//
 		ShootBullet( 0.1f, 1.5f, 5.0f, 3.0f );
-
 	}
 
 	public override void AttackSecondary()

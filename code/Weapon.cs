@@ -193,7 +193,7 @@ public partial class Weapon : BaseWeapon, IUse
 
 		for ( int i = 0; i < numBullets; i++ )
 		{
-			ShootBullet( pos, dir, spread, force, damage, bulletSize );
+			ShootBullet( pos, dir, spread, force / numBullets, damage, bulletSize );
 		}
 	}
 }
