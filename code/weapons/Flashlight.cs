@@ -100,6 +100,8 @@ partial class Flashlight : Weapon
 		{
 			OnMeleeMiss();
 		}
+
+		PlaySound( "rust_flashlight.attack" );
 	}
 
 	private bool MeleeAttack()
