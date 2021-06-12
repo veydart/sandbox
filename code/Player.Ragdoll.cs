@@ -58,7 +58,6 @@ partial class SandboxPlayer
 		{
 			PhysicsBody body = bone > 0 ? ent.GetBonePhysicsBody( bone ) : null;
 
-			Log.Info($"{force}");
 			if ( body != null )
 			{
 				body.ApplyImpulseAt( forcePos, force * body.Mass );
