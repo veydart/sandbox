@@ -171,14 +171,6 @@ metadata
 ]
 
 // 
-// Flashlight : Weapon 
-// 
-@PointClass = flashlight : ""
-[
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-]
-
-// 
 // GravGun : Carriable 
 // 
 @PointClass = gravgun : ""
@@ -190,6 +182,14 @@ metadata
 // PhysGun : Carriable 
 // 
 @PointClass = physgun : ""
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+]
+
+// 
+// Flashlight : Weapon 
+// 
+@PointClass = flashlight : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]
