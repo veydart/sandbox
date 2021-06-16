@@ -224,7 +224,7 @@ public partial class GravGun : Carriable
 		holdBody.Position = grabPos;
 		holdBody.Rotation = HeldBody.Rotation;
 
-		HeldBody.Wake();
+		HeldBody.Sleep = false;
 		HeldBody.EnableAutoSleeping = false;
 
 		holdJoint = PhysicsJoint.Weld

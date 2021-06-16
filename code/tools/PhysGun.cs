@@ -283,7 +283,7 @@ public partial class PhysGun : Carriable
 		holdBody.Position = grabPos;
 		holdBody.Rotation = heldBody.Rotation;
 
-		heldBody.Wake();
+		heldBody.Sleep = false;
 		heldBody.EnableAutoSleeping = false;
 
 		holdJoint = PhysicsJoint.Weld
