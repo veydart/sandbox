@@ -90,6 +90,11 @@ partial class Flashlight : Weapon
 		}
 	}
 
+	public override bool CanReload()
+	{
+		return false;
+	}
+
 	public override void AttackSecondary()
 	{
 		if ( MeleeAttack() )
