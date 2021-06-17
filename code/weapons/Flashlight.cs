@@ -25,7 +25,7 @@ partial class Flashlight : Weapon
 		worldLight = CreateLight();
 		worldLight.SetParent( this, "slide", new Transform( LightOffset ) );
 		worldLight.EnableHideInFirstPerson = true;
-		worldLight.Enabled = LightEnabled;
+		worldLight.Enabled = false;
 	}
 
 	public override void CreateViewModel()
@@ -191,9 +191,16 @@ partial class Flashlight : Weapon
 	{
 		base.ActiveEnd( ent, dropped );
 
-		if ( IsServer && !dropped )
+		if ( IsServer )
 		{
-			Deactivate();
+			if ( dropped )
+			{
+				Activate();
+			}
+			else
+			{
+				Deactivate();
+			}
 		}
 	}
 }
