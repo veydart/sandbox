@@ -56,14 +56,14 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 		var worldMovement = yawRot * currentInput.movement;
 		var velocityDirection = body.Velocity.WithZ( 0 );
 		var velocityMagnitude = velocityDirection.Length;
-		velocityDirection = velocityDirection.Normal;
+		velocityDirection = velocityDirection.Normalized;
 
 		var velocityScale = (velocityMagnitude / leanMaxVelocity).Clamp( 0, 1 );
 		var leanDirection = worldMovement.LengthSquared == 0.0f
 			? -velocityScale * velocityDirection
 			: worldMovement;
 
-		var targetUp = (Vector3.Up + leanDirection * leanWeight * velocityScale).Normal;
+		var targetUp = (Vector3.Up + leanDirection * leanWeight * velocityScale).Normalized;
 		var currentUp = transform.NormalToWorld( Vector3.Up );
 		var alignment = Math.Max( Vector3.Dot( targetUp, currentUp ), 0 );
 
@@ -99,9 +99,9 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 			currentInput.Reset();
 			var x = (Input.Down( InputButton.Forward ) ? -1 : 0) + (Input.Down( InputButton.Back ) ? 1 : 0);
 			var y = (Input.Down( InputButton.Right ) ? 1 : 0) + (Input.Down( InputButton.Left ) ? -1 : 0);
-			currentInput.movement = new Vector3( x, y, 0 ).Normal;
+			currentInput.movement = new Vector3( x, y, 0 ).Normalized;
 			currentInput.throttle = (Input.Down( InputButton.Run ) ? 1 : 0) + (Input.Down( InputButton.Duck ) ? -1 : 0);
-			currentInput.yaw = -Input.MouseDelta.x;
+			currentInput.yaw = -Input.MouseDelta.X;
 		}
 	}
 
