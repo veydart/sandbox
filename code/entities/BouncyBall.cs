@@ -20,7 +20,7 @@ public partial class BouncyBallEntity : Prop, IUse
 	protected override void OnPhysicsCollision( CollisionEventData eventData )
 	{
 		var speed = eventData.PreVelocity.Length;
-		var direction = Vector3.Reflect( eventData.PreVelocity.Normalized, eventData.Normal.Normalized ).Normalized;
+		var direction = Vector3.Reflect( eventData.PreVelocity.Normal, eventData.Normal.Normal ).Normal;
 		Velocity = direction * MathF.Min( speed * SpeedMul, MaxSpeed );
 	}
 

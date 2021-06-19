@@ -147,7 +147,7 @@ public partial class Weapon : BaseWeapon, IUse
 	{
 		var forward = dir;
 		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
-		forward = forward.Normalized;
+		forward = forward.Normal;
 
 		//
 		// ShootBullet is coded in a way where we can have bullets pass through shit

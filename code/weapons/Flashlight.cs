@@ -112,7 +112,7 @@ partial class Flashlight : Weapon
 	private bool MeleeAttack()
 	{
 		var forward = Owner.EyeRot.Forward;
-		forward = forward.Normalized;
+		forward = forward.Normal;
 
 		bool hit = false;
 
