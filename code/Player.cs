@@ -75,6 +75,11 @@ partial class SandboxPlayer : Player
 
 	public override void TakeDamage( DamageInfo info )
 	{
+		if ( GetHitboxGroup( info.HitboxIndex ) == 1 )
+		{
+			info.Damage *= 10.0f;
+		}
+
 		lastDamage = info;
 
 		TookDamage( lastDamage.Flags, lastDamage.Position, lastDamage.Force );
