@@ -137,7 +137,7 @@ public partial class Weapon : BaseWeapon, IUse
 		}
 
 		ViewModelEntity?.SetAnimBool( "fire", true );
-		CrosshairPanel?.OnEvent( "fire" );
+		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	/// <summary>
