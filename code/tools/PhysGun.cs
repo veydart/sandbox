@@ -200,7 +200,7 @@ public partial class PhysGun : Carriable
 
 	private void EnableAngularSpring( float scale )
 	{
-		if ( holdJoint.IsValid() )
+		if ( holdJoint.IsValid )
 		{
 			holdJoint.AngularDampingRatio = AngularDampingRatio * scale;
 			holdJoint.AngularFrequency = AngularFrequency * scale;
@@ -209,7 +209,7 @@ public partial class PhysGun : Carriable
 
 	private void DisableAngularSpring()
 	{
-		if ( holdJoint.IsValid() )
+		if ( holdJoint.IsValid )
 		{
 			holdJoint.AngularDampingRatio = 0.0f;
 			holdJoint.AngularFrequency = 0.0f;
@@ -296,7 +296,7 @@ public partial class PhysGun : Carriable
 
 	private void GrabEnd()
 	{
-		if ( holdJoint.IsValid() )
+		if ( holdJoint.IsValid )
 		{
 			holdJoint.Remove();
 		}
