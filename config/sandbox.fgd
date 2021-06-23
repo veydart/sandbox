@@ -4,6 +4,7 @@
 @PointClass = sandbox : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
 // 
@@ -12,6 +13,7 @@
 @PointClass = weapon_tool : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
 // 
@@ -23,12 +25,13 @@ metadata
 }
 = ent_balloon : ""
 [
-	model(studio) [report]: "World Model"
-	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins."
+	model(studio) [report]: "World Model" : ""
+	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	collisiongroupoverride(integer) : "CollisionGroupOverride" :  : ""
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
 
 ]
 
@@ -41,12 +44,13 @@ metadata
 }
 = ent_bouncyball : ""
 [
-	model(studio) [report]: "World Model"
-	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins."
+	model(studio) [report]: "World Model" : ""
+	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	collisiongroupoverride(integer) : "CollisionGroupOverride" :  : ""
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
 
 ]
 
@@ -59,12 +63,13 @@ metadata
 }
 = directional_gravity : ""
 [
-	model(studio) [report]: "World Model"
-	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins."
+	model(studio) [report]: "World Model" : ""
+	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	collisiongroupoverride(integer) : "CollisionGroupOverride" :  : ""
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
 
 ]
 
@@ -77,12 +82,13 @@ metadata
 }
 = ent_drone : ""
 [
-	model(studio) [report]: "World Model"
-	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins."
+	model(studio) [report]: "World Model" : ""
+	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	collisiongroupoverride(integer) : "CollisionGroupOverride" :  : ""
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
 
 ]
 
@@ -92,6 +98,7 @@ metadata
 @PointClass = ent_lamp : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	input TurnOn(void) : ""
 	input TurnOff(void) : ""
 	input Toggle(void) : ""
@@ -107,6 +114,7 @@ metadata
 @PointClass = ent_light : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	input TurnOn(void) : ""
 	input TurnOff(void) : ""
 	input Toggle(void) : ""
@@ -125,12 +133,13 @@ metadata
 }
 = noise_test : ""
 [
-	model(studio) [report]: "World Model"
-	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins."
+	model(studio) [report]: "World Model" : ""
+	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	collisiongroupoverride(integer) : "CollisionGroupOverride" :  : ""
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
 
 ]
 
@@ -143,12 +152,13 @@ metadata
 }
 = ent_thruster : ""
 [
-	model(studio) [report]: "World Model"
-	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins."
+	model(studio) [report]: "World Model" : ""
+	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	collisiongroupoverride(integer) : "CollisionGroupOverride" :  : ""
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
 
 ]
 
@@ -161,12 +171,13 @@ metadata
 }
 = ent_wheel : ""
 [
-	model(studio) [report]: "World Model"
-	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins."
+	model(studio) [report]: "World Model" : ""
+	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	collisiongroupoverride(integer) : "CollisionGroupOverride" :  : ""
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
 
 ]
 
@@ -176,6 +187,7 @@ metadata
 @PointClass = gravgun : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
 // 
@@ -184,6 +196,7 @@ metadata
 @PointClass = physgun : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
 // 
@@ -192,6 +205,7 @@ metadata
 @PointClass = weapon_flashlight : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
 // 
@@ -200,6 +214,7 @@ metadata
 @PointClass = weapon_pistol : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
 // 
@@ -208,6 +223,7 @@ metadata
 @PointClass = weapon_shotgun : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
 // 
@@ -216,5 +232,6 @@ metadata
 @PointClass = weapon_smg : ""
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 ]
 
