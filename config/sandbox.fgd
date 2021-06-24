@@ -14,81 +14,107 @@
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 ]
 
 // 
 // BalloonEntity : Sandbox.Prop 
 // 
-@PointClass  model() 
-metadata
-{
-}
-= ent_balloon : ""
+@PointClass  model() = ent_balloon : ""
 [
 	model(studio) [report]: "World Model" : ""
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
+	collisiongroupoverride(choices) : "Collision Group Override" : -1 : "" = [
+		-1 : "UNUSED"
+		0 : "COLLISION_GROUP_ALWAYS"
+		1 : "COLLISION_GROUP_NONPHYSICAL"
+		4 : "COLLISION_GROUP_DEFAULT"
+		5 : "COLLISION_GROUP_DEBRIS"
+		14 : "COLLISION_GROUP_WEAPON"
+	]
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
 
 ]
 
 // 
 // BouncyBallEntity : Sandbox.Prop 
 // 
-@PointClass  model() 
-metadata
-{
-}
-= ent_bouncyball : ""
+@PointClass  model() = ent_bouncyball : ""
 [
 	model(studio) [report]: "World Model" : ""
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
+	collisiongroupoverride(choices) : "Collision Group Override" : -1 : "" = [
+		-1 : "UNUSED"
+		0 : "COLLISION_GROUP_ALWAYS"
+		1 : "COLLISION_GROUP_NONPHYSICAL"
+		4 : "COLLISION_GROUP_DEFAULT"
+		5 : "COLLISION_GROUP_DEBRIS"
+		14 : "COLLISION_GROUP_WEAPON"
+	]
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
 
 ]
 
 // 
 // DirectionalGravity : Sandbox.Prop 
 // 
-@PointClass  model() 
-metadata
-{
-}
-= directional_gravity : ""
+@PointClass  model() = directional_gravity : ""
 [
 	model(studio) [report]: "World Model" : ""
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
+	collisiongroupoverride(choices) : "Collision Group Override" : -1 : "" = [
+		-1 : "UNUSED"
+		0 : "COLLISION_GROUP_ALWAYS"
+		1 : "COLLISION_GROUP_NONPHYSICAL"
+		4 : "COLLISION_GROUP_DEFAULT"
+		5 : "COLLISION_GROUP_DEBRIS"
+		14 : "COLLISION_GROUP_WEAPON"
+	]
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
 
 ]
 
 // 
 // DroneEntity : Sandbox.Prop 
 // 
-@PointClass  model() 
-metadata
-{
-}
-= ent_drone : ""
+@PointClass  model() = ent_drone : ""
 [
 	model(studio) [report]: "World Model" : ""
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
+	collisiongroupoverride(choices) : "Collision Group Override" : -1 : "" = [
+		-1 : "UNUSED"
+		0 : "COLLISION_GROUP_ALWAYS"
+		1 : "COLLISION_GROUP_NONPHYSICAL"
+		4 : "COLLISION_GROUP_DEFAULT"
+		5 : "COLLISION_GROUP_DEBRIS"
+		14 : "COLLISION_GROUP_WEAPON"
+	]
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
 
 ]
 
@@ -99,6 +125,8 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 	input TurnOn(void) : ""
 	input TurnOff(void) : ""
 	input Toggle(void) : ""
@@ -115,6 +143,8 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 	input TurnOn(void) : ""
 	input TurnOff(void) : ""
 	input Toggle(void) : ""
@@ -127,57 +157,75 @@ metadata
 // 
 // NoiseTest : Sandbox.Prop 
 // 
-@PointClass  model() 
-metadata
-{
-}
-= noise_test : ""
+@PointClass  model() = noise_test : ""
 [
 	model(studio) [report]: "World Model" : ""
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
+	collisiongroupoverride(choices) : "Collision Group Override" : -1 : "" = [
+		-1 : "UNUSED"
+		0 : "COLLISION_GROUP_ALWAYS"
+		1 : "COLLISION_GROUP_NONPHYSICAL"
+		4 : "COLLISION_GROUP_DEFAULT"
+		5 : "COLLISION_GROUP_DEBRIS"
+		14 : "COLLISION_GROUP_WEAPON"
+	]
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
 
 ]
 
 // 
 // ThrusterEntity : Sandbox.Prop 
 // 
-@PointClass  model() 
-metadata
-{
-}
-= ent_thruster : ""
+@PointClass  model() = ent_thruster : ""
 [
 	model(studio) [report]: "World Model" : ""
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
+	collisiongroupoverride(choices) : "Collision Group Override" : -1 : "" = [
+		-1 : "UNUSED"
+		0 : "COLLISION_GROUP_ALWAYS"
+		1 : "COLLISION_GROUP_NONPHYSICAL"
+		4 : "COLLISION_GROUP_DEFAULT"
+		5 : "COLLISION_GROUP_DEBRIS"
+		14 : "COLLISION_GROUP_WEAPON"
+	]
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
 
 ]
 
 // 
 // WheelEntity : Sandbox.Prop 
 // 
-@PointClass  model() 
-metadata
-{
-}
-= ent_wheel : ""
+@PointClass  model() = ent_wheel : ""
 [
 	model(studio) [report]: "World Model" : ""
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
 	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
 	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." 
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	collisiongroupoverride(integer) : "Collision Group Override" :  : ""
+	collisiongroupoverride(choices) : "Collision Group Override" : -1 : "" = [
+		-1 : "UNUSED"
+		0 : "COLLISION_GROUP_ALWAYS"
+		1 : "COLLISION_GROUP_NONPHYSICAL"
+		4 : "COLLISION_GROUP_DEFAULT"
+		5 : "COLLISION_GROUP_DEBRIS"
+		14 : "COLLISION_GROUP_WEAPON"
+	]
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
 
 ]
 
@@ -188,6 +236,8 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 ]
 
 // 
@@ -197,6 +247,8 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 ]
 
 // 
@@ -206,6 +258,8 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 ]
 
 // 
@@ -215,6 +269,8 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 ]
 
 // 
@@ -224,6 +280,8 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 ]
 
 // 
@@ -233,5 +291,7 @@ metadata
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable shadow casting" : 0 : "Disable shadow casting for this entity"
+
 ]
 
