@@ -1,5 +1,4 @@
 ﻿using Sandbox;
-using Sandbox.Tools;
 
 [Library( "ent_light", Title = "Light", Spawnable = true )]
 public partial class LightEntity : PointLightEntity, IUse

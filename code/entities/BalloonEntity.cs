@@ -3,12 +3,6 @@
 [Library( "ent_balloon", Title = "Balloon", Spawnable = true )]
 public partial class BalloonEntity : Prop, IPhysicsUpdate
 {
-	static SoundEvent PopSound = new( "sounds/balloon_pop_cute.vsnd" )
-	{
-		Volume = 1,
-		DistanceMax = 500.0f
-	};
-
 	public PhysicsJoint AttachJoint;
 	public Particles AttachRope;
 
@@ -43,7 +37,7 @@ public partial class BalloonEntity : Prop, IPhysicsUpdate
 	{
 		base.OnKilled();
 
-		PlaySound( PopSound.Name );
+		PlaySound( "balloon_pop_cute" );
 	}
 
 	public void OnPostPhysicsStep( float dt )
