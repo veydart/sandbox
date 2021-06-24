@@ -149,8 +149,10 @@ public partial class GravGun : Carriable
 	{
 		if ( !holdBody.IsValid() )
 		{
-			holdBody = PhysicsWorld.AddBody();
-			holdBody.BodyType = PhysicsBodyType.Keyframed;
+			holdBody = new PhysicsBody
+			{
+				BodyType = PhysicsBodyType.Keyframed
+			};
 		}
 	}
 
