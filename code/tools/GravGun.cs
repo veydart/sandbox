@@ -43,9 +43,7 @@ public partial class GravGun : Carriable
 
 	public override void Simulate( Client client )
 	{
-		var owner = Owner;
-		if ( owner == null )
-			return;
+		if ( Owner is not Player owner ) return;
 
 		if ( !IsServer )
 			return;

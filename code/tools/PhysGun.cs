@@ -47,25 +47,26 @@ public partial class PhysGun : Carriable
 
 	public override void Simulate( Client client )
 	{
-		var owner = Owner as Player;
-		if ( owner == null ) return;
+		if ( Owner is not Player owner ) return;
 
 		var eyePos = owner.EyePos;
 		var eyeDir = owner.EyeRot.Forward;
 		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeRot.Angles().yaw, 0.0f ) );
 
-		if ( !grabbing && Input.Pressed( InputButton.Attack1 ) )
+		if ( Input.Pressed( InputButton.Attack1 ) )
 		{
-			grabbing = true;
+			(Owner as AnimEntity)?.SetAnimBool( "b_attack", true );
+
+			if ( !grabbing )
+				grabbing = true;
 		}
 
 		bool grabEnabled = grabbing && Input.Down( InputButton.Attack1 );
 		bool wantsToFreeze = Input.Pressed( InputButton.Attack2 );
 
-		if ( IsClient && wantsToFreeze )
+		if ( GrabbedEntity.IsValid() && wantsToFreeze )
 		{
-			grabEnabled = false;
-			grabbing = false;
+			(Owner as AnimEntity)?.SetAnimBool( "b_attack", true );
 		}
 
 		BeamActive = grabEnabled;
