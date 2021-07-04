@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 
 [Library( "ent_balloon", Title = "Balloon", Spawnable = true )]
-public partial class BalloonEntity : Prop, IPhysicsUpdate
+public partial class BalloonEntity : Prop
 {
 	public PhysicsJoint AttachJoint;
 	public Particles AttachRope;
@@ -40,7 +40,8 @@ public partial class BalloonEntity : Prop, IPhysicsUpdate
 		PlaySound( "balloon_pop_cute" );
 	}
 
-	public void OnPostPhysicsStep( float dt )
+	[Event.PhysicsPostStep]
+	public void OnPostPhysicsStep()
 	{
 		if ( !this.IsValid() )
 			return;
