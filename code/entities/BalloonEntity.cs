@@ -40,7 +40,7 @@ public partial class BalloonEntity : Prop
 		PlaySound( "balloon_pop_cute" );
 	}
 
-	[Event.PhysicsPostStep]
+	[Event.Physics.PostStep]
 	public void OnPostPhysicsStep()
 	{
 		if ( !this.IsValid() )

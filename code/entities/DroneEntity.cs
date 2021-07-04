@@ -37,7 +37,7 @@ public partial class DroneEntity : Prop
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 	}
 
-	[Event.PhysicsPostStep]
+	[Event.Physics.PostStep]
 	public void OnPostPhysicsStep()
 	{
 		if ( !PhysicsBody.IsValid() )
