@@ -119,6 +119,10 @@ partial class SandboxPlayer : Player
 		if ( LifeState != LifeState.Alive )
 			return;
 
+		var controller = GetActiveController();
+		if ( controller != null )
+			EnableSolidCollisions = !controller.HasTag( "noclip" );
+
 		TickPlayerUse();
 		SimulateActiveChild( cl, ActiveChild );
 
