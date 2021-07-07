@@ -4,13 +4,18 @@
 	public partial class BalloonTool : BaseTool
 	{
 		[Net]
-		public Color32 color { get; set; }
+		public Color32 Tint { get; set; }
 
 		PreviewEntity previewModel;
 
-		public BalloonTool()
+		public override void Activate()
 		{
-			color = Color.Random.ToColor32();
+			base.Activate();
+
+			if ( Host.IsServer )
+			{
+				Tint = Color.Random.ToColor32();
+			}
 		}
 
 		protected override bool IsPreviewTraceValid( TraceResult tr )
@@ -36,7 +41,7 @@
 		{
 			if ( previewModel.IsValid() )
 			{
-				previewModel.RenderColor = color;
+				previewModel.RenderColor = Tint;
 			}
 
 			if ( !Host.IsServer )
@@ -73,9 +78,9 @@
 
 				ent.SetModel( "models/citizen_props/balloonregular01.vmdl" );
 				ent.PhysicsBody.GravityScale = -0.2f;
-				ent.RenderColor = color;
+				ent.RenderColor = Tint;
 
-				color = Color.Random.ToColor32();
+				Tint = Color.Random.ToColor32();
 
 				if ( !useRope )
 					return;
