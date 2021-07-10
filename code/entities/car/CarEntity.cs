@@ -166,6 +166,8 @@ public partial class CarEntity : Prop, IUse
 		player.Vehicle = null;
 		player.VehicleController = null;
 		player.VehicleCamera = null;
+
+		ResetInput();
 	}
 
 	protected override void OnDestroy()
@@ -200,8 +202,6 @@ public partial class CarEntity : Prop, IUse
 				RemoveDriver( player );
 			}
 		}
-
-		ResetInput();
 	}
 
 	public override void Simulate( Client owner )
