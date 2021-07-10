@@ -425,10 +425,10 @@ public partial class CarEntity : Prop, IUse
 		if ( !IsServer )
 			return;
 
+		base.OnPhysicsCollision( eventData );
+
 		if ( eventData.Entity is SandboxPlayer player && player.Vehicle == null )
 		{
-			base.OnPhysicsCollision( eventData );
-
 			if ( player.LifeState == LifeState.Dead )
 			{
 				Particles.Create( "particles/impact.flesh.bloodpuff-big.vpcf", eventData.Pos );
