@@ -5,6 +5,9 @@ using System.Collections.Generic;
 [Library( "ent_car", Title = "Car", Spawnable = true )]
 public partial class CarEntity : Prop, IUse
 {
+	[ConVar.Replicated( "debug_car" )]
+	public static bool debug_car { get; set; } = false;
+
 	private CarWheel frontLeft;
 	private CarWheel frontRight;
 	private CarWheel backLeft;
@@ -318,26 +321,26 @@ public partial class CarEntity : Prop, IUse
 
 	private void RaycastWheels( Rotation rotation, bool doPhysics, out bool frontWheels, out bool backWheels, float dt )
 	{
-		const float forward = 42;
-		const float right = 32;
+		float forward = 42;
+		float right = 32;
 
-		var frontLeftPos = rotation.Forward * forward + rotation.Right * right;
-		var frontRightPos = rotation.Forward * forward - rotation.Right * right;
-		var backLeftPos = -rotation.Forward * forward + rotation.Right * right;
-		var backRightPos = -rotation.Forward * forward - rotation.Right * right;
+		var frontLeftPos = rotation.Forward * forward + rotation.Right * right + rotation.Up * 20;
+		var frontRightPos = rotation.Forward * forward - rotation.Right * right + rotation.Up * 20;
+		var backLeftPos = -rotation.Forward * forward + rotation.Right * right + rotation.Up * 20;
+		var backRightPos = -rotation.Forward * forward - rotation.Right * right + rotation.Up * 20;
 
 		var tiltAmount = AccelerationTilt * 2.5f;
 		var leanAmount = TurnLean * 2.5f;
 
-		const float length = 20.0f;
+		float length = 20.0f * Scale;
 
 		frontWheels =
-			frontLeft.Raycast( length + tiltAmount - leanAmount, doPhysics, frontLeftPos, ref frontLeftDistance, dt ) |
-			frontRight.Raycast( length + tiltAmount + leanAmount, doPhysics, frontRightPos, ref frontRightDistance, dt );
+			frontLeft.Raycast( length + tiltAmount - leanAmount, doPhysics, frontLeftPos * Scale, ref frontLeftDistance, dt ) |
+			frontRight.Raycast( length + tiltAmount + leanAmount, doPhysics, frontRightPos * Scale, ref frontRightDistance, dt );
 
 		backWheels =
-			backLeft.Raycast( length - tiltAmount - leanAmount, doPhysics, backLeftPos, ref backLeftDistance, dt ) |
-			backRight.Raycast( length - tiltAmount + leanAmount, doPhysics, backRightPos, ref backRightDistance, dt );
+			backLeft.Raycast( length - tiltAmount - leanAmount, doPhysics, backLeftPos * Scale, ref backLeftDistance, dt ) |
+			backRight.Raycast( length - tiltAmount + leanAmount, doPhysics, backRightPos * Scale, ref backRightDistance, dt );
 	}
 
 	float wheelAngle = 0.0f;
@@ -347,7 +350,7 @@ public partial class CarEntity : Prop, IUse
 	public void OnFrame()
 	{
 		wheelAngle = wheelAngle.LerpTo( CalculateTurnFactor( TurnDirection, Math.Abs( WheelSpeed ) ), 1.0f - MathF.Pow( 0.01f, Time.Delta ) );
-		wheelRevolute += (WheelSpeed / 14.0f).RadianToDegree() * Time.Delta;
+		wheelRevolute += (WheelSpeed / (14.0f * Scale)).RadianToDegree() * Time.Delta;
 
 		var wheelRotRight = Rotation.From( -wheelAngle * 70, 180, -wheelRevolute );
 		var wheelRotLeft = Rotation.From( wheelAngle * 70, 0, wheelRevolute );

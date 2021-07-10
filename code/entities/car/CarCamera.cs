@@ -82,8 +82,8 @@ public class CarCamera : Camera
 
 		Rot = orbitYawRot * orbitPitchRot;
 
-		var startPos = carPos + carRot.Up * OrbitHeight;
-		var targetPos = startPos + Rot.Backward * OrbitDistance;
+		var startPos = carPos + carRot.Up * (OrbitHeight * car.Scale);
+		var targetPos = startPos + Rot.Backward * (OrbitDistance * car.Scale);
 
 		var tr = Trace.Ray( startPos, targetPos )
 			.Ignore( car )
