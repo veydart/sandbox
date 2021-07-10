@@ -425,11 +425,7 @@ public partial class CarEntity : Prop, IUse
 		if ( !IsServer )
 			return;
 
-		var body = PhysicsBody;
-		if ( !body.IsValid() )
-			return;
-
-		if ( eventData.Entity != driver && eventData.Entity is Player player )
+		if ( eventData.Entity is SandboxPlayer player && player.Vehicle == null )
 		{
 			base.OnPhysicsCollision( eventData );
 
