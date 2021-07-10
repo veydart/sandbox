@@ -100,8 +100,8 @@ partial class SandboxPlayer : Player
 
 	public override PawnController GetActiveController()
 	{
-		if ( DevController != null ) return DevController;
 		if ( VehicleController != null ) return VehicleController;
+		if ( DevController != null ) return DevController;
 
 		return base.GetActiveController();
 	}
@@ -129,6 +129,11 @@ partial class SandboxPlayer : Player
 
 		if ( LifeState != LifeState.Alive )
 			return;
+
+		if ( VehicleController != null && DevController is NoclipController )
+		{
+			DevController = null;
+		}
 
 		var controller = GetActiveController();
 		if ( controller != null )
