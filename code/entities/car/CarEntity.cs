@@ -397,7 +397,7 @@ public partial class CarEntity : Prop, IUse
 		if ( !body.IsValid() )
 			return;
 
-		if ( other is Player player )
+		if ( other != driver && other is Player player )
 		{
 			var speed = body.Velocity.Length;
 			var forceOrigin = Position + Rotation.Down * Rand.Float( 20, 30 );
@@ -426,7 +426,7 @@ public partial class CarEntity : Prop, IUse
 		if ( !body.IsValid() )
 			return;
 
-		if ( eventData.Entity is Player player )
+		if ( eventData.Entity != driver && eventData.Entity is Player player )
 		{
 			base.OnPhysicsCollision( eventData );
 
