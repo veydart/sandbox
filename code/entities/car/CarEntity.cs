@@ -333,7 +333,7 @@ public partial class CarEntity : Prop, IUse
 		var tiltAmount = AccelerationTilt * 2.5f;
 		var leanAmount = TurnLean * 2.5f;
 
-		float length = 20.0f * Scale;
+		float length = 20.0f;
 
 		frontWheels =
 			frontLeft.Raycast( length + tiltAmount - leanAmount, doPhysics, frontLeftPos * Scale, ref frontLeftDistance, dt ) |

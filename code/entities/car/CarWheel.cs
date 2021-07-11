@@ -21,14 +21,14 @@ struct CarWheel
 		var rotation = _parent.Rotation;
 
 		var wheelAttachPos = position + offset;
-		var wheelExtend = wheelAttachPos - rotation.Up * length;
+		var wheelExtend = wheelAttachPos - rotation.Up * (length * _parent.Scale);
 
 		var tr = Trace.Ray( wheelAttachPos, wheelExtend )
 			.Ignore( _parent )
 			.WithoutTags( "driving" )
 			.Run();
 
-		wheel = (20 * tr.Fraction);
+		wheel = length * tr.Fraction;
 		var wheelRadius = (14 * _parent.Scale);
 
 		if ( !doPhysics && CarEntity.debug_car )
@@ -56,7 +56,7 @@ struct CarWheel
 		var body = _parent.PhysicsBody;
 
 		_previousLength = _currentLength;
-		_currentLength = length - tr.Distance;
+		_currentLength = (length * _parent.Scale) - tr.Distance;
 
 		var springVelocity = (_currentLength - _previousLength) / dt;
 		var springForce = body.Mass * 50.0f * _currentLength;
