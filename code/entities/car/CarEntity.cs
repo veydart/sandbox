@@ -169,6 +169,7 @@ public partial class CarEntity : Prop, IUse
 		player.Vehicle = null;
 		player.VehicleController = null;
 		player.VehicleCamera = null;
+		player.Tags.Remove( "driving" );
 
 		ResetInput();
 	}
@@ -246,7 +247,7 @@ public partial class CarEntity : Prop, IUse
 
 		body.DragEnabled = false;
 		body.LinearDamping = 0;
-		body.AngularDamping = (backWheelsOnGround && frontWheelsOnGround) ? 0 : 2;
+		body.AngularDamping = (backWheelsOnGround && frontWheelsOnGround) ? 0 : 0.5f;
 		body.GravityScale = (backWheelsOnGround && frontWheelsOnGround) ? 0 : 1;
 
 		var rotation = body.Rotation;
@@ -378,6 +379,7 @@ public partial class CarEntity : Prop, IUse
 			player.Vehicle = this;
 			player.VehicleController = new CarController();
 			player.VehicleCamera = new CarCamera();
+			player.Tags.Add( "driving" );
 			driver = player;
 		}
 
