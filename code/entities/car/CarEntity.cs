@@ -284,7 +284,7 @@ public partial class CarEntity : Prop, IUse
 
 		if ( frontWheelsOnGround && backWheelsOnGround )
 		{
-			body.Velocity += (Vector3.Down * 900.0f) * dt;
+			body.Velocity += PhysicsWorld.Gravity * dt;
 		}
 
 		if ( onGround )
