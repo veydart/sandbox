@@ -35,12 +35,14 @@ public partial class CarEntity : Prop, IUse
 		public float throttle;
 		public float turning;
 		public float breaking;
+		public bool airControl;
 
 		public void Reset()
 		{
 			throttle = 0;
 			turning = 0;
 			breaking = 0;
+			airControl = false;
 		}
 	}
 
@@ -230,6 +232,7 @@ public partial class CarEntity : Prop, IUse
 			currentInput.throttle = (Input.Down( InputButton.Forward ) ? 1 : 0) + (Input.Down( InputButton.Back ) ? -1 : 0);
 			currentInput.turning = (Input.Down( InputButton.Left ) ? 1 : 0) + (Input.Down( InputButton.Right ) ? -1 : 0);
 			currentInput.breaking = (Input.Down( InputButton.Jump ) ? 1 : 0);
+			currentInput.airControl = Input.Down( InputButton.Duck );
 		}
 	}
 
@@ -427,7 +430,28 @@ public partial class CarEntity : Prop, IUse
 		if ( !IsServer )
 			return;
 
-		base.OnPhysicsCollision( eventData );
+		var propData = GetModelPropData();
+
+		var minImpactSpeed = propData.MinImpactDamageSpeed;
+		if ( minImpactSpeed <= 0.0f ) minImpactSpeed = 500;
+
+		var impactDmg = propData.ImpactDamage;
+		if ( impactDmg <= 0.0f ) impactDmg = 10;
+
+		var speed = eventData.Speed;
+
+		if ( speed > minImpactSpeed )
+		{
+			if ( eventData.Entity.IsValid() && eventData.Entity != this )
+			{
+				var damage = speed / minImpactSpeed * impactDmg * 1.2f;
+				eventData.Entity.TakeDamage( DamageInfo.Generic( damage )
+					.WithFlag( DamageFlags.PhysicsImpact )
+					.WithAttacker( driver != null ? driver : this, driver != null ? this : null )
+					.WithPosition( eventData.Pos )
+					.WithForce( eventData.PreVelocity ) );
+			}
+		}
 
 		if ( eventData.Entity is SandboxPlayer player && player.Vehicle == null )
 		{
