@@ -325,7 +325,7 @@ public partial class CarEntity : Prop, IUse
 				.Run();
 
 			if ( debug_car )
-				DebugOverlay.Line( tr.StartPos, tr.EndPos, tr.Hit ? Color.Red : Color.Green  );
+				DebugOverlay.Line( tr.StartPos, tr.EndPos, tr.Hit ? Color.Red : Color.Green );
 
 			canAirControl = !tr.Hit;
 		}
@@ -471,7 +471,7 @@ public partial class CarEntity : Prop, IUse
 		if ( !body.IsValid() )
 			return;
 
-		if ( other != driver && other is Player player )
+		if ( other is SandboxPlayer player && player.Vehicle == null )
 		{
 			var speed = body.Velocity.Length;
 			var forceOrigin = Position + Rotation.Down * Rand.Float( 20, 30 );
@@ -496,6 +496,11 @@ public partial class CarEntity : Prop, IUse
 		if ( !IsServer )
 			return;
 
+		if ( eventData.Entity is SandboxPlayer player && player.Vehicle != null )
+		{
+			return;
+		}
+
 		var propData = GetModelPropData();
 
 		var minImpactSpeed = propData.MinImpactDamageSpeed;
@@ -513,19 +518,10 @@ public partial class CarEntity : Prop, IUse
 				var damage = speed / minImpactSpeed * impactDmg * 1.2f;
 				eventData.Entity.TakeDamage( DamageInfo.Generic( damage )
 					.WithFlag( DamageFlags.PhysicsImpact )
+					.WithFlag( DamageFlags.Vehicle )
 					.WithAttacker( driver != null ? driver : this, driver != null ? this : null )
 					.WithPosition( eventData.Pos )
 					.WithForce( eventData.PreVelocity ) );
-			}
-		}
-
-		if ( eventData.Entity is SandboxPlayer player && player.Vehicle == null )
-		{
-			if ( player.LifeState == LifeState.Dead )
-			{
-				Particles.Create( "particles/impact.flesh.bloodpuff-big.vpcf", eventData.Pos );
-				Particles.Create( "particles/impact.flesh-big.vpcf", eventData.Pos );
-				PlaySound( "kersplat" );
 			}
 		}
 	}
