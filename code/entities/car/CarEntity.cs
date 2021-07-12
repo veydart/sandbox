@@ -297,7 +297,7 @@ public partial class CarEntity : Prop, IUse
 		if ( onGround )
 		{
 			float forwardDamping = 0.2f;
-			body.Velocity = VelocityDamping( body.Velocity, rotation, new Vector3( forwardDamping.LerpTo( 0.99f, currentInput.breaking ), 1.0f, 0.0f ), dt );
+			body.Velocity = VelocityDamping( body.Velocity, rotation, new Vector3( forwardDamping.LerpTo( 0.9f, currentInput.breaking ), 1.0f, 0.0f ), dt );
 
 			localVelocity = rotation.Inverse * body.Velocity;
 			WheelSpeed = localVelocity.x;
@@ -321,7 +321,7 @@ public partial class CarEntity : Prop, IUse
 				DebugOverlay.Line( tr.StartPos, tr.EndPos );
 
 			{
-				var force = tr.Hit ? 400.0f : 100.0f;
+				var force = tr.Hit ? 400.0f : 200.0f;
 				body.ApplyForceAt( body.MassCenter + rotation.Left * (50 * roll), (rotation.Down * roll) * (roll * (body.Mass * force)) );
 
 				if ( debug_car )
@@ -330,7 +330,7 @@ public partial class CarEntity : Prop, IUse
 
 			if ( !tr.Hit && currentInput.tilt != 0 )
 			{
-				var force = 200.0f;
+				var force = 300.0f;
 				body.ApplyForceAt( body.MassCenter + rotation.Forward * (50 * tilt), (rotation.Down * tilt) * (tilt * (body.Mass * force)) );
 
 				if ( debug_car )
@@ -347,7 +347,7 @@ public partial class CarEntity : Prop, IUse
 	private static float CalculateTurnFactor( float direction, float speed )
 	{
 		var turnFactor = MathF.Min( speed / 500.0f, 1 );
-		var yawSpeedFactor = 1.0f - (speed / 1000.0f).Clamp( 0, 0.5f );
+		var yawSpeedFactor = 1.0f - (speed / 1000.0f).Clamp( 0, 0.4f );
 
 		return direction * turnFactor * yawSpeedFactor;
 	}
@@ -389,11 +389,11 @@ public partial class CarEntity : Prop, IUse
 	[Event.Frame]
 	public void OnFrame()
 	{
-		wheelAngle = wheelAngle.LerpTo( CalculateTurnFactor( TurnDirection, Math.Abs( WheelSpeed ) ), 1.0f - MathF.Pow( 0.01f, Time.Delta ) );
+		wheelAngle = wheelAngle.LerpTo( TurnDirection * 25, 1.0f - MathF.Pow( 0.001f, Time.Delta ) );
 		wheelRevolute += (WheelSpeed / (14.0f * Scale)).RadianToDegree() * Time.Delta;
 
-		var wheelRotRight = Rotation.From( -wheelAngle * 70, 180, -wheelRevolute );
-		var wheelRotLeft = Rotation.From( wheelAngle * 70, 0, wheelRevolute );
+		var wheelRotRight = Rotation.From( -wheelAngle, 180, -wheelRevolute );
+		var wheelRotLeft = Rotation.From( wheelAngle, 0, wheelRevolute );
 		var wheelRotBackRight = Rotation.From( 0, 90, -wheelRevolute );
 		var wheelRotBackLeft = Rotation.From( 0, -90, wheelRevolute );
 
