@@ -175,7 +175,7 @@ public partial class CarEntity : Prop, IUse
 		player.Vehicle = null;
 		player.VehicleController = null;
 		player.VehicleCamera = null;
-		player.Tags.Remove( "driving" );
+		player.PhysicsBody.Enabled = true;
 
 		ResetInput();
 	}
@@ -321,7 +321,6 @@ public partial class CarEntity : Prop, IUse
 			var s = body.Position + (rotation * body.LocalMassCenter);
 			var tr = Trace.Ray( s, s + rotation.Down * 50 )
 				.Ignore( this )
-				.WithoutTags( "driving" )
 				.Run();
 
 			if ( debug_car )
@@ -335,7 +334,6 @@ public partial class CarEntity : Prop, IUse
 			var s = body.Position + (rotation * body.LocalMassCenter) + (rotation.Right * airRoll * 50) + (rotation.Down * 10);
 			var tr = Trace.Ray( s, s + rotation.Up * 25 )
 				.Ignore( this )
-				.WithoutTags( "driving" )
 				.Run();
 
 			if ( debug_car )
@@ -448,7 +446,7 @@ public partial class CarEntity : Prop, IUse
 			player.Vehicle = this;
 			player.VehicleController = new CarController();
 			player.VehicleCamera = new CarCamera();
-			player.Tags.Add( "driving" );
+			player.PhysicsBody.Enabled = false;
 			driver = player;
 		}
 
