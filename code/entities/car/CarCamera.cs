@@ -9,7 +9,7 @@ public class CarCamera : Camera
 	protected virtual float FovSmoothingSpeed => 4.0f;
 	protected virtual float OrbitCooldown => 0.6f;
 	protected virtual float OrbitSmoothingSpeed => 25.0f;
-	protected virtual float OrbitReturnSmoothingSpeed => 3.0f;
+	protected virtual float OrbitReturnSmoothingSpeed => 2.0f;
 	protected virtual float MinOrbitPitch => -25.0f;
 	protected virtual float MaxOrbitPitch => 70.0f;
 	protected virtual float FixedOrbitPitch => 10.0f;

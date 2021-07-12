@@ -21,6 +21,8 @@ public partial class CarEntity : Prop, IUse
 	private bool frontWheelsOnGround;
 	private bool backWheelsOnGround;
 	private float accelerateDirection;
+	private float airRoll;
+	private float airTilt;
 
 	[Net] private float WheelSpeed { get; set; }
 	[Net] private float TurnDirection { get; set; }
@@ -261,6 +263,9 @@ public partial class CarEntity : Prop, IUse
 		accelerateDirection = currentInput.throttle.Clamp( -1, 1 ) * (1.0f - currentInput.breaking);
 		TurnDirection = TurnDirection.LerpTo( currentInput.turning.Clamp( -1, 1 ), 1.0f - MathF.Pow( 0.0075f, dt ) );
 
+		airRoll = airRoll.LerpTo( currentInput.roll.Clamp( -1, 1 ), 1.0f - MathF.Pow( 0.0001f, dt ) );
+		airTilt = airTilt.LerpTo( currentInput.tilt.Clamp( -1, 1 ), 1.0f - MathF.Pow( 0.0001f, dt ) );
+
 		float targetTilt = 0;
 		float targetLean = 0;
 
@@ -282,7 +287,7 @@ public partial class CarEntity : Prop, IUse
 		{
 			var forwardSpeed = MathF.Abs( localVelocity.x );
 			var speedFactor = 1.0f - (forwardSpeed / 5000.0f).Clamp( 0.0f, 1.0f );
-			var acceleration = speedFactor * (accelerateDirection < 0.0f ? 200.0f : 600.0f) * accelerateDirection * dt;
+			var acceleration = speedFactor * (accelerateDirection < 0.0f ? 200.0f : 700.0f) * accelerateDirection * dt;
 			body.Velocity += rotation * new Vector3( acceleration, 0, 0 );
 		}
 
@@ -293,6 +298,8 @@ public partial class CarEntity : Prop, IUse
 		{
 			body.Velocity += PhysicsWorld.Gravity * dt;
 		}
+
+		bool canAirControl = false;
 
 		if ( onGround )
 		{
@@ -305,13 +312,27 @@ public partial class CarEntity : Prop, IUse
 
 			body.AngularVelocity += rotation * new Vector3( 0, 0, turnAmount );
 			body.AngularVelocity = VelocityDamping( body.AngularVelocity, rotation, new Vector3( 0, 0, 0.999f ), dt );
-		}
-		else if ( currentInput.tilt != 0 || currentInput.roll != 0 )
-		{
-			var roll = currentInput.roll.Clamp( -1, 1 );
-			var tilt = currentInput.tilt.Clamp( -1, 1 );
 
-			var s = body.Position + (rotation * body.LocalMassCenter) + (rotation.Right * roll * 50) + (rotation.Down * 10);
+			airRoll = 0;
+			airTilt = 0;
+		}
+		else
+		{
+			var s = body.Position + (rotation * body.LocalMassCenter);
+			var tr = Trace.Ray( s, s + rotation.Down * 50 )
+				.Ignore( this )
+				.WithoutTags( "driving" )
+				.Run();
+
+			if ( debug_car )
+				DebugOverlay.Line( tr.StartPos, tr.EndPos, tr.Hit ? Color.Red : Color.Green  );
+
+			canAirControl = !tr.Hit;
+		}
+
+		if ( canAirControl && (airRoll != 0 || airTilt != 0) )
+		{
+			var s = body.Position + (rotation * body.LocalMassCenter) + (rotation.Right * airRoll * 50) + (rotation.Down * 10);
 			var tr = Trace.Ray( s, s + rotation.Up * 25 )
 				.Ignore( this )
 				.WithoutTags( "driving" )
@@ -320,24 +341,33 @@ public partial class CarEntity : Prop, IUse
 			if ( debug_car )
 				DebugOverlay.Line( tr.StartPos, tr.EndPos );
 
+			bool dampen = false;
+
+			if ( currentInput.roll.Clamp( -1, 1 ) != 0 )
 			{
-				var force = tr.Hit ? 400.0f : 200.0f;
+				var force = tr.Hit ? 400.0f : 100.0f;
+				var roll = tr.Hit ? currentInput.roll.Clamp( -1, 1 ) : airRoll;
 				body.ApplyForceAt( body.MassCenter + rotation.Left * (50 * roll), (rotation.Down * roll) * (roll * (body.Mass * force)) );
 
 				if ( debug_car )
 					DebugOverlay.Sphere( body.MassCenter + rotation.Left * (50 * roll), 8, Color.Red );
+
+				dampen = true;
 			}
 
-			if ( !tr.Hit && currentInput.tilt != 0 )
+			if ( !tr.Hit && currentInput.tilt.Clamp( -1, 1 ) != 0 )
 			{
-				var force = 300.0f;
-				body.ApplyForceAt( body.MassCenter + rotation.Forward * (50 * tilt), (rotation.Down * tilt) * (tilt * (body.Mass * force)) );
+				var force = 200.0f;
+				body.ApplyForceAt( body.MassCenter + rotation.Forward * (50 * airTilt), (rotation.Down * airTilt) * (airTilt * (body.Mass * force)) );
 
 				if ( debug_car )
-					DebugOverlay.Sphere( body.MassCenter + rotation.Forward * (50 * tilt), 8, Color.Green );
+					DebugOverlay.Sphere( body.MassCenter + rotation.Forward * (50 * airTilt), 8, Color.Green );
+
+				dampen = true;
 			}
 
-			body.AngularVelocity = VelocityDamping( body.AngularVelocity, rotation, 0.99f, dt );
+			if ( dampen )
+				body.AngularVelocity = VelocityDamping( body.AngularVelocity, rotation, 0.95f, dt );
 		}
 
 		localVelocity = rotation.Inverse * body.Velocity;
