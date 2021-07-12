@@ -91,7 +91,7 @@ public class CarCamera : Camera
 
 		var tr = Trace.Ray( startPos, targetPos )
 			.Ignore( car )
-			.Radius( 6.0f )
+			.Radius( 5.0f )
 			.WorldOnly()
 			.Run();
 

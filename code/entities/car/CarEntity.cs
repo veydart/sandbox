@@ -232,7 +232,7 @@ public partial class CarEntity : Prop, IUse
 			currentInput.throttle = (Input.Down( InputButton.Forward ) ? 1 : 0) + (Input.Down( InputButton.Back ) ? -1 : 0);
 			currentInput.turning = (Input.Down( InputButton.Left ) ? 1 : 0) + (Input.Down( InputButton.Right ) ? -1 : 0);
 			currentInput.breaking = (Input.Down( InputButton.Jump ) ? 1 : 0);
-			currentInput.airControl = Input.Down( InputButton.Duck );
+			currentInput.airControl = Input.Down( InputButton.Run );
 		}
 	}
 
@@ -302,6 +302,34 @@ public partial class CarEntity : Prop, IUse
 
 			body.AngularVelocity += rotation * new Vector3( 0, 0, turnAmount );
 			body.AngularVelocity = VelocityDamping( body.AngularVelocity, rotation, new Vector3( 0, 0, 0.999f ), dt );
+		}
+		else if ( currentInput.airControl && (currentInput.turning != 0 || currentInput.throttle != 0) )
+		{
+			var d = currentInput.turning.Clamp( -1, 1 );
+			var d2 = currentInput.throttle.Clamp( -1, 1 );
+
+			var s = body.Position + rotation * body.LocalMassCenter + (rotation.Right * d * 50);
+			var tr = Trace.Ray( s, s + rotation.Up * 10 )
+				.Ignore( this )
+				.WithoutTags( "driving" )
+				.Run();
+
+			if ( debug_car )
+				DebugOverlay.Line( tr.StartPos, tr.EndPos );
+
+			var force = tr.Hit ? 400 : 200;
+
+			body.ApplyForceAt( body.MassCenter + rotation.Left * (50 * d), (rotation.Down * d) * (d * (body.Mass * force)) );
+
+			if ( debug_car )
+				DebugOverlay.Sphere( body.MassCenter + rotation.Left * (50 * d), 8, Color.Red );
+
+			body.ApplyForceAt( body.MassCenter + rotation.Forward * (50 * d2), (rotation.Down * d2) * (d2 * (body.Mass * force)) );
+
+			if ( debug_car )
+				DebugOverlay.Sphere( body.MassCenter + rotation.Forward * (50 * d2), 8, Color.Green );
+
+			body.AngularVelocity = VelocityDamping( body.AngularVelocity, rotation, 0.99f, dt );
 		}
 
 		localVelocity = rotation.Inverse * body.Velocity;
