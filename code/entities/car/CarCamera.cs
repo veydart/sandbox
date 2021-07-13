@@ -18,7 +18,12 @@ public class CarCamera : Camera
 	protected virtual float MaxOrbitReturnSpeed => 100.0f;
 	protected virtual float MinCarPitch => -60.0f;
 	protected virtual float MaxCarPitch => 60.0f;
+	protected virtual float CarPitchSmoothingSpeed => 1.0f;
 	protected virtual float CollisionRadius => 8.0f;
+	protected virtual float ShakeSpeed => 10.0f;
+	protected virtual float ShakeSpeedThreshold => 1500.0f;
+	protected virtual float ShakeMaxSpeed => 2500.0f;
+	protected virtual float ShakeMaxLength => 1.0f;
 
 	private bool orbitEnabled;
 	private TimeSince timeSinceOrbit;
@@ -26,6 +31,7 @@ public class CarCamera : Camera
 	private Rotation orbitYawRot;
 	private Rotation orbitPitchRot;
 	private float currentFov;
+	private float carPitch;
 
 	public override void Activated()
 	{
@@ -38,6 +44,7 @@ public class CarCamera : Camera
 		orbitYawRot = Rotation.Identity;
 		orbitPitchRot = Rotation.Identity;
 		currentFov = MinFov;
+		carPitch = 0;
 	}
 
 	public override void Update()
@@ -64,7 +71,7 @@ public class CarCamera : Camera
 
 		var carPos = car.Position + car.Rotation * body.LocalMassCenter;
 		var carRot = car.Rotation;
-		var carPitch = carRot.Pitch().Clamp( MinCarPitch, MaxCarPitch ) * (speed < 0.0f ? -1.0f : 1.0f);
+		carPitch = carPitch.LerpTo( carRot.Pitch().Clamp( MinCarPitch, MaxCarPitch ) * (speed < 0.0f ? -1.0f : 1.0f), Time.Delta * CarPitchSmoothingSpeed );
 
 		if ( orbitEnabled )
 		{
@@ -103,6 +110,8 @@ public class CarCamera : Camera
 
 		currentFov = MaxFovSpeed > 0.0f ? currentFov.LerpTo( MinFov.LerpTo( MaxFov, speedAbs / MaxFovSpeed ), Time.Delta * FovSmoothingSpeed ) : MaxFov;
 		FieldOfView = currentFov;
+
+		ApplyShake( speedAbs );
 	}
 
 	public override void BuildInput( InputBuilder input )
@@ -134,6 +143,23 @@ public class CarCamera : Camera
 
 		input.ViewAngles = orbitAngles.WithYaw( orbitAngles.yaw );
 		input.ViewAngles = input.ViewAngles.Normal;
+	}
+
+	private void ApplyShake( float speed )
+	{
+		if ( speed < ShakeSpeedThreshold )
+			return;
+
+		var pos = (Time.Now % MathF.PI) * ShakeSpeed;
+		var length = (speed - ShakeSpeedThreshold) / (ShakeMaxSpeed - ShakeSpeedThreshold);
+		length = length.Clamp( 0, ShakeMaxLength );
+
+		float x = Noise.Perlin( pos, 0, 0 ) * length;
+		float y = Noise.Perlin( pos, 5.0f, 0 ) * length;
+
+		Pos += Rot.Right * x + Rot.Up * y;
+		Rot *= Rotation.FromAxis( Vector3.Up, x );
+		Rot *= Rotation.FromAxis( Vector3.Right, y );
 	}
 }
 
