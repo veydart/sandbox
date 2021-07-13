@@ -80,6 +80,7 @@ public partial class CarEntity : Prop, IUse
 		SetModel( modelName );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 		SetInteractsExclude( CollisionLayer.Player );
+		EnableSelfCollisions = false;
 
 		var trigger = new ModelEntity
 		{
