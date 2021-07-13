@@ -23,8 +23,28 @@ public partial class Weapon : BaseWeapon, IUse
 		{
 			Parent = this,
 			Position = Position,
-			EnableTouch = true
+			EnableTouch = true,
 		};
+
+		PickupTrigger.PhysicsBody.EnableAutoSleeping = false;
+	}
+
+	public override void OnCarryStart( Entity carrier )
+	{
+		base.OnCarryStart( carrier );
+
+		if ( IsClient ) return;
+
+		PickupTrigger.EnableAllCollisions = false;
+	}
+
+	public override void OnCarryDrop( Entity dropper )
+	{
+		base.OnCarryDrop( dropper );
+
+		if ( IsClient ) return;
+
+		PickupTrigger.EnableAllCollisions = true;
 	}
 
 	public override void ActiveStart( Entity ent )
