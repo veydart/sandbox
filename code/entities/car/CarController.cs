@@ -27,10 +27,8 @@ public class CarController : PawnController
 			return;
 		}
 
-		float heightOffset = (20 * car.Scale);
+		float heightOffset = (10 * car.Scale);
 
-		Position = car.Position + car.Rotation.Up * heightOffset;
-		Rotation = car.Rotation;
 		EyeRot = Input.Rotation;
 		EyePosLocal = Vector3.Up * (64 - heightOffset);
 		Velocity = car.Velocity;

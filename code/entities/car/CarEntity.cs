@@ -60,7 +60,7 @@ public partial class CarEntity : Prop, IUse
 		backRight = new CarWheel( this );
 	}
 
-	private Player driver;
+	[Net] private Player driver { get; set; }
 
 	private ModelEntity chassis_axle_rear;
 	private ModelEntity chassis_axle_front;
@@ -167,17 +167,6 @@ public partial class CarEntity : Prop, IUse
 				clientModels.Add( wheel3 );
 			}
 		}
-	}
-
-	private void RemoveDriver( SandboxPlayer player )
-	{
-		driver = null;
-		player.Vehicle = null;
-		player.VehicleController = null;
-		player.VehicleCamera = null;
-		player.PhysicsBody.Enabled = true;
-
-		ResetInput();
 	}
 
 	protected override void OnDestroy()
@@ -439,14 +428,34 @@ public partial class CarEntity : Prop, IUse
 		wheel3.LocalRotation = wheelRotBackLeft;
 	}
 
+	private void RemoveDriver( SandboxPlayer player )
+	{
+		driver = null;
+		player.Vehicle = null;
+		player.VehicleController = null;
+		player.VehicleAnimator = null;
+		player.VehicleCamera = null;
+		player.Parent = null;
+		player.PhysicsBody.Enabled = true;
+		player.PhysicsBody.Position = player.Position;
+
+		ResetInput();
+	}
+
 	public bool OnUse( Entity user )
 	{
 		if ( user is SandboxPlayer player && player.Vehicle == null )
 		{
 			player.Vehicle = this;
 			player.VehicleController = new CarController();
+			player.VehicleAnimator = new CarAnimator();
 			player.VehicleCamera = new CarCamera();
+			player.Parent = this;
+			player.LocalPosition = Vector3.Up * 10;
+			player.LocalRotation = Rotation.Identity;
+			player.LocalScale = 1;
 			player.PhysicsBody.Enabled = false;
+
 			driver = player;
 		}
 
