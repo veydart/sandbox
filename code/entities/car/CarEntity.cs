@@ -60,7 +60,7 @@ public partial class CarEntity : Prop, IUse
 		backRight = new CarWheel( this );
 	}
 
-	[Net] private Player driver { get; set; }
+	[Net] public Player driver { get; private set; }
 
 	private ModelEntity chassis_axle_rear;
 	private ModelEntity chassis_axle_front;
