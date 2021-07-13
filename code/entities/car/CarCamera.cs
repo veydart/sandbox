@@ -16,6 +16,9 @@ public class CarCamera : Camera
 	protected virtual float OrbitHeight => 35.0f;
 	protected virtual float OrbitDistance => 150.0f;
 	protected virtual float MaxOrbitReturnSpeed => 100.0f;
+	protected virtual float MinCarPitch => -60.0f;
+	protected virtual float MaxCarPitch => 60.0f;
+	protected virtual float CollisionRadius => 8.0f;
 
 	private bool orbitEnabled;
 	private TimeSince timeSinceOrbit;
@@ -61,13 +64,14 @@ public class CarCamera : Camera
 
 		var carPos = car.Position + car.Rotation * body.LocalMassCenter;
 		var carRot = car.Rotation;
+		var carPitch = carRot.Pitch().Clamp( MinCarPitch, MaxCarPitch ) * (speed < 0.0f ? -1.0f : 1.0f);
 
 		if ( orbitEnabled )
 		{
 			var slerpAmount = Time.Delta * OrbitSmoothingSpeed;
 
 			orbitYawRot = Rotation.Slerp( orbitYawRot, Rotation.From( 0.0f, orbitAngles.yaw, 0.0f ), slerpAmount );
-			orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.From( orbitAngles.pitch, 0.0f, 0.0f ), slerpAmount );
+			orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.From( orbitAngles.pitch + carPitch, 0.0f, 0.0f ), slerpAmount );
 		}
 		else
 		{
@@ -77,7 +81,7 @@ public class CarCamera : Camera
 			var slerpAmount = MaxOrbitReturnSpeed > 0.0f ? Time.Delta * (speedAbs / MaxOrbitReturnSpeed).Clamp( 0.0f, OrbitReturnSmoothingSpeed ) : 1.0f;
 
 			orbitYawRot = Rotation.Slerp( orbitYawRot, Rotation.From( 0.0f, targetYaw, 0.0f ), slerpAmount );
-			orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.From( targetPitch, 0.0f, 0.0f ), slerpAmount );
+			orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.From( targetPitch + carPitch, 0.0f, 0.0f ), slerpAmount );
 
 			orbitAngles.pitch = orbitPitchRot.Pitch();
 			orbitAngles.yaw = orbitYawRot.Yaw();
@@ -87,11 +91,11 @@ public class CarCamera : Camera
 		Rot = orbitYawRot * orbitPitchRot;
 
 		var startPos = carPos;
-		var targetPos = startPos + Rot.Backward * (OrbitDistance * car.Scale) + ( Vector3.Up * (OrbitHeight * car.Scale) );
+		var targetPos = startPos + Rot.Backward * (OrbitDistance * car.Scale) + (Vector3.Up * (OrbitHeight * car.Scale));
 
 		var tr = Trace.Ray( startPos, targetPos )
 			.Ignore( car )
-			.Radius( 5.0f )
+			.Radius( CollisionRadius )
 			.WorldOnly()
 			.Run();
 
