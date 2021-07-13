@@ -71,7 +71,7 @@ public class CarCamera : Camera
 
 		var carPos = car.Position + car.Rotation * body.LocalMassCenter;
 		var carRot = car.Rotation;
-		carPitch = carPitch.LerpTo( carRot.Pitch().Clamp( MinCarPitch, MaxCarPitch ) * (speed < 0.0f ? -1.0f : 1.0f), Time.Delta * CarPitchSmoothingSpeed );
+		carPitch = carPitch.LerpTo( car.Grounded ? carRot.Pitch().Clamp( MinCarPitch, MaxCarPitch ) * (speed < 0.0f ? -1.0f : 1.0f) : 0.0f, Time.Delta * CarPitchSmoothingSpeed );
 
 		if ( orbitEnabled )
 		{

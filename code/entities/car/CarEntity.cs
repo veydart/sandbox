@@ -32,8 +32,8 @@ public partial class CarEntity : Prop, IUse
 	[Net] private float AccelerationTilt { get; set; }
 	[Net] private float TurnLean { get; set; }
 
-	[Net]
-	public float MovementSpeed { get; private set; }
+	[Net] public float MovementSpeed { get; private set; }
+	[Net] public bool Grounded { get; private set; }
 
 	private struct InputState
 	{
@@ -286,6 +286,7 @@ public partial class CarEntity : Prop, IUse
 
 		RaycastWheels( rotation, true, out frontWheelsOnGround, out backWheelsOnGround, dt );
 		var onGround = frontWheelsOnGround || backWheelsOnGround;
+		Grounded = onGround;
 
 		if ( frontWheelsOnGround && backWheelsOnGround )
 		{
