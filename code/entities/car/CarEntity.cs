@@ -326,8 +326,9 @@ public partial class CarEntity : Prop, IUse
 
 		if ( canAirControl && (airRoll != 0 || airTilt != 0) )
 		{
-			var s = body.Position + (rotation * body.LocalMassCenter) + (rotation.Right * airRoll * 50) + (rotation.Down * 10);
-			var tr = Trace.Ray( s, s + rotation.Up * 25 )
+			var offset = 50 * Scale;
+			var s = body.Position + (rotation * body.LocalMassCenter) + (rotation.Right * airRoll * offset) + (rotation.Down * (10 * Scale));
+			var tr = Trace.Ray( s, s + rotation.Up * (25 * Scale))
 				.Ignore( this )
 				.Run();
 
@@ -340,10 +341,10 @@ public partial class CarEntity : Prop, IUse
 			{
 				var force = tr.Hit ? 400.0f : 100.0f;
 				var roll = tr.Hit ? currentInput.roll.Clamp( -1, 1 ) : airRoll;
-				body.ApplyForceAt( body.MassCenter + rotation.Left * (50 * roll), (rotation.Down * roll) * (roll * (body.Mass * force)) );
+				body.ApplyForceAt( body.MassCenter + rotation.Left * (offset * roll), (rotation.Down * roll) * (roll * (body.Mass * force)) );
 
 				if ( debug_car )
-					DebugOverlay.Sphere( body.MassCenter + rotation.Left * (50 * roll), 8, Color.Red );
+					DebugOverlay.Sphere( body.MassCenter + rotation.Left * (offset * roll), 8, Color.Red );
 
 				dampen = true;
 			}
@@ -351,10 +352,10 @@ public partial class CarEntity : Prop, IUse
 			if ( !tr.Hit && currentInput.tilt.Clamp( -1, 1 ) != 0 )
 			{
 				var force = 200.0f;
-				body.ApplyForceAt( body.MassCenter + rotation.Forward * (50 * airTilt), (rotation.Down * airTilt) * (airTilt * (body.Mass * force)) );
+				body.ApplyForceAt( body.MassCenter + rotation.Forward * (offset * airTilt), (rotation.Down * airTilt) * (airTilt * (body.Mass * force)) );
 
 				if ( debug_car )
-					DebugOverlay.Sphere( body.MassCenter + rotation.Forward * (50 * airTilt), 8, Color.Green );
+					DebugOverlay.Sphere( body.MassCenter + rotation.Forward * (offset * airTilt), 8, Color.Green );
 
 				dampen = true;
 			}
