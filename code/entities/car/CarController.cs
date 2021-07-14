@@ -27,10 +27,8 @@ public class CarController : PawnController
 			return;
 		}
 
-		float heightOffset = (10 * car.Scale);
-
 		EyeRot = Input.Rotation;
-		EyePosLocal = Vector3.Up * (64 - heightOffset);
+		EyePosLocal = Vector3.Up * (64 - 10) * car.Scale;
 		Velocity = car.Velocity;
 
 		SetTag( "noclip" );
