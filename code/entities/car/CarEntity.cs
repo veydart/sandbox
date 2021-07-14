@@ -26,6 +26,7 @@ public partial class CarEntity : Prop, IUse
 	private float accelerateDirection;
 	private float airRoll;
 	private float airTilt;
+	private TimeSince timeSinceDriverLeft;
 
 	[Net] private float WheelSpeed { get; set; }
 	[Net] private float TurnDirection { get; set; }
@@ -444,12 +445,14 @@ public partial class CarEntity : Prop, IUse
 		player.PhysicsBody.Enabled = true;
 		player.PhysicsBody.Position = player.Position;
 
+		timeSinceDriverLeft = 0;
+
 		ResetInput();
 	}
 
 	public bool OnUse( Entity user )
 	{
-		if ( user is SandboxPlayer player && player.Vehicle == null )
+		if ( user is SandboxPlayer player && player.Vehicle == null && timeSinceDriverLeft > 1.0f )
 		{
 			player.Vehicle = this;
 			player.VehicleController = new CarController();
