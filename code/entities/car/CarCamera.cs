@@ -69,9 +69,12 @@ public class CarCamera : Camera
 		var speed = car.MovementSpeed;
 		var speedAbs = Math.Abs( speed );
 
-		var carPos = car.Position + car.Rotation * body.LocalMassCenter;
+
+		var carPos = car.Position + car.Rotation * (body.LocalMassCenter * car.Scale);
 		var carRot = car.Rotation;
 		carPitch = carPitch.LerpTo( car.Grounded ? carRot.Pitch().Clamp( MinCarPitch, MaxCarPitch ) * (speed < 0.0f ? -1.0f : 1.0f) : 0.0f, Time.Delta * CarPitchSmoothingSpeed );
+
+		DebugOverlay.Sphere( carPos, Math.Clamp( CollisionRadius * car.Scale, 2.0f, 10.0f ), Color.Red );
 
 		if ( orbitEnabled )
 		{
@@ -102,7 +105,7 @@ public class CarCamera : Camera
 
 		var tr = Trace.Ray( startPos, targetPos )
 			.Ignore( car )
-			.Radius( CollisionRadius )
+			.Radius( Math.Clamp( CollisionRadius * car.Scale, 2.0f, 10.0f ) )
 			.WorldOnly()
 			.Run();
 

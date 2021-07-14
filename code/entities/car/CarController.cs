@@ -22,8 +22,8 @@ public class CarController : PawnController
 
 		if ( player.Vehicle == null )
 		{
-			Position = car.Position + car.Rotation.Up * 100;
-			Velocity += car.Rotation.Right * 200;
+			Position = car.Position + car.Rotation.Up * (100 * car.Scale);
+			Velocity += car.Rotation.Right * (200 * car.Scale);
 			return;
 		}
 
