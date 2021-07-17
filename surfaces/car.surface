@@ -3,7 +3,7 @@
 	data = 
 	{
 		Base = ""
-		Friction = 0.0
+		Friction = 0.075
 		Elasticity = 0.0
 		Density = 2000.0
 		Thickness = -1.0
