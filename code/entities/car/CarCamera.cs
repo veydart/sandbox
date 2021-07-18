@@ -49,11 +49,6 @@ public class CarCamera : Camera
 		firstPerson = false;
 	}
 
-	public override void Deactivated()
-	{
-		Rot = Rotation.Identity;
-	}
-
 	public override void Update()
 	{
 		var pawn = Local.Pawn;
@@ -175,6 +170,7 @@ public class CarCamera : Camera
 
 		input.ViewAngles = orbitAngles.WithYaw( orbitAngles.yaw );
 		input.ViewAngles = input.ViewAngles.Normal;
+		input.ViewAngles.roll = 0;
 	}
 
 	private void ApplyShake( float speed )
