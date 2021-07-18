@@ -284,7 +284,7 @@ public partial class CarEntity : Prop, IUse
 		{
 			var forwardSpeed = MathF.Abs( localVelocity.x );
 			var speedFactor = 1.0f - (forwardSpeed / 5000.0f).Clamp( 0.0f, 1.0f );
-			var acceleration = speedFactor * (accelerateDirection < 0.0f ? car_accelspeed : car_accelspeed) * accelerateDirection * dt;
+			var acceleration = speedFactor * (accelerateDirection < 0.0f ? car_accelspeed * 0.5f : car_accelspeed) * accelerateDirection * dt;
 			var impulse = rotation * new Vector3( acceleration, 0, 0 );
 			body.Velocity += impulse;
 		}
@@ -338,7 +338,9 @@ public partial class CarEntity : Prop, IUse
 			airRoll = 0;
 			airTilt = 0;
 
-			body.Velocity = VelocityDamping( Velocity, rotation, new Vector3( 0, grip, 0 ), dt );
+			var forwardGrip = 0.1f;
+			forwardGrip = forwardGrip.LerpTo( 0.9f, currentInput.breaking );
+			body.Velocity = VelocityDamping( Velocity, rotation, new Vector3( forwardGrip, grip, 0 ), dt );
 		}
 		else
 		{
