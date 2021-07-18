@@ -49,6 +49,11 @@ public class CarCamera : Camera
 		firstPerson = false;
 	}
 
+	public override void Deactivated()
+	{
+		Rot = Rotation.Identity;
+	}
+
 	public override void Update()
 	{
 		var pawn = Local.Pawn;
