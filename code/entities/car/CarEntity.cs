@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Shippy;
 using System;
 using System.Collections.Generic;
 
@@ -317,14 +318,14 @@ public partial class CarEntity : Prop, IUse
 			DebugOverlay.Line( body.MassCenter, body.MassCenter + v.Normal * 100, Color.Green, 0, false );
 		}
 
-		var grip = (rotation.Forward.Normal * MathF.Sign( localVelocity.x )).Normal.Dot( v.Normal ).Clamp( 0, 1 );
+		var grip = (rotation.Forward.Normal * MathF.Sign( localVelocity.x )).Normal.Dot( v.Normal ).Clamp( 1.0f * (v.Length / 2000.0f).Clamp( 0.0f, 0.1f ), 1.0f );
 		grip = grip.LerpTo( 1.0f, vDelta );
 
 		var damping = 0.1f;
 		damping = damping.LerpTo( 0.9f, currentInput.breaking );
 
 		var angularDamping = 0.1f;
-		angularDamping = angularDamping.LerpTo( 2.0f, grip );
+		angularDamping = angularDamping.LerpTo( 4.0f, grip );
 
 		body.LinearDamping = fullyGrounded ? damping : 0.0f;
 		body.AngularDamping = fullyGrounded ? angularDamping : 0.5f;
