@@ -26,6 +26,7 @@ public partial class CarEntity : Prop, IUse
 	private float accelerateDirection;
 	private float airRoll;
 	private float airTilt;
+	private float grip;
 	private TimeSince timeSinceDriverLeft;
 
 	[Net] private float WheelSpeed { get; set; }
@@ -283,15 +284,9 @@ public partial class CarEntity : Prop, IUse
 		{
 			var forwardSpeed = MathF.Abs( localVelocity.x );
 			var speedFactor = 1.0f - (forwardSpeed / 5000.0f).Clamp( 0.0f, 1.0f );
-			var acceleration = speedFactor * (accelerateDirection < 0.0f ? car_accelspeed * 0.5f : car_accelspeed) * accelerateDirection * dt;
-
-			var impulseLocation = body.MassCenter + rotation * new Vector3( MathF.Sign( acceleration ) * 100.0f, 0, 0 );
+			var acceleration = speedFactor * (accelerateDirection < 0.0f ? car_accelspeed : car_accelspeed) * accelerateDirection * dt;
 			var impulse = rotation * new Vector3( acceleration, 0, 0 );
-
-			body.ApplyImpulseAt( impulseLocation, impulse * body.Mass );
-
-			if ( debug_car )
-				DebugOverlay.Sphere( impulseLocation, 5, Color.Red, false );
+			body.Velocity += impulse;
 		}
 
 		RaycastWheels( rotation, true, out frontWheelsOnGround, out backWheelsOnGround, dt );
@@ -309,7 +304,8 @@ public partial class CarEntity : Prop, IUse
 		bool canAirControl = false;
 
 		var v = rotation * localVelocity.WithZ( 0 );
-		var vDelta = 1.0f - (v.Length / 2000.0f).Clamp( 0, 1 );
+		var vDelta = MathF.Pow((v.Length / 1000.0f).Clamp( 0, 1 ), 5.0f).Clamp(0, 1);
+		if ( vDelta < 0.01f ) vDelta = 0;
 
 		if ( debug_car )
 		{
@@ -317,34 +313,32 @@ public partial class CarEntity : Prop, IUse
 			DebugOverlay.Line( body.MassCenter, body.MassCenter + v.Normal * 100, Color.Green, 0, false );
 		}
 
-		var grip = (rotation.Forward.Normal * MathF.Sign( localVelocity.x )).Normal.Dot( v.Normal ).Clamp( 1.0f * (v.Length / 2000.0f).Clamp( 0.0f, 0.1f ), 1.0f );
-		grip = grip.LerpTo( 1.0f, vDelta );
+		var angle = ( rotation.Forward.Normal * MathF.Sign( localVelocity.x )).Normal.Dot( v.Normal ).Clamp( 0.0f, 1.0f );
+		angle = angle.LerpTo( 1.0f, 1.0f - vDelta );
+		grip = grip.LerpTo( angle, 1.0f - MathF.Pow( 0.001f, dt ) );
 
-		var damping = 0.1f;
-		damping = damping.LerpTo( 0.9f, currentInput.breaking );
+		if ( debug_car )
+		{
+			DebugOverlay.ScreenText( new Vector2( 200, 200 ), $"{grip}" );
+		}
 
-		var angularDamping = 0.1f;
-		angularDamping = angularDamping.LerpTo( 4.0f, grip );
+		var angularDamping = 0.0f;
+		angularDamping = angularDamping.LerpTo( 5.0f, grip );
 
-		body.LinearDamping = fullyGrounded ? damping : 0.0f;
+		body.LinearDamping = 0.0f;
 		body.AngularDamping = fullyGrounded ? angularDamping : 0.5f;
-
-		var downForce = 250.0f * (float)(MathF.Abs( localVelocity.x ) / 500.0f).Clamp( 0, 1 );
 
 		if ( onGround )
 		{
-			var sideDamping = 0.2f;
-			Velocity = VelocityDamping( Velocity, rotation, new Vector3( 0, sideDamping.LerpTo( 1.0f, grip ), 0 ), dt );
-
 			localVelocity = rotation.Inverse * body.Velocity;
 			WheelSpeed = localVelocity.x;
-			var turnAmount = frontWheelsOnGround ? (MathF.Sign( localVelocity.x ) * 20.0f * CalculateTurnFactor( TurnDirection, MathF.Abs( localVelocity.x ) ) * dt) : 0.0f;
+			var turnAmount = frontWheelsOnGround ? (MathF.Sign( localVelocity.x ) * 25.0f * CalculateTurnFactor( TurnDirection, MathF.Abs( localVelocity.x ) ) * dt) : 0.0f;
 			body.AngularVelocity += rotation * new Vector3( 0, 0, turnAmount );
 
 			airRoll = 0;
 			airTilt = 0;
 
-			body.Velocity += rotation.Down * downForce * dt;
+			body.Velocity = VelocityDamping( Velocity, rotation, new Vector3( 0, grip, 0 ), dt );
 		}
 		else
 		{
@@ -355,11 +349,6 @@ public partial class CarEntity : Prop, IUse
 
 			if ( debug_car )
 				DebugOverlay.Line( tr.StartPos, tr.EndPos, tr.Hit ? Color.Red : Color.Green );
-
-			if ( tr.Hit )
-			{
-				body.Velocity += rotation.Down * downForce * dt;
-			}
 
 			canAirControl = !tr.Hit;
 		}
