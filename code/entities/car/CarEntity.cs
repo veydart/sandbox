@@ -74,8 +74,6 @@ public partial class CarEntity : Prop, IUse
 	private ModelEntity wheel2;
 	private ModelEntity wheel3;
 
-	private readonly List<ModelEntity> clientModels = new();
-
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -112,7 +110,6 @@ public partial class CarEntity : Prop, IUse
 			vehicle_fuel_tank.Transform = Transform;
 			vehicle_fuel_tank.Parent = this;
 			vehicle_fuel_tank.LocalPosition = new Vector3( 0.75f, 0, 0 ) * 40.0f;
-			clientModels.Add( vehicle_fuel_tank );
 		}
 
 		{
@@ -121,27 +118,23 @@ public partial class CarEntity : Prop, IUse
 			chassis_axle_front.Transform = Transform;
 			chassis_axle_front.Parent = this;
 			chassis_axle_front.LocalPosition = new Vector3( 1.05f, 0, 0.35f ) * 40.0f;
-			clientModels.Add( chassis_axle_front );
 
 			{
 				wheel0 = new ModelEntity();
 				wheel0.SetModel( "entities/modular_vehicle/wheel_a.vmdl" );
 				wheel0.SetParent( chassis_axle_front, "Wheel_Steer_R", new Transform( Vector3.Zero, Rotation.From( 0, 180, 0 ) ) );
-				clientModels.Add( wheel0 );
 			}
 
 			{
 				wheel1 = new ModelEntity();
 				wheel1.SetModel( "entities/modular_vehicle/wheel_a.vmdl" );
 				wheel1.SetParent( chassis_axle_front, "Wheel_Steer_L", new Transform( Vector3.Zero, Rotation.From( 0, 0, 0 ) ) );
-				clientModels.Add( wheel1 );
 			}
 
 			{
 				var chassis_steering = new ModelEntity();
 				chassis_steering.SetModel( "entities/modular_vehicle/chassis_steering.vmdl" );
 				chassis_steering.SetParent( chassis_axle_front, "Axle_front_Center", new Transform( Vector3.Zero, Rotation.From( -90, 180, 0 ) ) );
-				clientModels.Add( chassis_steering );
 			}
 		}
 
@@ -151,27 +144,23 @@ public partial class CarEntity : Prop, IUse
 			chassis_axle_rear.Transform = Transform;
 			chassis_axle_rear.Parent = this;
 			chassis_axle_rear.LocalPosition = new Vector3( -1.05f, 0, 0.35f ) * 40.0f;
-			clientModels.Add( chassis_axle_rear );
 
 			{
 				var chassis_transmission = new ModelEntity();
 				chassis_transmission.SetModel( "entities/modular_vehicle/chassis_transmission.vmdl" );
 				chassis_transmission.SetParent( chassis_axle_rear, "Axle_Rear_Center", new Transform( Vector3.Zero, Rotation.From( -90, 180, 0 ) ) );
-				clientModels.Add( chassis_transmission );
 			}
 
 			{
 				wheel2 = new ModelEntity();
 				wheel2.SetModel( "entities/modular_vehicle/wheel_a.vmdl" );
 				wheel2.SetParent( chassis_axle_rear, "Axle_Rear_Center", new Transform( Vector3.Left * (0.7f * 40), Rotation.From( 0, 90, 0 ) ) );
-				clientModels.Add( wheel2 );
 			}
 
 			{
 				wheel3 = new ModelEntity();
 				wheel3.SetModel( "entities/modular_vehicle/wheel_a.vmdl" );
 				wheel3.SetParent( chassis_axle_rear, "Axle_Rear_Center", new Transform( Vector3.Right * (0.7f * 40), Rotation.From( 0, -90, 0 ) ) );
-				clientModels.Add( wheel3 );
 			}
 		}
 	}
@@ -184,13 +173,6 @@ public partial class CarEntity : Prop, IUse
 		{
 			RemoveDriver( player );
 		}
-
-		foreach ( var model in clientModels )
-		{
-			model?.Delete();
-		}
-
-		clientModels.Clear();
 	}
 
 	public void ResetInput()
