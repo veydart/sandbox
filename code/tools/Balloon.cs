@@ -108,7 +108,7 @@
 					.WithPivot( tr.EndPos )
 					.WithFrequency( 5.0f )
 					.WithDampingRatio( 0.7f )
-					.WithReferenceMass( 0 )
+					.WithReferenceMass( ent.PhysicsBody.Mass )
 					.WithMinRestLength( 0 )
 					.WithMaxRestLength( 100 )
 					.WithCollisionsEnabled()

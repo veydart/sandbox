@@ -101,7 +101,7 @@
 					.WithPivot( light.Position + Vector3.Down * 6.5f )
 					.WithFrequency( 5.0f )
 					.WithDampingRatio( 0.7f )
-					.WithReferenceMass( 0 )
+					.WithReferenceMass( light.PhysicsBody.Mass )
 					.WithMinRestLength( 0 )
 					.WithMaxRestLength( 100 )
 					.WithCollisionsEnabled()
