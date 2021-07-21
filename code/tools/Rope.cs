@@ -82,6 +82,11 @@
 					.Create();
 
 				spring.EnableAngularConstraint = false;
+				spring.OnBreak( () =>
+				{
+					rope?.Destroy( true );
+					spring.Remove();
+				} );
 
 				CreateHitEffects( tr.EndPos );
 
