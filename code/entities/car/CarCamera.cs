@@ -86,7 +86,7 @@ public class CarCamera : Camera
 			{
 				var targetYaw = 0;
 				var targetPitch = FirstPersonPitch;
-				var slerpAmount = OrbitReturnSmoothingSpeed;
+				var slerpAmount = Time.Delta * OrbitReturnSmoothingSpeed;
 
 				orbitYawRot = Rotation.Slerp( orbitYawRot, Rotation.FromYaw( targetYaw ), slerpAmount );
 				orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.FromPitch( targetPitch + carPitch ), slerpAmount );
@@ -167,6 +167,8 @@ public class CarCamera : Camera
 			orbitYawRot = firstPerson ? Rotation.Identity : Rotation.FromYaw( car.Rotation.Yaw() );
 			orbitPitchRot = firstPerson ? Rotation.FromPitch( FirstPersonPitch ) : Rotation.Identity;
 			orbitAngles = (orbitYawRot * orbitPitchRot).Angles();
+			orbitEnabled = false;
+			timeSinceOrbit = 0.0f;
 		}
 
 		if ( (Math.Abs( input.AnalogLook.pitch ) + Math.Abs( input.AnalogLook.yaw )) > 0.0f )
