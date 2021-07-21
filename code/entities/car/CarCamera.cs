@@ -18,6 +18,9 @@ public class CarCamera : Camera
 	protected virtual float MaxOrbitReturnSpeed => 100.0f;
 	protected virtual float MinCarPitch => -60.0f;
 	protected virtual float MaxCarPitch => 60.0f;
+	protected virtual float FirstPersonPitch => 10.0f;
+	protected virtual float MinFirstPersonYaw => -90.0f;
+	protected virtual float MaxFirstPersonYaw => 90.0f;
 	protected virtual float CarPitchSmoothingSpeed => 1.0f;
 	protected virtual float CollisionRadius => 8.0f;
 	protected virtual float ShakeSpeed => 10.0f;
@@ -81,9 +84,9 @@ public class CarCamera : Camera
 		{
 			if ( firstPerson )
 			{
-				var targetPitch = 10;
 				var targetYaw = 0;
-				var slerpAmount = MaxOrbitReturnSpeed > 0.0f ? Time.Delta * OrbitReturnSmoothingSpeed : 1.0f;
+				var targetPitch = FirstPersonPitch;
+				var slerpAmount = OrbitReturnSmoothingSpeed;
 
 				orbitYawRot = Rotation.Slerp( orbitYawRot, Rotation.FromYaw( targetYaw ), slerpAmount );
 				orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.FromPitch( targetPitch + carPitch ), slerpAmount );
@@ -105,7 +108,7 @@ public class CarCamera : Camera
 
 		if ( firstPerson )
 		{
-			DoFirstPerson( car, body );
+			DoFirstPerson();
 		}
 		else
 		{
@@ -118,7 +121,7 @@ public class CarCamera : Camera
 		ApplyShake( speedAbs );
 	}
 
-	private void DoFirstPerson( CarEntity car, PhysicsBody body )
+	private void DoFirstPerson()
 	{
 		var pawn = Local.Pawn;
 		if ( pawn == null ) return;
@@ -161,9 +164,8 @@ public class CarCamera : Camera
 		if ( input.Pressed( InputButton.View ) )
 		{
 			firstPerson = !firstPerson;
-
 			orbitYawRot = firstPerson ? Rotation.Identity : Rotation.FromYaw( car.Rotation.Yaw() );
-			orbitPitchRot = firstPerson ? Rotation.FromPitch( 10 ) : Rotation.Identity;
+			orbitPitchRot = firstPerson ? Rotation.FromPitch( FirstPersonPitch ) : Rotation.Identity;
 			orbitAngles = (orbitYawRot * orbitPitchRot).Angles();
 		}
 
@@ -188,7 +190,7 @@ public class CarCamera : Camera
 
 			if ( firstPerson )
 			{
-				orbitAngles.yaw = orbitAngles.yaw.Clamp( -90, 90 );
+				orbitAngles.yaw = orbitAngles.yaw.Clamp( MinFirstPersonYaw, MaxFirstPersonYaw );
 			}
 		}
 
