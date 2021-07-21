@@ -89,7 +89,7 @@ public class CarCamera : Camera
 				var slerpAmount = Time.Delta * OrbitReturnSmoothingSpeed;
 
 				orbitYawRot = Rotation.Slerp( orbitYawRot, Rotation.FromYaw( targetYaw ), slerpAmount );
-				orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.FromPitch( targetPitch + carPitch ), slerpAmount );
+				orbitPitchRot = Rotation.Slerp( orbitPitchRot, Rotation.FromPitch( targetPitch ), slerpAmount );
 			}
 			else
 			{
@@ -127,7 +127,7 @@ public class CarCamera : Camera
 		if ( pawn == null ) return;
 
 		Pos = pawn.EyePos;
-		Rot = pawn.EyeRot;
+		Rot = pawn.Rotation * (orbitYawRot * orbitPitchRot);
 
 		Viewer = pawn;
 	}
@@ -189,15 +189,11 @@ public class CarCamera : Camera
 			orbitAngles.pitch += input.AnalogLook.pitch;
 			orbitAngles = orbitAngles.Normal;
 			orbitAngles.pitch = orbitAngles.pitch.Clamp( MinOrbitPitch, MaxOrbitPitch );
-
-			if ( firstPerson )
-			{
-				orbitAngles.yaw = orbitAngles.yaw.Clamp( MinFirstPersonYaw, MaxFirstPersonYaw );
-			}
 		}
 
 		if ( firstPerson )
 		{
+			orbitAngles.yaw = orbitAngles.yaw.Clamp( MinFirstPersonYaw, MaxFirstPersonYaw );
 			input.ViewAngles = (car.Rotation * Rotation.From( orbitAngles )).Angles();
 		}
 		else
