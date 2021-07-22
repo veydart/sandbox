@@ -7,11 +7,6 @@
 		private int targetBone;
 		private Vector3 localOrigin1;
 
-		public Vector3 PointToLocal( Transform xform, Vector3 worldPoint )
-		{
-			return ((worldPoint - xform.Position) * (1.0f / xform.Scale)) * xform.Rotation.Inverse;
-		}
-
 		public override void Simulate()
 		{
 			if ( !Host.IsServer )
@@ -45,7 +40,7 @@
 				{
 					targetBody = tr.Body;
 					targetBone = tr.Bone;
-					localOrigin1 = tr.Entity.Transform.PointToLocal( tr.EndPos ) * (1.0f / tr.Entity.Scale);
+					localOrigin1 = tr.Entity.Transform.PointToLocal( tr.EndPos );
 
 					CreateHitEffects( tr.EndPos );
 
@@ -63,10 +58,10 @@
 				}
 				else
 				{
-					rope.SetEntityBone( 0, targetBody.Entity, targetBone, new Transform( localOrigin1 ) );
+					rope.SetEntityBone( 0, targetBody.Entity, targetBone, new Transform( localOrigin1 * (1.0f / targetBody.Entity.Scale) ) );
 				}
 
-				var localOrigin2 = tr.Entity.Transform.PointToLocal( tr.EndPos ) * (1.0f / tr.Entity.Scale);
+				var localOrigin2 = tr.Entity.Transform.PointToLocal( tr.EndPos );
 
 				if ( tr.Entity.IsWorld )
 				{
@@ -74,7 +69,7 @@
 				}
 				else
 				{
-					rope.SetEntityBone( 1, tr.Entity, tr.Bone, new Transform( localOrigin2 ) );
+					rope.SetEntityBone( 1, tr.Entity, tr.Bone, new Transform( localOrigin2 * (1.0f / tr.Entity.Scale) ) );
 				}
 
 				var spring = PhysicsJoint.Spring
