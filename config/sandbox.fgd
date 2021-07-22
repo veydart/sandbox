@@ -25,9 +25,9 @@
 // 
 @PointClass model() = ent_balloon : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
@@ -52,9 +52,9 @@
 // 
 @PointClass model() = ent_bouncyball : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
@@ -79,9 +79,9 @@
 // 
 @PointClass model() = directional_gravity : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
@@ -106,9 +106,9 @@
 // 
 @PointClass model() = ent_drone : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
@@ -171,9 +171,9 @@
 // 
 @PointClass model() = noise_test : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
@@ -198,9 +198,9 @@
 // 
 @PointClass model() = ent_thruster : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
@@ -225,9 +225,9 @@
 // 
 @PointClass model() = ent_wheel : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
@@ -324,9 +324,9 @@
 // 
 @PointClass model() = ent_car : ""
 [
-	model(studio) [report]: "World Model" : ""
+	model(studio) [report]: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) [ group="Render Properties" ] : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" 
+	bodygroups(bodygroupchoices) [ group="Render Properties" ] : "Body Groups" : "" : "Some models have multiple variations of their body parts, such as characters having different hair styles, etc."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
