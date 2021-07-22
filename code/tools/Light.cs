@@ -82,7 +82,7 @@
 				rope.SetEntity( 0, light, Vector3.Down * 6.5f ); // Should be an attachment point
 
 				var attachEnt = tr.Body.IsValid() ? tr.Body.Entity : tr.Entity;
-				var attachLocalPos = tr.Body.Transform.PointToLocal( tr.EndPos );
+				var attachLocalPos = tr.Body.Transform.PointToLocal( tr.EndPos ) * (1.0f / tr.Entity.Scale);
 
 				if ( attachEnt.IsWorld )
 				{
@@ -94,9 +94,8 @@
 				}
 
 				var spring = PhysicsJoint.Spring
-					.From( light.PhysicsBody )
-					.To( tr.Body )
-					.WithPivot( light.Position + Vector3.Down * 6.5f )
+					.From( light.PhysicsBody, Vector3.Down * 6.5f )
+					.To( tr.Body, tr.Body.Transform.PointToLocal( tr.EndPos ) )
 					.WithFrequency( 5.0f )
 					.WithDampingRatio( 0.7f )
 					.WithReferenceMass( light.PhysicsBody.Mass )

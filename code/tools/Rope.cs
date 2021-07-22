@@ -5,7 +5,12 @@
 	{
 		private PhysicsBody targetBody;
 		private int targetBone;
-		private Vector3 targetPosition;
+		private Vector3 localOrigin1;
+
+		public Vector3 PointToLocal( Transform xform, Vector3 worldPoint )
+		{
+			return ((worldPoint - xform.Position) * (1.0f / xform.Scale)) * xform.Rotation.Inverse;
+		}
 
 		public override void Simulate()
 		{
@@ -40,7 +45,7 @@
 				{
 					targetBody = tr.Body;
 					targetBone = tr.Bone;
-					targetPosition = tr.Body.Transform.PointToLocal( tr.EndPos );
+					localOrigin1 = tr.Entity.Transform.PointToLocal( tr.EndPos ) * (1.0f / tr.Entity.Scale);
 
 					CreateHitEffects( tr.EndPos );
 
@@ -54,25 +59,27 @@
 
 				if ( targetBody.Entity.IsWorld )
 				{
-					rope.SetPosition( 0, targetPosition );
+					rope.SetPosition( 0, localOrigin1 );
 				}
 				else
 				{
-					rope.SetEntityBone( 0, targetBody.Entity, targetBone, new Transform( targetPosition ) );
+					rope.SetEntityBone( 0, targetBody.Entity, targetBone, new Transform( localOrigin1 ) );
 				}
+
+				var localOrigin2 = tr.Entity.Transform.PointToLocal( tr.EndPos ) * (1.0f / tr.Entity.Scale);
 
 				if ( tr.Entity.IsWorld )
 				{
-					rope.SetPosition( 1, tr.Body.Transform.PointToLocal( tr.EndPos ) );
+					rope.SetPosition( 1, localOrigin2 );
 				}
 				else
 				{
-					rope.SetEntityBone( 1, tr.Entity, tr.Bone, new Transform( tr.Body.Transform.PointToLocal( tr.EndPos ) ) );
+					rope.SetEntityBone( 1, tr.Entity, tr.Bone, new Transform( localOrigin2 ) );
 				}
 
 				var spring = PhysicsJoint.Spring
-					.From( targetBody, targetPosition )
-					.To( tr.Body, tr.Body.Transform.PointToLocal( tr.EndPos ) )
+					.From( targetBody, localOrigin1 )
+					.To( tr.Body, localOrigin2 )
 					.WithFrequency( 5.0f )
 					.WithDampingRatio( 0.7f )
 					.WithReferenceMass( targetBody.Mass )
@@ -98,7 +105,7 @@
 		{
 			targetBody = null;
 			targetBone = -1;
-			targetPosition = default;
+			localOrigin1 = default;
 		}
 
 		public override void Activate()

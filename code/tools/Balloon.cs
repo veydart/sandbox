@@ -89,7 +89,7 @@
 				rope.SetEntity( 0, ent );
 
 				var attachEnt = tr.Body.IsValid() ? tr.Body.Entity : tr.Entity;
-				var attachLocalPos = tr.Body.Transform.PointToLocal( tr.EndPos );
+				var attachLocalPos = tr.Body.Transform.PointToLocal( tr.EndPos ) * (1.0f / tr.Entity.Scale);
 
 				if ( attachEnt.IsWorld )
 				{
