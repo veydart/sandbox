@@ -198,7 +198,7 @@ public class CarCamera : Camera
 		}
 		else
 		{
-			input.ViewAngles = orbitAngles;
+			input.ViewAngles = orbitEnabled ? orbitAngles : car.Rotation.Angles();
 		}
 
 		input.ViewAngles = input.ViewAngles.Normal;
