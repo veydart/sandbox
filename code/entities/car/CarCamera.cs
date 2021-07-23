@@ -19,8 +19,6 @@ public class CarCamera : Camera
 	protected virtual float MinCarPitch => -60.0f;
 	protected virtual float MaxCarPitch => 60.0f;
 	protected virtual float FirstPersonPitch => 10.0f;
-	protected virtual float MinFirstPersonYaw => -90.0f;
-	protected virtual float MaxFirstPersonYaw => 90.0f;
 	protected virtual float CarPitchSmoothingSpeed => 1.0f;
 	protected virtual float CollisionRadius => 8.0f;
 	protected virtual float ShakeSpeed => 10.0f;
@@ -193,7 +191,6 @@ public class CarCamera : Camera
 
 		if ( firstPerson )
 		{
-			orbitAngles.yaw = orbitAngles.yaw.Clamp( MinFirstPersonYaw, MaxFirstPersonYaw );
 			input.ViewAngles = (car.Rotation * Rotation.From( orbitAngles )).Angles();
 		}
 		else
