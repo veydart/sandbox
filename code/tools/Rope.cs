@@ -42,7 +42,7 @@
 					targetBody = tr.Body;
 					targetBone = tr.Bone;
 					globalOrigin1 = tr.EndPos;
-					localOrigin1 = tr.Entity.Transform.PointToLocal( globalOrigin1 );
+					localOrigin1 = tr.Body.Transform.PointToLocal( globalOrigin1 );
 
 					CreateHitEffects( tr.EndPos );
 
@@ -63,7 +63,7 @@
 					rope.SetEntityBone( 0, targetBody.Entity, targetBone, new Transform( localOrigin1 * (1.0f / targetBody.Entity.Scale) ) );
 				}
 
-				var localOrigin2 = tr.Entity.Transform.PointToLocal( tr.EndPos );
+				var localOrigin2 = tr.Body.Transform.PointToLocal( tr.EndPos );
 
 				if ( tr.Entity.IsWorld )
 				{
