@@ -6,6 +6,7 @@
 		private PhysicsBody targetBody;
 		private int targetBone;
 		private Vector3 localOrigin1;
+		private Vector3 globalOrigin1;
 
 		public override void Simulate()
 		{
@@ -40,7 +41,8 @@
 				{
 					targetBody = tr.Body;
 					targetBone = tr.Bone;
-					localOrigin1 = tr.Entity.Transform.PointToLocal( tr.EndPos );
+					globalOrigin1 = tr.EndPos;
+					localOrigin1 = tr.Entity.Transform.PointToLocal( globalOrigin1 );
 
 					CreateHitEffects( tr.EndPos );
 
@@ -79,7 +81,7 @@
 					.WithDampingRatio( 0.7f )
 					.WithReferenceMass( targetBody.Mass )
 					.WithMinRestLength( 0 )
-					.WithMaxRestLength( 200 )
+					.WithMaxRestLength( tr.EndPos.Distance( globalOrigin1 ) )
 					.WithCollisionsEnabled()
 					.Create();
 
