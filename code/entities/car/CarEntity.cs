@@ -565,6 +565,7 @@ public partial class CarEntity : Prop, IUse
 				if ( eventData.Entity.LifeState == LifeState.Dead && eventData.Entity is not SandboxPlayer )
 				{
 					PhysicsBody.Velocity = eventData.PreVelocity;
+					PhysicsBody.AngularVelocity = eventData.PreAngularVelocity;
 				}
 			}
 		}
