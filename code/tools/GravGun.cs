@@ -24,7 +24,7 @@ public partial class GravGun : Carriable
 	protected virtual float PullForce => 20.0f;
 	protected virtual float PushForce => 1000.0f;
 	protected virtual float ThrowForce => 2000.0f;
-	protected virtual float HoldDistance => 100.0f;
+	protected virtual float HoldDistance => 50.0f;
 	protected virtual float AttachDistance => 150.0f;
 	protected virtual float DropCooldown => 0.5f;
 	protected virtual float BreakLinearForce => 2000.0f;
@@ -131,9 +131,12 @@ public partial class GravGun : Carriable
 						return;
 				}
 
-				if ( eyePos.Distance( body.Position ) <= AttachDistance )
+				var attachPos = body.FindClosestPoint( eyePos );
+
+				if ( eyePos.Distance( attachPos ) <= AttachDistance )
 				{
-					GrabStart( modelEnt, body, eyePos + eyeDir * HoldDistance, eyeRot );
+					var holdDistance = HoldDistance + attachPos.Distance( body.MassCenter );
+					GrabStart( modelEnt, body, eyePos + eyeDir * holdDistance, eyeRot );
 				}
 				else if ( !IsBodyGrabbed( body ) )
 				{
@@ -269,7 +272,10 @@ public partial class GravGun : Carriable
 		if ( !HeldBody.IsValid() )
 			return;
 
-		holdBody.Position = startPos + dir * HoldDistance;
+		var attachPos = HeldBody.FindClosestPoint( startPos );
+		var holdDistance = HoldDistance + attachPos.Distance( HeldBody.MassCenter );
+
+		holdBody.Position = startPos + dir * holdDistance;
 		holdBody.Rotation = rot * HeldRot;
 	}
 
