@@ -10,6 +10,7 @@ public partial class GravGun : Carriable
 
 	private PhysicsBody holdBody;
 	private WeldJoint holdJoint;
+	private GenericJoint collisionJoint;
 
 	public PhysicsBody HeldBody { get; private set; }
 	public Rotation HeldRot { get; private set; }
@@ -230,6 +231,11 @@ public partial class GravGun : Carriable
 		HeldBody.Wake();
 		HeldBody.EnableAutoSleeping = false;
 
+		collisionJoint = PhysicsJoint.Generic
+			.From( (Owner as Player).PhysicsBody )
+			.To( HeldBody )
+			.Create();
+
 		holdJoint = PhysicsJoint.Weld
 			.From( holdBody )
 			.To( HeldBody, HeldBody.LocalMassCenter )
@@ -249,6 +255,11 @@ public partial class GravGun : Carriable
 		if ( holdJoint.IsValid )
 		{
 			holdJoint.Remove();
+		}
+
+		if ( collisionJoint.IsValid )
+		{
+			collisionJoint.Remove();
 		}
 
 		if ( HeldBody.IsValid() )
