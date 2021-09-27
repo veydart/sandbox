@@ -25,15 +25,6 @@ partial class SandboxGame : Game
 		base.OnDestroy();
 	}
 
-	public override CameraSetup BuildCamera( CameraSetup camSetup )
-	{
-		camSetup = base.BuildCamera( camSetup );
-
-		Event.Run( "postview" );
-
-		return camSetup;
-	}
-
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname )
 	{
