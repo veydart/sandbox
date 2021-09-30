@@ -7,25 +7,20 @@ partial class Fists : Weapon
 	public override float PrimaryRate => 2.0f;
 	public override float SecondaryRate => 2.0f;
 
-	public override void Spawn()
-	{
-		base.Spawn();
-	}
-
 	public override bool CanReload()
 	{
 		return false;
 	}
 
-	private void Attack()
+	private void Attack( bool leftHand )
 	{
 		if ( MeleeAttack() )
 		{
-			OnMeleeHit();
+			OnMeleeHit( leftHand );
 		}
 		else
 		{
-			OnMeleeMiss();
+			OnMeleeMiss( leftHand );
 		}
 
 		(Owner as AnimEntity)?.SetAnimBool( "b_attack", true );
@@ -33,12 +28,12 @@ partial class Fists : Weapon
 
 	public override void AttackPrimary()
 	{
-		Attack();
+		Attack( true );
 	}
 
 	public override void AttackSecondary()
 	{
-		Attack();
+		Attack( false );
 	}
 
 	public override void OnCarryDrop( Entity dropper )
@@ -83,7 +78,7 @@ partial class Fists : Weapon
 	}
 
 	[ClientRpc]
-	private void OnMeleeMiss()
+	private void OnMeleeMiss( bool leftHand )
 	{
 		Host.AssertClient();
 
@@ -93,10 +88,11 @@ partial class Fists : Weapon
 		}
 
 		ViewModelEntity?.SetAnimBool( "attack", true );
+		ViewModelEntity?.SetAnimFloat( "holdtype_attack", leftHand ? 2 : 1 );
 	}
 
 	[ClientRpc]
-	private void OnMeleeHit()
+	private void OnMeleeHit( bool leftHand )
 	{
 		Host.AssertClient();
 
@@ -106,5 +102,6 @@ partial class Fists : Weapon
 		}
 
 		ViewModelEntity?.SetAnimBool( "attack", true );
+		ViewModelEntity?.SetAnimFloat( "holdtype_attack", leftHand ? 2 : 1 );
 	}
 }
