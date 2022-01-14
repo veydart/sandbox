@@ -1,5 +1,15 @@
 {
-	"sharedassets": "*.*",
-	"type": "game",
-	"ident": "facepunch.sandbox"
+  "SharedAssets": "*.*",
+  "Title": "Sandbox Game",
+  "Type": "game",
+  "Org": "facepunch",
+  "Ident": "sandbox",
+  "FullIdent": "facepunch.sandbox",
+  "Schema": 1,
+  "NeedsUpgrade": false,
+  "HasAssets": true,
+  "AssetsPath": null,
+  "HasCode": true,
+  "CodePath": "code",
+  "RootNamespace": "Sandbox"
 }
