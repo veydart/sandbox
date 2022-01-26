@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-partial class SandboxPlayer
+public partial class SandboxPlayer
 {
 	public bool IsUseDisabled()
 	{
