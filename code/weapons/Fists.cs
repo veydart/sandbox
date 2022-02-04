@@ -3,7 +3,7 @@
 [Library( "weapon_fists", Title = "Fists", Spawnable = false )]
 partial class Fists : Weapon
 {
-	public override string ViewModelPath => "models/firstperson/temp_punch/temp_punch.vmdl";
+	public override string ViewModelPath => "models/first_person/first_person_arms.vmdl";
 	public override float PrimaryRate => 2.0f;
 	public override float SecondaryRate => 2.0f;
 
@@ -44,6 +44,13 @@ partial class Fists : Weapon
 	{
 		anim.SetParam( "holdtype", 5 );
 		anim.SetParam( "aimat_weight", 1.0f );
+	}
+
+	public override void CreateViewModel()
+	{
+		base.CreateViewModel();
+
+		ViewModelEntity.SetAnimGraph( "models/first_person/first_person_arms_punching.vanmgrph" );
 	}
 
 	private bool MeleeAttack()
