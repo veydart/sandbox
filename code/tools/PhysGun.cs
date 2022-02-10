@@ -51,9 +51,9 @@ public partial class PhysGun : Carriable
 	{
 		if ( Owner is not Player owner ) return;
 
-		var eyePos = owner.EyePos;
-		var eyeDir = owner.EyeRot.Forward;
-		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeRot.Angles().yaw, 0.0f ) );
+		var eyePos = owner.EyePosition;
+		var eyeDir = owner.EyeRotation.Forward;
+		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeRotation.Angles().yaw, 0.0f ) );
 
 		if ( Input.Pressed( InputButton.Attack1 ) )
 		{

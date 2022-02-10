@@ -183,7 +183,7 @@ public partial class Weapon : BaseWeapon, IUse
 	/// </summary>
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 	{
-		ShootBullet( Owner.EyePos, Owner.EyeRot.Forward, spread, force, damage, bulletSize );
+		ShootBullet( Owner.EyePosition, Owner.EyeRotation.Forward, spread, force, damage, bulletSize );
 	}
 
 	/// <summary>
@@ -191,8 +191,8 @@ public partial class Weapon : BaseWeapon, IUse
 	/// </summary>
 	public virtual void ShootBullets( int numBullets, float spread, float force, float damage, float bulletSize )
 	{
-		var pos = Owner.EyePos;
-		var dir = Owner.EyeRot.Forward;
+		var pos = Owner.EyePosition;
+		var dir = Owner.EyeRotation.Forward;
 
 		for ( int i = 0; i < numBullets; i++ )
 		{

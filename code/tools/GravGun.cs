@@ -51,9 +51,9 @@ public partial class GravGun : Carriable
 
 		using ( Prediction.Off() )
 		{
-			var eyePos = owner.EyePos;
-			var eyeRot = owner.EyeRot;
-			var eyeDir = owner.EyeRot.Forward;
+			var eyePos = owner.EyePosition;
+			var eyeRot = owner.EyeRotation;
+			var eyeDir = owner.EyeRotation.Forward;
 
 			if ( HeldBody.IsValid() && HeldBody.PhysicsGroup != null )
 			{
