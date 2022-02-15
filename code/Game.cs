@@ -7,7 +7,8 @@ partial class SandboxGame : Game
 		if ( IsServer )
 		{
 			// Create the HUD
-			_ = new SandboxHud();
+			var hud = new SandboxHud();
+			hud.Parent = this; // Do not delete me on map cleanup
 		}
 	}
 
@@ -94,9 +95,9 @@ partial class SandboxGame : Game
 		}
 	}
 
-	[ClientCmd( "debug_write" )]
-	public static void Write()
+	[AdminCmd( "respawn_entities" )]
+	public static void RespawnEntities()
 	{
-		ConsoleSystem.Run( "quit" );
+		EntityManager.CleanUpMap( EntityManager.DefaultCleanupFilter );
 	}
 }
