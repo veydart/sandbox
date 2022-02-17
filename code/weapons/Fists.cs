@@ -94,6 +94,7 @@ partial class Fists : Weapon
 			_ = new Sandbox.ScreenShake.Perlin();
 		}
 
+		ViewModelEntity?.SetAnimBool( "attack_has_hit", false );
 		ViewModelEntity?.SetAnimBool( "attack", true );
 		ViewModelEntity?.SetAnimFloat( "holdtype_attack", leftHand ? 2 : 1 );
 	}
@@ -108,6 +109,7 @@ partial class Fists : Weapon
 			_ = new Sandbox.ScreenShake.Perlin( 1.0f, 1.0f, 3.0f );
 		}
 
+		ViewModelEntity?.SetAnimBool( "attack_has_hit", true );
 		ViewModelEntity?.SetAnimBool( "attack", true );
 		ViewModelEntity?.SetAnimFloat( "holdtype_attack", leftHand ? 2 : 1 );
 	}
