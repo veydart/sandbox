@@ -98,6 +98,6 @@ partial class SandboxGame : Game
 	[AdminCmd( "respawn_entities" )]
 	public static void RespawnEntities()
 	{
-		EntityManager.CleanUpMap( EntityManager.DefaultCleanupFilter );
+		EntityManager.CleanUpMap( DefaultCleanupFilter );
 	}
 }
