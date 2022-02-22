@@ -109,7 +109,7 @@ public class CarCamera : CameraMode
 			.WorldOnly()
 			.Run();
 
-		Position = tr.EndPos;
+		Position = tr.EndPosition;
 
 		Viewer = null;
 	}

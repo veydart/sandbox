@@ -41,10 +41,10 @@
 				{
 					targetBody = tr.Body;
 					targetBone = tr.Bone;
-					globalOrigin1 = tr.EndPos;
+					globalOrigin1 = tr.EndPosition;
 					localOrigin1 = tr.Body.Transform.PointToLocal( globalOrigin1 );
 
-					CreateHitEffects( tr.EndPos );
+					CreateHitEffects( tr.EndPosition );
 
 					return;
 				}
@@ -63,7 +63,7 @@
 					rope.SetEntityBone( 0, targetBody.GetEntity(), targetBone, new Transform( localOrigin1 * (1.0f / targetBody.GetEntity().Scale) ) );
 				}
 
-				var localOrigin2 = tr.Body.Transform.PointToLocal( tr.EndPos );
+				var localOrigin2 = tr.Body.Transform.PointToLocal( tr.EndPosition );
 
 				if ( tr.Entity.IsWorld )
 				{
@@ -74,7 +74,7 @@
 					rope.SetEntityBone( 1, tr.Body.GetEntity(), tr.Bone, new Transform( localOrigin2 * (1.0f / tr.Entity.Scale) ) );
 				}
 
-				var spring = PhysicsJoint.CreateLength( targetBody.LocalPoint( localOrigin1 ), tr.Body.LocalPoint( localOrigin2 ), tr.EndPos.Distance( globalOrigin1 ) );
+				var spring = PhysicsJoint.CreateLength( targetBody.LocalPoint( localOrigin1 ), tr.Body.LocalPoint( localOrigin2 ), tr.EndPosition.Distance( globalOrigin1 ) );
 				spring.SpringLinear = new( 5, 0.7f );
 				spring.Collisions = true;
 				spring.EnableAngularConstraint = false;
@@ -84,7 +84,7 @@
 					spring.Remove();
 				};
 
-				CreateHitEffects( tr.EndPos );
+				CreateHitEffects( tr.EndPosition );
 
 				Reset();
 			}

@@ -150,7 +150,7 @@ public partial class PhysGun : Carriable
 		if ( unfrozen )
 		{
 			var freezeEffect = Particles.Create( "particles/physgun_freeze.vpcf" );
-			freezeEffect.SetPosition( 0, tr.EndPos );
+			freezeEffect.SetPosition( 0, tr.EndPosition );
 		}
 	}
 
@@ -193,10 +193,10 @@ public partial class PhysGun : Carriable
 		if ( IsBodyGrabbed( body ) )
 			return;
 
-		GrabInit( body, eyePos, tr.EndPos, eyeRot );
+		GrabInit( body, eyePos, tr.EndPosition, eyeRot );
 
 		GrabbedEntity = rootEnt;
-		GrabbedPos = body.Transform.PointToLocal( tr.EndPos );
+		GrabbedPos = body.Transform.PointToLocal( tr.EndPosition );
 		GrabbedBone = body.GroupIndex;
 
 		Client?.Pvs.Add( GrabbedEntity );

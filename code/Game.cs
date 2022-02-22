@@ -40,10 +40,10 @@ partial class SandboxGame : Game
 			.Run();
 
 		var ent = new Prop();
-		ent.Position = tr.EndPos;
+		ent.Position = tr.EndPosition;
 		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRotation.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
 		ent.SetModel( modelname );
-		ent.Position = tr.EndPos - Vector3.Up * ent.CollisionBounds.Mins.z;
+		ent.Position = tr.EndPosition - Vector3.Up * ent.CollisionBounds.Mins.z;
 	}
 
 	[ServerCmd( "spawn_entity" )]
@@ -72,7 +72,7 @@ partial class SandboxGame : Game
 				return;
 		}
 
-		ent.Position = tr.EndPos;
+		ent.Position = tr.EndPosition;
 		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRotation.Angles().yaw, 0 ) );
 
 		//Log.Info( $"ent: {ent}" );

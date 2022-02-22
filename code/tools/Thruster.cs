@@ -58,7 +58,7 @@
 				if ( attached && tr.Entity is not Prop )
 					return;
 
-				CreateHitEffects( tr.EndPos );
+				CreateHitEffects( tr.EndPosition );
 
 				if ( tr.Entity is ThrusterEntity )
 				{
@@ -69,7 +69,7 @@
 
 				var ent = new ThrusterEntity
 				{
-					Position = tr.EndPos,
+					Position = tr.EndPosition,
 					Rotation = Rotation.LookAt( tr.Normal, dir ) * Rotation.From( new Angles( 90, 0, 0 ) ),
 					PhysicsEnabled = !attached,
 					EnableSolidCollisions = !attached,

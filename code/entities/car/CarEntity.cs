@@ -370,7 +370,7 @@ public partial class CarEntity : Prop, IUse
 				.Run();
 
 			if ( debug_car )
-				DebugOverlay.Line( tr.StartPos, tr.EndPos, tr.Hit ? Color.Red : Color.Green );
+				DebugOverlay.Line( tr.StartPosition, tr.EndPosition, tr.Hit ? Color.Red : Color.Green );
 
 			canAirControl = !tr.Hit;
 		}
@@ -384,7 +384,7 @@ public partial class CarEntity : Prop, IUse
 				.Run();
 
 			if ( debug_car )
-				DebugOverlay.Line( tr.StartPos, tr.EndPos );
+				DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
 
 			bool dampen = false;
 
