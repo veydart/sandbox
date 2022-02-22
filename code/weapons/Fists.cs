@@ -23,7 +23,7 @@ partial class Fists : Weapon
 			OnMeleeMiss( leftHand );
 		}
 
-		(Owner as AnimEntity)?.SetAnimBool( "b_attack", true );
+		(Owner as AnimEntity)?.SetAnimParameter( "b_attack", true );
 	}
 
 	public override void AttackPrimary()
@@ -42,8 +42,8 @@ partial class Fists : Weapon
 
 	public override void SimulateAnimator( PawnAnimator anim )
 	{
-		anim.SetParam( "holdtype", 5 );
-		anim.SetParam( "aimat_weight", 1.0f );
+		anim.SetAnimParameter( "holdtype", 5 );
+		anim.SetAnimParameter( "aim_body_weight", 1.0f );
 	}
 
 	public override void CreateViewModel()
@@ -94,9 +94,9 @@ partial class Fists : Weapon
 			_ = new Sandbox.ScreenShake.Perlin();
 		}
 
-		ViewModelEntity?.SetAnimBool( "attack_has_hit", false );
-		ViewModelEntity?.SetAnimBool( "attack", true );
-		ViewModelEntity?.SetAnimFloat( "holdtype_attack", leftHand ? 2 : 1 );
+		ViewModelEntity?.SetAnimParameter( "attack_has_hit", false );
+		ViewModelEntity?.SetAnimParameter( "attack", true );
+		ViewModelEntity?.SetAnimParameter( "holdtype_attack", leftHand ? 2 : 1 );
 	}
 
 	[ClientRpc]
@@ -109,8 +109,8 @@ partial class Fists : Weapon
 			_ = new Sandbox.ScreenShake.Perlin( 1.0f, 1.0f, 3.0f );
 		}
 
-		ViewModelEntity?.SetAnimBool( "attack_has_hit", true );
-		ViewModelEntity?.SetAnimBool( "attack", true );
-		ViewModelEntity?.SetAnimFloat( "holdtype_attack", leftHand ? 2 : 1 );
+		ViewModelEntity?.SetAnimParameter( "attack_has_hit", true );
+		ViewModelEntity?.SetAnimParameter( "attack", true );
+		ViewModelEntity?.SetAnimParameter( "holdtype_attack", leftHand ? 2 : 1 );
 	}
 }

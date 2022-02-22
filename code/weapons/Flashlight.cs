@@ -149,7 +149,7 @@ partial class Flashlight : Weapon
 			_ = new Sandbox.ScreenShake.Perlin();
 		}
 
-		ViewModelEntity?.SetAnimBool( "attack", true );
+		ViewModelEntity?.SetAnimParameter( "attack", true );
 	}
 
 	[ClientRpc]
@@ -162,7 +162,7 @@ partial class Flashlight : Weapon
 			_ = new Sandbox.ScreenShake.Perlin( 1.0f, 1.0f, 3.0f );
 		}
 
-		ViewModelEntity?.SetAnimBool( "attack_hit", true );
+		ViewModelEntity?.SetAnimParameter( "attack_hit", true );
 	}
 
 	private void Activate()

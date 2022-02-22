@@ -44,7 +44,7 @@ namespace Sandbox.Tools
 				{
 					entity.Scale = scale;
 					entity.PhysicsGroup.RebuildMass();
-					entity.PhysicsGroup.Wake();
+					entity.PhysicsGroup.Sleeping = false;
 
 					foreach ( var child in entity.Children )
 					{
@@ -55,7 +55,7 @@ namespace Sandbox.Tools
 							continue;
 
 						child.PhysicsGroup.RebuildMass();
-						child.PhysicsGroup.Wake();
+						child.PhysicsGroup.Sleeping = false;
 					}
 				}
 
