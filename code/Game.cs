@@ -1,4 +1,6 @@
 ﻿using Sandbox;
+using System.Linq;
+using System.Threading.Tasks;
 
 partial class SandboxGame : Game
 {
@@ -27,7 +29,7 @@ partial class SandboxGame : Game
 	}
 
 	[ServerCmd( "spawn" )]
-	public static void Spawn( string modelname )
+	public static async Task Spawn( string modelname )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
 
@@ -38,6 +40,16 @@ partial class SandboxGame : Game
 			.UseHitboxes()
 			.Ignore( owner )
 			.Run();
+
+		//
+		// Does this look like a package?
+		//
+		if ( modelname.Count( x => x == '.' ) == 1 && !modelname.EndsWith( ".vmdl", System.StringComparison.OrdinalIgnoreCase ) && !modelname.EndsWith( ".vmdl_c", System.StringComparison.OrdinalIgnoreCase ) )
+		{
+			modelname = await SpawnPackageModel( modelname, tr.EndPosition, owner );
+			if ( modelname == null )
+				return;
+		}
 
 		var model = Model.Load( modelname );
 		if ( model == null || model.IsError )
@@ -52,6 +64,31 @@ partial class SandboxGame : Game
 
 		// Let's make sure physics are ready to go instead of waiting
 		ent.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+	}
+
+	static async Task<string> SpawnPackageModel( string packageName, Vector3 pos, Entity source )
+	{
+		DebugOverlay.Text( pos, $"Spawning {packageName}", 5.0f );
+
+		var package = await Package.Fetch( packageName, false );
+		if ( package == null || package.PackageType != Package.Type.Model || package.Revision == null )
+		{
+			// spawn error particles
+			return null;
+		}
+
+		if ( !source.IsValid ) return null; // source entity died or disconnected or something
+
+		var model = package.GetMeta( "PrimaryAsset", "models/dev/error.vmdl" );
+		var mins = package.GetMeta( "RenderMins", Vector3.Zero );
+		var maxs = package.GetMeta( "RenderMaxs", Vector3.Zero );
+
+		DebugOverlay.Box( 10, pos, mins, maxs, Color.White );
+		DebugOverlay.Text( pos + Vector3.Up * 20, $"Found {package.Title}", 5.0f );
+
+		// async download this package
+
+		return model;
 	}
 
 	[ServerCmd( "spawn_entity" )]
