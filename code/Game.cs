@@ -86,7 +86,8 @@ partial class SandboxGame : Game
 		DebugOverlay.Box( 10, pos, mins, maxs, Color.White );
 		DebugOverlay.Text( pos + Vector3.Up * 20, $"Found {package.Title}", 5.0f );
 
-		// async download this package
+		// downloads if not downloads, mounts if not mounted
+		await package.MountAsync();
 
 		return model;
 	}
