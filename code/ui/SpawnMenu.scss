@@ -140,6 +140,7 @@
 	}
 }
 
+
 .spawnpage
 {
 	display: none;
@@ -167,7 +168,7 @@
 
 		.icon
 		{
-			border-radius: 16px;
+			border-radius: 8px;
 			color: rgba( #fff, 0.5 );
 			font-size: 12px;
 			text-align: center;
@@ -176,7 +177,7 @@
 			height: 100%;
 			background-position: center;
 			background-size: cover;
-			background-color: rgba(black, 0.1);
+			background-color: rgba(black, 0.0);
 			background-image: url( /entity/spawnicon.png );
 
 			label
@@ -192,7 +193,7 @@
 			&:hover
 			{
 				color: #fff;
-				background-color: rgba(black, 0.4);
+				background-color: rgba(black, 0.1);
 			}
 
 			&:active
@@ -200,4 +201,32 @@
 			}
 		}
 	}
+}
+
+
+spawnmenu .sidebar
+{
+	flex-direction: column;
+	width: 30px;
+	padding: 10px;
+
+	.group
+	{
+		flex-direction: column;
+	}
+
+	button
+	{
+		cursor: pointer;
+		border-radius: 5px;
+		color: white;
+	}
+}
+
+
+icon, iconpanel
+{
+	font-family: "material icons";
+	flex-grow: 1;
+	text-align: left;
 }
