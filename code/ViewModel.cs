@@ -41,6 +41,12 @@ public class ViewModel : BaseViewModel
 		Position = camSetup.Position;
 		Rotation = camSetup.Rotation;
 
+		var cameraBoneIndex = GetBoneIndex( "camera" );
+		if ( cameraBoneIndex != -1 )
+		{
+			camSetup.Rotation *= (Rotation.Inverse * GetBoneTransform( cameraBoneIndex ).Rotation);
+		}
+
 		camSetup.ViewModel.FieldOfView = FieldOfView;
 
 		var newPitch = Rotation.Pitch();
