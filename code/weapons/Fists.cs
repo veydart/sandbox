@@ -107,11 +107,6 @@ partial class Fists : Weapon
 	{
 		Host.AssertClient();
 
-		if ( IsLocalPawn )
-		{
-			_ = new Sandbox.ScreenShake.Perlin();
-		}
-
 		ViewModelEntity?.SetAnimParameter( "attack_has_hit", false );
 		ViewModelEntity?.SetAnimParameter( "attack", true );
 		ViewModelEntity?.SetAnimParameter( "holdtype_attack", leftHand ? 2 : 1 );
@@ -121,11 +116,6 @@ partial class Fists : Weapon
 	private void OnMeleeHit( bool leftHand )
 	{
 		Host.AssertClient();
-
-		if ( IsLocalPawn )
-		{
-			_ = new Sandbox.ScreenShake.Perlin( 1.0f, 1.0f, 3.0f );
-		}
 
 		ViewModelEntity?.SetAnimParameter( "attack_has_hit", true );
 		ViewModelEntity?.SetAnimParameter( "attack", true );
