@@ -1,5 +1,4 @@
 {
-  "SharedAssets": "*.*",
   "Title": "Sandbox Game",
   "Type": "game",
   "Org": "facepunch",
@@ -7,6 +6,7 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": null,
+  "ResourcePaths": null,
   "HasCode": true,
   "CodePath": "code",
   "RootNamespace": "Sandbox"
