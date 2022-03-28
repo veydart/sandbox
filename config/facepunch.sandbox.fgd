@@ -26,7 +26,7 @@
 //
 // BalloonEntity
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = ent_balloon : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = ent_balloon : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -54,7 +54,7 @@
 //
 // BouncyBallEntity
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = ent_bouncyball : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = ent_bouncyball : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -82,7 +82,7 @@
 //
 // DirectionalGravity
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = directional_gravity : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = directional_gravity : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -110,7 +110,7 @@
 //
 // DroneEntity
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = ent_drone : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = ent_drone : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -307,7 +307,7 @@
 //
 // NoiseTest
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = noise_test : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = noise_test : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -335,7 +335,7 @@
 //
 // ThrusterEntity
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = ent_thruster : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = ent_thruster : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -363,7 +363,7 @@
 //
 // WheelEntity
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = ent_wheel : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = ent_wheel : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -461,7 +461,7 @@
 //
 // CarEntity
 //
-@PointClass base(BaseProperties_facepunch_sandbox) tags( Physics ) model() = ent_car : ""
+@PointClass base(BaseProperties_facepunch_sandbox, BasePhysicsSimulated) tags( Physics ) model() = ent_car : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
