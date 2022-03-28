@@ -47,8 +47,6 @@ public class ViewModel : BaseViewModel
 			camSetup.Rotation *= (Rotation.Inverse * GetBoneTransform( cameraBoneIndex ).Rotation);
 		}
 
-		camSetup.ViewModel.FieldOfView = FieldOfView;
-
 		var newPitch = Rotation.Pitch();
 		var newYaw = Rotation.Yaw();
 
