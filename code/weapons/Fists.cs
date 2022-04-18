@@ -6,6 +6,7 @@ partial class Fists : Weapon
 	public override string ViewModelPath => "models/first_person/first_person_arms.vmdl";
 	public override float PrimaryRate => 2.0f;
 	public override float SecondaryRate => 2.0f;
+	public override bool BoneMerge => false;
 
 	public override bool CanReload()
 	{
