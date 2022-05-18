@@ -102,9 +102,10 @@ partial class SandboxGame : Game
 		if ( owner == null )
 			return;
 
-		var attribute = Library.GetAttribute( entName );
+		var entityType = TypeLibrary.GetTypeByName<Entity>( entName );
+		if ( entityType == null )
 
-		if ( attribute == null || !attribute.Spawnable )
+		if ( !TypeLibrary.Has<SpawnableAttribute>( entityType ) )
 			return;
 
 		var tr = Trace.Ray( owner.EyePosition, owner.EyePosition + owner.EyeRotation.Forward * 200 )
@@ -113,7 +114,7 @@ partial class SandboxGame : Game
 			.Size( 2 )
 			.Run();
 
-		var ent = Library.Create<Entity>( entName );
+		var ent = TypeLibrary.Create<Entity>( entityType );
 		if ( ent is BaseCarriable && owner.Inventory != null )
 		{
 			if ( owner.Inventory.Add( ent, true ) )

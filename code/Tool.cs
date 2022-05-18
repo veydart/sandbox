@@ -42,7 +42,7 @@ partial class Tool : Carriable
 			CurrentTool = null;
 		}
 
-		CurrentTool = Library.Create<BaseTool>( toolName, false );
+		CurrentTool = TypeLibrary.Create<BaseTool>( toolName );
 
 		if ( CurrentTool != null )
 		{
