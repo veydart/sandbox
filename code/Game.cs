@@ -27,7 +27,7 @@ partial class SandboxGame : Game
 		base.OnDestroy();
 	}
 
-	[ServerCmd( "spawn" )]
+	[ConCmd.Server( "spawn" )]
 	public static async Task Spawn( string modelname )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
@@ -94,7 +94,7 @@ partial class SandboxGame : Game
 		return model;
 	}
 
-	[ServerCmd( "spawn_entity" )]
+	[ConCmd.Server( "spawn_entity" )]
 	public static void SpawnEntity( string entName )
 	{
 		var owner = ConsoleSystem.Caller.Pawn as Player;
@@ -143,7 +143,7 @@ partial class SandboxGame : Game
 		}
 	}
 
-	[AdminCmd( "respawn_entities" )]
+	[ConCmd.Admin( "respawn_entities" )]
 	public static void RespawnEntities()
 	{
 		Map.Reset( DefaultCleanupFilter );

@@ -181,7 +181,7 @@ partial class SandboxPlayer : Player
 		base.StartTouch( other );
 	}
 
-	[ServerCmd( "inventory_current" )]
+	[ConCmd.Server( "inventory_current" )]
 	public static void SetInventoryCurrent( string entName )
 	{
 		var target = ConsoleSystem.Caller.Pawn as Player;
