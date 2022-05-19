@@ -135,7 +135,6 @@ public partial class Weapon : BaseWeapon, IUse
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 
 		ViewModelEntity?.SetAnimParameter( "fire", true );
-		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	/// <summary>

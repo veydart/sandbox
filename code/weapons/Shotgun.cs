@@ -63,8 +63,6 @@ partial class Shotgun : Weapon
 		Particles.Create( "particles/pistol_ejectbrass.vpcf", EffectEntity, "ejection_point" );
 
 		ViewModelEntity?.SetAnimParameter( "fire", true );
-
-		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	[ClientRpc]
@@ -75,7 +73,6 @@ partial class Shotgun : Weapon
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 
 		ViewModelEntity?.SetAnimParameter( "fire_double", true );
-		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	public override void OnReloadFinish()
