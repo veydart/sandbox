@@ -24,7 +24,7 @@ partial class Fists : Weapon
 			OnMeleeMiss( leftHand );
 		}
 
-		(Owner as AnimEntity)?.SetAnimParameter( "b_attack", true );
+		(Owner as AnimatedEntity)?.SetAnimParameter( "b_attack", true );
 	}
 
 	public override void AttackPrimary()

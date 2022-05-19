@@ -45,7 +45,7 @@ public partial class Weapon : BaseWeapon, IUse
 		TimeSinceReload = 0;
 		IsReloading = true;
 
-		(Owner as AnimEntity)?.SetAnimParameter( "b_reload", true );
+		(Owner as AnimatedEntity)?.SetAnimParameter( "b_reload", true );
 
 		StartReloadEffects();
 	}

@@ -21,7 +21,7 @@ partial class Shotgun : Weapon
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 
-		(Owner as AnimEntity)?.SetAnimParameter( "b_attack", true );
+		(Owner as AnimatedEntity)?.SetAnimParameter( "b_attack", true );
 
 		//
 		// Tell the clients to play the shoot effects
@@ -40,7 +40,7 @@ partial class Shotgun : Weapon
 		TimeSincePrimaryAttack = -0.5f;
 		TimeSinceSecondaryAttack = -0.5f;
 
-		(Owner as AnimEntity)?.SetAnimParameter( "b_attack", true );
+		(Owner as AnimatedEntity)?.SetAnimParameter( "b_attack", true );
 
 		//
 		// Tell the clients to play the shoot effects
