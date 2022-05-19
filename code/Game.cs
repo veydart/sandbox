@@ -105,8 +105,8 @@ partial class SandboxGame : Game
 		var entityType = TypeLibrary.GetTypeByName<Entity>( entName );
 		if ( entityType == null )
 
-		if ( !TypeLibrary.Has<SpawnableAttribute>( entityType ) )
-			return;
+			if ( !TypeLibrary.Has<SpawnableAttribute>( entityType ) )
+				return;
 
 		var tr = Trace.Ray( owner.EyePosition, owner.EyePosition + owner.EyeRotation.Forward * 200 )
 			.UseHitboxes()
@@ -149,4 +149,11 @@ partial class SandboxGame : Game
 	{
 		Map.Reset( DefaultCleanupFilter );
 	}
+
+	[ClientRpc]
+	public override void OnKilledMessage( long leftid, string left, long rightid, string right, string method )
+	{
+		KillFeed.Current?.AddEntry( leftid, left, rightid, right, method );
+	}
+
 }
