@@ -10,7 +10,7 @@ partial class SandboxPlayer : Player
 	/// <summary>
 	/// The clothing container is what dresses the citizen
 	/// </summary>
-	public Clothing.Container Clothing = new();
+	public ClothingContainer Clothing = new();
 
 	/// <summary>
 	/// Default init

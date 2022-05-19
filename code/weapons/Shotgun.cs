@@ -64,11 +64,6 @@ partial class Shotgun : Weapon
 
 		ViewModelEntity?.SetAnimParameter( "fire", true );
 
-		if ( IsLocalPawn )
-		{
-			new Sandbox.ScreenShake.Perlin( 1.0f, 1.5f, 2.0f );
-		}
-
 		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
@@ -81,11 +76,6 @@ partial class Shotgun : Weapon
 
 		ViewModelEntity?.SetAnimParameter( "fire_double", true );
 		CrosshairPanel?.CreateEvent( "fire" );
-
-		if ( IsLocalPawn )
-		{
-			new Sandbox.ScreenShake.Perlin( 3.0f, 3.0f, 3.0f );
-		}
 	}
 
 	public override void OnReloadFinish()

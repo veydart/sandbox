@@ -145,11 +145,6 @@ partial class Flashlight : Weapon
 	{
 		Host.AssertClient();
 
-		if ( IsLocalPawn )
-		{
-			_ = new Sandbox.ScreenShake.Perlin();
-		}
-
 		ViewModelEntity?.SetAnimParameter( "attack", true );
 	}
 
@@ -157,11 +152,6 @@ partial class Flashlight : Weapon
 	private void OnMeleeHit()
 	{
 		Host.AssertClient();
-
-		if ( IsLocalPawn )
-		{
-			_ = new Sandbox.ScreenShake.Perlin( 1.0f, 1.0f, 3.0f );
-		}
 
 		ViewModelEntity?.SetAnimParameter( "attack_hit", true );
 	}
