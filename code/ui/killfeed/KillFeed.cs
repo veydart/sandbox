@@ -7,7 +7,6 @@ public partial class KillFeed : Panel
 
 	public KillFeed()
 	{
-		Log.Info( "Create Kill Feed!" );
 		Current = this;
 
 		StyleSheet.Load( "/ui/killfeed/KillFeed.scss" );
