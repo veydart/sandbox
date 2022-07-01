@@ -175,6 +175,8 @@ partial class SandboxPlayer : Player
 		}
 	}
 
+	Entity lastWeapon;
+
 	void SimulateAnimation()
 	{
 		if ( Controller == null )
@@ -191,18 +193,26 @@ partial class SandboxPlayer : Player
 		animHelper.WithWishVelocity( Controller.WishVelocity );
 		animHelper.WithVelocity( Controller.Velocity );
 		animHelper.WithLookAt( EyePosition + EyeRotation.Forward * 100.0f, 1.0f, 1.0f, 0.5f );
+		animHelper.AimAngle = Input.Rotation;
 		animHelper.FootShuffle = shuffle;
 		animHelper.DuckLevel = MathX.Lerp( animHelper.DuckLevel, Controller.HasTag( "ducked" ) ? 1 : 0, Time.Delta * 10.0f );
 		animHelper.IsGrounded = GroundEntity != null;
 		animHelper.IsSitting = Controller.HasTag( "sitting" );
 		animHelper.IsNoclipping = Controller.HasTag( "noclip" );
+		animHelper.IsClimbing = Controller.HasTag( "climbing" );
 		animHelper.IsSwimming = WaterLevel >= 0.5f;
+		animHelper.IsWeaponLowered = false;
+
+		if ( Controller.HasEvent( "jump" ) ) animHelper.TriggerJump();
+		if ( ActiveChild != lastWeapon ) animHelper.TriggerDeploy();
 
 
 		if ( ActiveChild is BaseCarriable carry )
 		{
 			carry.SimulateAnimator( animHelper );
 		}
+
+		lastWeapon = ActiveChild;
 	}
 
 	public override void StartTouch( Entity other )
