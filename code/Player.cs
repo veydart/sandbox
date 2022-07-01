@@ -34,7 +34,6 @@ partial class SandboxPlayer : Player
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new WalkController();
-		Animator = new StandardPlayerAnimator();
 
 		if ( DevController is NoclipController )
 		{
@@ -131,6 +130,8 @@ partial class SandboxPlayer : Player
 		if ( controller != null )
 			EnableSolidCollisions = !controller.HasTag( "noclip" );
 
+		SimulateAnimation();
+
 		TickPlayerUse();
 		SimulateActiveChild( cl, ActiveChild );
 
@@ -171,6 +172,36 @@ partial class SandboxPlayer : Player
 		if ( Input.Left != 0 || Input.Forward != 0 )
 		{
 			timeSinceJumpReleased = 1;
+		}
+	}
+
+	void SimulateAnimation()
+	{
+		if ( Controller == null )
+			return;
+
+		// where should we be rotated to
+		var turnSpeed = 0.02f;
+		var idealRotation = Rotation.LookAt( Input.Rotation.Forward.WithZ( 0 ), Vector3.Up );
+		Rotation = Rotation.Slerp( Rotation, idealRotation, Controller.WishVelocity.Length * Time.Delta * turnSpeed );
+		Rotation = Rotation.Clamp( idealRotation, 45.0f, out var shuffle ); // lock facing to within 45 degrees of look direction
+
+		CitizenAnimationHelper animHelper = new CitizenAnimationHelper( this );
+
+		animHelper.WithWishVelocity( Controller.WishVelocity );
+		animHelper.WithVelocity( Controller.Velocity );
+		animHelper.WithLookAt( EyePosition + EyeRotation.Forward * 100.0f, 1.0f, 1.0f, 0.5f );
+		animHelper.FootShuffle = shuffle;
+		animHelper.DuckLevel = MathX.Lerp( animHelper.DuckLevel, Controller.HasTag( "ducked" ) ? 1 : 0, Time.Delta * 10.0f );
+		animHelper.IsGrounded = GroundEntity != null;
+		animHelper.IsSitting = Controller.HasTag( "sitting" );
+		animHelper.IsNoclipping = Controller.HasTag( "noclip" );
+		animHelper.IsSwimming = WaterLevel >= 0.5f;
+
+
+		if ( ActiveChild is BaseCarriable carry )
+		{
+			carry.SimulateAnimator( animHelper );
 		}
 	}
 
