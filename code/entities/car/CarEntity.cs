@@ -229,7 +229,8 @@ public partial class CarEntity : Prop, IUse
 		//Driver.ActiveChild?.Simulate( client );
 
 		Driver.SetAnimParameter( "b_grounded", true );
-		Driver.SetAnimParameter( "b_sit", true );
+		Driver.SetAnimParameter( "b_noclip", false );
+		Driver.SetAnimParameter( "sit", 1 );
 
 		var aimRotation = Input.Rotation.Clamp( Driver.Rotation, 90 );
 
@@ -489,6 +490,8 @@ public partial class CarEntity : Prop, IUse
 
 	private void RemoveDriver( SandboxPlayer player )
 	{
+		Driver?.SetAnimParameter( "sit", 0 );
+
 		Driver = null;
 		timeSinceDriverLeft = 0;
 
