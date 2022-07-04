@@ -213,6 +213,11 @@ partial class SandboxPlayer : Player
 		{
 			carry.SimulateAnimator( animHelper );
 		}
+		else
+		{
+			animHelper.HoldType = CitizenAnimationHelper.HoldTypes.None;
+			animHelper.AimBodyWeight = 0.5f;
+		}
 
 		lastWeapon = ActiveChild;
 	}
