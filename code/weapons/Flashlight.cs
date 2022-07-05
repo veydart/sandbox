@@ -198,4 +198,11 @@ partial class Flashlight : Weapon
 			}
 		}
 	}
+
+	public override void SimulateAnimator( CitizenAnimationHelper anim )
+	{
+		anim.HoldType = CitizenAnimationHelper.HoldTypes.Pistol;
+		anim.Handedness = CitizenAnimationHelper.Hand.Right;
+		anim.AimBodyWeight = 1.0f;
+	}
 }
