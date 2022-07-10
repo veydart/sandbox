@@ -17,6 +17,7 @@ partial class SandboxPlayer
 		ent.CopyBonesFrom( this );
 		ent.CopyBodyGroups( this );
 		ent.CopyMaterialGroup( this );
+		ent.CopyMaterialOverrides( this );
 		ent.TakeDecalsFrom( this );
 		ent.EnableHitboxes = true;
 		ent.EnableAllCollisions = true;
