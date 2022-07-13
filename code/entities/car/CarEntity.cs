@@ -84,7 +84,6 @@ public partial class CarEntity : Prop, IUse
 
 		SetModel( modelName );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-		SetInteractsExclude( CollisionLayer.Player );
 		EnableSelfCollisions = false;
 
 		var trigger = new ModelEntity
@@ -93,11 +92,11 @@ public partial class CarEntity : Prop, IUse
 			Position = Position,
 			Rotation = Rotation,
 			EnableTouch = true,
-			CollisionGroup = CollisionGroup.Trigger,
 			Transmit = TransmitType.Never,
 			EnableSelfCollisions = false,
 		};
 
+		trigger.Tags.Add( "trigger" );
 		trigger.SetModel( modelName );
 		trigger.SetupPhysicsFromModel( PhysicsMotionType.Keyframed, false );
 	}
