@@ -28,7 +28,8 @@
         "ladder": "Ignore",
         "water": "Trigger",
         "debris": "Unset",
-        "player": "Unset"
+        "player": "Unset",
+        "glass": "Unset"
       },
       "Pairs": [
         {
@@ -80,6 +81,29 @@
         {
           "a": "ladder",
           "b": "debris"
+        },
+        {
+          "a": "player",
+          "b": "player"
+        },
+        {
+          "a": "player",
+          "b": "glass",
+          "r": "Trigger"
+        },
+        {
+          "a": "trigger",
+          "b": "glass",
+          "r": "Ignore"
+        },
+        {
+          "a": "glass",
+          "b": "glass",
+          "r": "Ignore"
+        },
+        {
+          "a": "water",
+          "b": "glass"
         }
       ]
     }
