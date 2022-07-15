@@ -208,7 +208,6 @@ partial class SandboxPlayer : Player
 		if ( controller.HasEvent( "jump" ) ) animHelper.TriggerJump();
 		if ( ActiveChild != lastWeapon ) animHelper.TriggerDeploy();
 
-
 		if ( ActiveChild is BaseCarriable carry )
 		{
 			carry.SimulateAnimator( animHelper );
@@ -227,6 +226,11 @@ partial class SandboxPlayer : Player
 		if ( timeSinceDropped < 1 ) return;
 
 		base.StartTouch( other );
+	}
+
+	public override float FootstepVolume()
+	{
+		return Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 200.0f ) * 5.0f;
 	}
 
 	[ConCmd.Server( "inventory_current" )]
@@ -253,5 +257,4 @@ partial class SandboxPlayer : Player
 			break;
 		}
 	}
-
 }
