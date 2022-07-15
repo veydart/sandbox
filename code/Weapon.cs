@@ -164,6 +164,32 @@ public partial class Weapon : BaseWeapon, IUse
 		//
 	}
 
+	public IEnumerable<TraceResult> TraceMelee( Vector3 start, Vector3 end, float radius = 2.0f )
+	{
+		var trace = Trace.Ray( start, end )
+				.UseHitboxes()
+				.WithAnyTags( "solid", "player", "npc", "glass" )
+				.Ignore( this );
+
+		var tr = trace.Run();
+
+		if ( tr.Hit )
+		{
+			yield return tr;
+		}
+		else
+		{
+			trace = trace.Size( radius );
+
+			tr = trace.Run();
+
+			if ( tr.Hit )
+			{
+				yield return tr;
+			}
+		}
+	}
+
 	/// <summary>
 	/// Shoot a single bullet
 	/// </summary>
