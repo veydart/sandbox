@@ -10,7 +10,6 @@ partial class SandboxPlayer
 		ent.Position = Position;
 		ent.Rotation = Rotation;
 		ent.Scale = Scale;
-		ent.MoveType = MoveType.Physics;
 		ent.UsePhysicsCollision = true;
 		ent.EnableAllCollisions = true;
 		ent.SetModel( GetModelName() );
@@ -19,11 +18,11 @@ partial class SandboxPlayer
 		ent.CopyMaterialGroup( this );
 		ent.CopyMaterialOverrides( this );
 		ent.TakeDecalsFrom( this );
-		ent.EnableHitboxes = true;
 		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
 		ent.RenderColor = RenderColor;
 		ent.PhysicsGroup.Velocity = velocity;
+		ent.PhysicsEnabled = true;
 
 		foreach ( var child in Children )
 		{
