@@ -78,6 +78,8 @@ public partial class CarEntity : Prop, IUse
 	{
 		base.Spawn();
 
+		Predictable = false;
+
 		var modelName = "models/car/car.vmdl";
 
 		Components.Create<CarCamera>();
