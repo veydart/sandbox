@@ -30,6 +30,8 @@ public partial class GravGun : Carriable
 
 	private TimeSince timeSinceDrop;
 
+	private const string grabbedTag = "grabbed";
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -92,7 +94,7 @@ public partial class GravGun : Carriable
 
 			var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxPullDistance )
 				.UseHitboxes()
-				.WithTag( "solid" )
+				.WithAnyTags( "solid" )
 				.Ignore( this )
 				.Radius( 2.0f )
 				.Run();
@@ -107,11 +109,14 @@ public partial class GravGun : Carriable
 			if ( !modelEnt.IsValid() )
 				return;
 
+			if ( modelEnt.Tags.Has( grabbedTag ) )
+				return;
+
 			var body = tr.Body;
 
 			if ( Input.Pressed( InputButton.PrimaryAttack ) )
 			{
-				if ( tr.Distance < MaxPushDistance && !IsBodyGrabbed( body ) )
+				if ( tr.Distance < MaxPushDistance )
 				{
 					var pushScale = 1.0f - Math.Clamp( tr.Distance / MaxPushDistance, 0.0f, 1.0f );
 					body.ApplyImpulseAt( tr.EndPosition, eyeDir * (body.Mass * (PushForce * pushScale)) );
@@ -135,7 +140,7 @@ public partial class GravGun : Carriable
 					var holdDistance = HoldDistance + attachPos.Distance( body.MassCenter );
 					GrabStart( modelEnt, body, eyePos + eyeDir * holdDistance, eyeRot );
 				}
-				else if ( !IsBodyGrabbed( body ) )
+				else
 				{
 					physicsGroup.ApplyImpulse( eyeDir * -PullForce, true );
 				}
@@ -196,24 +201,12 @@ public partial class GravGun : Carriable
 	{
 	}
 
-	private static bool IsBodyGrabbed( PhysicsBody body )
-	{
-		// There for sure is a better way to deal with this
-		if ( All.OfType<PhysGun>().Any( x => x?.HeldBody?.PhysicsGroup == body?.PhysicsGroup ) ) return true;
-		if ( All.OfType<GravGun>().Any( x => x?.HeldBody?.PhysicsGroup == body?.PhysicsGroup ) ) return true;
-
-		return false;
-	}
-
 	private void GrabStart( ModelEntity entity, PhysicsBody body, Vector3 grabPos, Rotation grabRot )
 	{
 		if ( !body.IsValid() )
 			return;
 
 		if ( body.PhysicsGroup == null )
-			return;
-
-		if ( IsBodyGrabbed( body ) )
 			return;
 
 		GrabEnd();
@@ -233,6 +226,7 @@ public partial class GravGun : Carriable
 		holdJoint.Strength = HeldBody.Mass * BreakLinearForce;
 
 		HeldEntity = entity;
+		HeldEntity.Tags.Add( grabbedTag );
 
 		Client?.Pvs.Add( HeldEntity );
 	}
@@ -254,7 +248,12 @@ public partial class GravGun : Carriable
 
 		HeldBody = null;
 		HeldRot = Rotation.Identity;
-		HeldEntity = null;
+
+		if ( HeldEntity.IsValid() )
+		{
+			HeldEntity.Tags.Remove( grabbedTag );
+			HeldEntity = null;
+		}
 	}
 
 	private void GrabMove( Vector3 startPos, Vector3 dir, Rotation rot )
