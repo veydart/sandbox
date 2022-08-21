@@ -314,7 +314,7 @@ public partial class PhysGun : Carriable
 		if ( GrabbedEntity is Player )
 			return;
 
-			var velocity = heldBody.Velocity;
+		var velocity = heldBody.Velocity;
 		Vector3.SmoothDamp( heldBody.Position, holdPos, ref velocity, 0.075f, Time.Delta );
 		heldBody.Velocity = velocity;
 
