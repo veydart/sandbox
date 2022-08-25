@@ -114,6 +114,9 @@ public partial class GravGun : Carriable
 
 			var body = tr.Body;
 
+			if ( body.BodyType != PhysicsBodyType.Dynamic )
+				return;
+
 			if ( Input.Pressed( InputButton.PrimaryAttack ) )
 			{
 				if ( tr.Distance < MaxPushDistance )
