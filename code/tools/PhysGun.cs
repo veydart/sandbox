@@ -21,7 +21,7 @@ public partial class PhysGun : Carriable
 	protected virtual float AngularFrequency => 20.0f;
 	protected virtual float AngularDampingRatio => 1.0f;
 	protected virtual float TargetDistanceSpeed => 50.0f;
-	protected virtual float RotateSpeed => 1.0f;
+	protected virtual float RotateSpeed => 0.125f;
 	protected virtual float RotateSnapAt => 45.0f;
 
 	private const string grabbedTag = "grabbed";
@@ -32,9 +32,6 @@ public partial class PhysGun : Carriable
 	[Net] public Vector3 GrabbedPos { get; set; }
 
 	public PhysicsBody HeldBody => heldBody;
-
-	private Vector3 rotateInput;
-	private Vector3 lastRotateInput;
 
 	public override void Spawn()
 	{
@@ -217,14 +214,8 @@ public partial class PhysGun : Carriable
 
 		if ( rotating )
 		{
-			DoRotate( eyeRot, Input.Cursor.Direction - lastRotateInput );
-			lastRotateInput = Input.Cursor.Direction;
-
+			DoRotate( eyeRot, Input.MouseDelta * RotateSpeed );
 			snapping = Input.Down( InputButton.Run );
-		}
-		else
-		{
-			lastRotateInput = 0;
 		}
 
 		GrabMove( eyePos, eyeDir, eyeRot, snapping );
@@ -246,8 +237,6 @@ public partial class PhysGun : Carriable
 		}
 
 		KillEffects();
-
-		rotateInput = 0;
 	}
 
 	public override void ActiveStart( Entity ent )
@@ -314,8 +303,6 @@ public partial class PhysGun : Carriable
 
 		heldBody = null;
 		grabbing = false;
-
-		lastRotateInput = 0;
 	}
 
 	[Event.Physics.PreStep]
@@ -392,18 +379,8 @@ public partial class PhysGun : Carriable
 			 !owner.Down( InputButton.PrimaryAttack ) ||
 			 !GrabbedEntity.IsValid() )
 		{
-			rotateInput = Vector3.Zero;
-
 			return;
 		}
-
-		rotateInput.x += -owner.AnalogLook.yaw;
-		rotateInput.y += owner.AnalogLook.pitch;
-
-		//
-		// We need to get accumulated look delta to the server so put it into something we don't use
-		//
-		owner.Cursor.Direction = rotateInput;
 
 		//
 		// Lock view angles
