@@ -181,6 +181,7 @@ public partial class PhysGun : Carriable
 
 		GrabbedEntity = rootEnt;
 		GrabbedEntity.Tags.Add( grabbedTag );
+		GrabbedEntity.Tags.Add( $"grabbed_{Client.PlayerId}" );
 
 		GrabbedPos = body.Transform.PointToLocal( tr.EndPosition );
 		GrabbedBone = body.GroupIndex;
@@ -298,6 +299,7 @@ public partial class PhysGun : Carriable
 		if ( GrabbedEntity.IsValid() )
 		{
 			GrabbedEntity.Tags.Remove( grabbedTag );
+			GrabbedEntity.Tags.Remove( $"grabbed_{Client.PlayerId}" );
 			GrabbedEntity = null;
 		}
 
