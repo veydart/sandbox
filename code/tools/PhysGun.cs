@@ -20,11 +20,11 @@ public partial class PhysGun : Carriable
 	protected virtual float LinearDampingRatio => 1.0f;
 	protected virtual float AngularFrequency => 20.0f;
 	protected virtual float AngularDampingRatio => 1.0f;
-	protected virtual float TargetDistanceSpeed => 50.0f;
+	protected virtual float TargetDistanceSpeed => 25.0f;
 	protected virtual float RotateSpeed => 0.125f;
 	protected virtual float RotateSnapAt => 45.0f;
 
-	private const string grabbedTag = "grabbed";
+	public const string GrabbedTag = "grabbed";
 
 	[Net] public bool BeamActive { get; set; }
 	[Net] public Entity GrabbedEntity { get; set; }
@@ -174,14 +174,14 @@ public partial class PhysGun : Carriable
 			body.BodyType = PhysicsBodyType.Dynamic;
 		}
 
-		if ( rootEnt.Tags.Has( grabbedTag ) )
+		if ( rootEnt.Tags.Has( GrabbedTag ) )
 			return;
 
 		GrabInit( body, eyePos, tr.EndPosition, eyeRot );
 
 		GrabbedEntity = rootEnt;
-		GrabbedEntity.Tags.Add( grabbedTag );
-		GrabbedEntity.Tags.Add( $"grabbed_{Client.PlayerId}" );
+		GrabbedEntity.Tags.Add( GrabbedTag );
+		GrabbedEntity.Tags.Add( $"{GrabbedTag}{Client.PlayerId}" );
 
 		GrabbedPos = body.Transform.PointToLocal( tr.EndPosition );
 		GrabbedBone = body.GroupIndex;
@@ -298,8 +298,8 @@ public partial class PhysGun : Carriable
 
 		if ( GrabbedEntity.IsValid() )
 		{
-			GrabbedEntity.Tags.Remove( grabbedTag );
-			GrabbedEntity.Tags.Remove( $"grabbed_{Client.PlayerId}" );
+			GrabbedEntity.Tags.Remove( GrabbedTag );
+			GrabbedEntity.Tags.Remove( $"{GrabbedTag}{Client.PlayerId}" );
 			GrabbedEntity = null;
 		}
 
