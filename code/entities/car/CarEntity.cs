@@ -159,7 +159,7 @@ public partial class CarEntity : Prop, IUse
 	{
 		base.OnDestroy();
 
-		if ( Driver is SandboxPlayer player )
+		if ( IsServer && Driver is SandboxPlayer player )
 		{
 			RemoveDriver( player );
 		}
@@ -475,6 +475,9 @@ public partial class CarEntity : Prop, IUse
 
 	private void RemoveDriver( SandboxPlayer player )
 	{
+		if ( !IsServer )
+			return;
+
 		Driver?.SetAnimParameter( "sit", 0 );
 
 		Driver = null;
