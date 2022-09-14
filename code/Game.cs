@@ -145,10 +145,17 @@ partial class SandboxGame : Game
 		}
 	}
 
+	[ClientRpc]
+	internal static void RespawnEntitiesClient()
+	{
+		Map.Reset( DefaultCleanupFilter );
+	}
+
 	[ConCmd.Admin( "respawn_entities" )]
 	public static void RespawnEntities()
 	{
 		Map.Reset( DefaultCleanupFilter );
+		RespawnEntitiesClient();
 	}
 
 	[ClientRpc]
