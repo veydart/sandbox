@@ -1,4 +1,6 @@
 ﻿using Sandbox;
+using Sandbox.Component;
+using System.Linq;
 
 public partial class PhysGun
 {
@@ -25,7 +27,7 @@ public partial class PhysGun
 
 		if ( lastGrabbedEntity.IsValid() )
 		{
-			/*foreach ( var child in lastGrabbedEntity.Children.OfType<ModelEntity>() )
+			foreach ( var child in lastGrabbedEntity.Children.OfType<ModelEntity>() )
 			{
 				if ( child is Player )
 					continue;
@@ -39,7 +41,7 @@ public partial class PhysGun
 			if ( lastGrabbedEntity.Components.TryGet<Glow>( out var glow ) )
 			{
 				glow.Active = false;
-			}*/
+			}
 
 			lastGrabbedEntity = null;
 		}
@@ -97,7 +99,7 @@ public partial class PhysGun
 			{
 				lastGrabbedEntity = modelEnt;
 
-				/*var glow = modelEnt.Components.GetOrCreate<Glow>();
+				var glow = modelEnt.Components.GetOrCreate<Glow>();
 				glow.Active = true;
 				glow.RangeMin = 0;
 				glow.RangeMax = 1000;
@@ -113,7 +115,7 @@ public partial class PhysGun
 					glow.RangeMin = 0;
 					glow.RangeMax = 1000;
 					glow.Color = new Color( 0.1f, 1.0f, 1.0f, 1.0f );
-				}*/
+				}
 			}
 		}
 		else
