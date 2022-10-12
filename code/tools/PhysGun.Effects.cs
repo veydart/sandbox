@@ -101,8 +101,6 @@ public partial class PhysGun
 
 				var glow = modelEnt.Components.GetOrCreate<Glow>();
 				glow.Enabled = true;
-				glow.RangeMin = 0;
-				glow.RangeMax = 1000;
 				glow.Color = new Color( 4f, 50.0f, 70.0f, 1.0f );
 
 				foreach ( var child in lastGrabbedEntity.Children.OfType<ModelEntity>() )
@@ -112,8 +110,6 @@ public partial class PhysGun
 
 					glow = child.Components.GetOrCreate<Glow>();
 					glow.Enabled = true;
-					glow.RangeMin = 0;
-					glow.RangeMax = 1000;
 					glow.Color = new Color( 0.1f, 1.0f, 1.0f, 1.0f );
 				}
 			}
