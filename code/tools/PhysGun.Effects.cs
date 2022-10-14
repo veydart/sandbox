@@ -101,7 +101,9 @@ public partial class PhysGun
 
 				var glow = modelEnt.Components.GetOrCreate<Glow>();
 				glow.Enabled = true;
+				glow.Width = 0.25f;
 				glow.Color = new Color( 4f, 50.0f, 70.0f, 1.0f );
+				glow.ObscuredColor = new Color( 4f, 50.0f, 70.0f, 0.0005f );
 
 				foreach ( var child in lastGrabbedEntity.Children.OfType<ModelEntity>() )
 				{
