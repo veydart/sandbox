@@ -15,13 +15,9 @@ namespace Sandbox.Tools
 				var startPos = Owner.EyePosition;
 				var dir = Owner.EyeRotation.Forward;
 
-				if ( !Input.Pressed( InputButton.Attack1 ) ) return;
+				if ( !Input.Pressed( InputButton.PrimaryAttack ) ) return;
 
-				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
-				   .Ignore( Owner )
-				   .UseHitboxes()
-				   .HitLayer( CollisionLayer.Debris )
-				   .Run();
+				var tr = DoTrace();
 
 				if ( !tr.Hit || !tr.Entity.IsValid() )
 					return;

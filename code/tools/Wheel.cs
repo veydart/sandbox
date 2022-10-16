@@ -31,15 +31,10 @@
 
 			using ( Prediction.Off() )
 			{
-				if ( !Input.Pressed( InputButton.Attack1 ) )
+				if ( !Input.Pressed( InputButton.PrimaryAttack ) )
 					return;
 
-				var startPos = Owner.EyePosition;
-				var dir = Owner.EyeRotation.Forward;
-
-				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
-					.Ignore( Owner )
-					.Run();
+				var tr = DoTrace();
 
 				if ( !tr.Hit )
 					return;

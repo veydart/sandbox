@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System.Collections.Generic;
 
 public partial class Weapon : BaseWeapon, IUse
 {
@@ -45,7 +46,7 @@ public partial class Weapon : BaseWeapon, IUse
 		TimeSinceReload = 0;
 		IsReloading = true;
 
-		(Owner as AnimEntity)?.SetAnimParameter( "b_reload", true );
+		(Owner as AnimatedEntity)?.SetAnimParameter( "b_reload", true );
 
 		StartReloadEffects();
 	}
@@ -134,13 +135,59 @@ public partial class Weapon : BaseWeapon, IUse
 
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 
-		if ( IsLocalPawn )
-		{
-			_ = new Sandbox.ScreenShake.Perlin();
-		}
-
 		ViewModelEntity?.SetAnimParameter( "fire", true );
-		CrosshairPanel?.CreateEvent( "fire" );
+	}
+
+	public override IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
+	{
+		bool underWater = Trace.TestPoint( start, "water" );
+
+		var trace = Trace.Ray( start, end )
+				.UseHitboxes()
+				.WithAnyTags( "solid", "player", "npc", "glass" )
+				.Ignore( this )
+				.Size( radius );
+
+		//
+		// If we're not underwater then we can hit water
+		//
+		if ( !underWater )
+			trace = trace.WithAnyTags( "water" );
+
+		var tr = trace.Run();
+
+		if ( tr.Hit )
+			yield return tr;
+
+		//
+		// Another trace, bullet going through thin material, penetrating water surface?
+		//
+	}
+
+	public IEnumerable<TraceResult> TraceMelee( Vector3 start, Vector3 end, float radius = 2.0f )
+	{
+		var trace = Trace.Ray( start, end )
+				.UseHitboxes()
+				.WithAnyTags( "solid", "player", "npc", "glass" )
+				.Ignore( this );
+
+		var tr = trace.Run();
+
+		if ( tr.Hit )
+		{
+			yield return tr;
+		}
+		else
+		{
+			trace = trace.Size( radius );
+
+			tr = trace.Run();
+
+			if ( tr.Hit )
+			{
+				yield return tr;
+			}
+		}
 	}
 
 	/// <summary>
@@ -183,6 +230,7 @@ public partial class Weapon : BaseWeapon, IUse
 	/// </summary>
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 	{
+		Rand.SetSeed( Time.Tick );
 		ShootBullet( Owner.EyePosition, Owner.EyeRotation.Forward, spread, force, damage, bulletSize );
 	}
 

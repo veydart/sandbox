@@ -14,7 +14,7 @@ public partial class SandboxPlayer
 
 		// First try a direct 0 width line
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * (85 * Scale) )
-			.HitLayer( CollisionLayer.Debris )
+			.WithoutTags( "trigger" )
 			.Ignore( this )
 			.Run();
 
@@ -29,8 +29,8 @@ public partial class SandboxPlayer
 		if ( !IsValidUseEntity( ent ) )
 		{
 			tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * (85 * Scale) )
+			.WithoutTags( "trigger" )
 			.Radius( 2 )
-			.HitLayer( CollisionLayer.Debris )
 			.Ignore( this )
 			.Run();
 

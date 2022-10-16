@@ -49,16 +49,11 @@
 
 			using ( Prediction.Off() )
 			{
-				bool useRope = Input.Pressed( InputButton.Attack1 );
-				if ( !useRope && !Input.Pressed( InputButton.Attack2 ) )
+				bool useRope = Input.Pressed( InputButton.PrimaryAttack );
+				if ( !useRope && !Input.Pressed( InputButton.SecondaryAttack ) )
 					return;
 
-				var startPos = Owner.EyePosition;
-				var dir = Owner.EyeRotation.Forward;
-
-				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
-					.Ignore( Owner )
-					.Run();
+				var tr = DoTrace();
 
 				if ( !tr.Hit )
 					return;

@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 
-[Library( "weapon_fists", Title = "Fists", Spawnable = false )]
+[Spawnable]
+[Library( "weapon_fists", Title = "Fists" )]
 partial class Fists : Weapon
 {
 	public override string ViewModelPath => "models/first_person/first_person_arms.vmdl";
@@ -23,7 +24,7 @@ partial class Fists : Weapon
 			OnMeleeMiss( leftHand );
 		}
 
-		(Owner as AnimEntity)?.SetAnimParameter( "b_attack", true );
+		(Owner as AnimatedEntity)?.SetAnimParameter( "b_attack", true );
 	}
 
 	public override void AttackPrimary()
@@ -40,16 +41,11 @@ partial class Fists : Weapon
 	{
 	}
 
-	public override void SimulateAnimator( PawnAnimator anim )
+	public override void SimulateAnimator( CitizenAnimationHelper anim )
 	{
-		anim.SetAnimParameter( "holdtype", 5 );
-		anim.SetAnimParameter( "aim_body_weight", 1.0f );
-
-		if ( Owner.IsValid() )
-		{
-			ViewModelEntity?.SetAnimParameter( "b_grounded", Owner.GroundEntity.IsValid() );
-			ViewModelEntity?.SetAnimParameter( "aim_pitch", Owner.EyeRotation.Pitch() );
-		}
+		anim.HoldType = CitizenAnimationHelper.HoldTypes.Punch;
+		anim.Handedness = CitizenAnimationHelper.Hand.Both;
+		anim.AimBodyWeight = 1.0f;
 	}
 
 	public override void CreateViewModel()
@@ -78,7 +74,7 @@ partial class Fists : Weapon
 
 		bool hit = false;
 
-		foreach ( var tr in TraceBullet( Owner.EyePosition, Owner.EyePosition + forward * 80, 20.0f ) )
+		foreach ( var tr in TraceMelee( Owner.EyePosition, Owner.EyePosition + forward * 80, 20.0f ) )
 		{
 			if ( !tr.Entity.IsValid() ) continue;
 
